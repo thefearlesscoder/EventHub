@@ -12,7 +12,7 @@
   box-sizing: border-box;
 }
 
-@layer base {
+/* @layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -75,4 +75,4 @@
   body {
     @apply bg-background text-foreground;
   }
-}
+} */
