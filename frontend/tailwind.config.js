@@ -1,5 +1,6 @@
 module.exports = {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+    darkMode: ["class"],
+    content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
       inter: ["Inter", "sans-serif"],
@@ -124,11 +125,11 @@ module.exports = {
       },
     },
     extend: {
-      // maxWidth: {
-      //   maxContent: "1260px",
-      //   maxContentTab: "650px"
-      // },
+      maxWidth: {
+        maxContent: "1260px",
+        maxContentTab: "650px"
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
