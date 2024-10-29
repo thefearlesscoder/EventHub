@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    margin: 0 ;
+    padding: 0 ;
+    box-sizing: border-box;
+    overflow-x: hidden ;
+}
+
+home{
+    background-image: url('../src/assets/TimeLineLogo/Logo1.svg');
+}
