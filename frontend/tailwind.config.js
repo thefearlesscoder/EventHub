@@ -1,6 +1,10 @@
 module.exports = {
-    darkMode: ["class"],
-    content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: ["class"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/shadcn/**/*.js",
+  ],
   theme: {
     fontFamily: {
       inter: ["Inter", "sans-serif"],
@@ -124,9 +128,7 @@ module.exports = {
         900: "#141414",
       },
     },
-    extend: {
-      
-    },
+    extend: {},
   },
   plugins: [],
 };

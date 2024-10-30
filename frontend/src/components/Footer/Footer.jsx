@@ -23,7 +23,7 @@ const Footer = () => {
         </div>
         <div className=' md:w-[20%] w-full flex gap-4 items-center  font-bold justify-center md:text-xl text-lg md:flex-row flex-col  '>
             <Link to={'/about'} className={` hover:text-yellow-200`}>
-                Aboutus
+                About Us
             </Link>
             <Link to={'/feedback'} className=' hover:text-yellow-200'>
                 Feedback

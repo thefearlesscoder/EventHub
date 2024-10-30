@@ -1,16 +1,13 @@
-import Navbar from '../subComponents/Navbar.jsx'
-import Footer from '../subComponents/Footer.jsx'
-import React from 'react'
-// import { CarouselPlugin } from '../subComponents/CarouselPlugin.jsx'
+import Footer from "../components/Footer/Footer.jsx"
+import React from "react";
+
 
 const LandingPage = () => {
   return (
-      <div className='w-full'>
-          <Navbar />
-          {/* <CarouselPlugin /> */}
-        <Footer />
+    <div className="w-full">
+      
     </div>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

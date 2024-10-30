@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import { ToastContainer } from "react-toastify"
 import Signup from './pages/Signup';
 import Footer from './components/Footer/Footer';
+import AboutUs from './pages/AboutUs';
 
 
 
@@ -15,15 +16,16 @@ function App() {
   
 
   return (
-    <div className=''>
+    <div className="">
       {/* <Router> */}
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/signup" element={<Signup/>} />
-        </Routes>
-        <ToastContainer position="bottom-right" theme="dark" />
-        <Footer/>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/aboutus" element={<AboutUs />} />
+      </Routes>
+      <ToastContainer position="bottom-right" theme="dark" />
+      <Footer />
       {/* </Router> */}
     </div>
   );
