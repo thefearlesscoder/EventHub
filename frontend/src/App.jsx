@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify"
 import Signup from './pages/Signup';
 import Footer from './components/Footer/Footer';
 import AboutUs from './pages/AboutUs';
+import Feedback from './pages/Feedback';
 
 
 
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/contactus" element={<Feedback />} />
       </Routes>
       <ToastContainer position="bottom-right" theme="dark" />
       <Footer />
