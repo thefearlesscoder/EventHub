@@ -7,7 +7,7 @@ import { IoLogoInstagram } from "react-icons/io";
 
 const Footer = () => {
   return (
-    <div className='  w-full min-h-[150px] mt-3 bg-richblack-600 md:text-auto  text-richblack-25 md-gap gap-8 flex md:flex-row flex-col  md:justify-around 
+    <div className='  w-full min-h-[150px] mt-3 text-center bg-richblack-600 md:text-auto  text-richblack-25 md-gap gap-8 flex md:flex-row flex-col  md:justify-around 
     p-5 items-center  '>
         <div className='flex flex-col  gap-5 md:max-w-[25%] w-full ' >
                 <Link to={'/'}>
@@ -27,8 +27,8 @@ const Footer = () => {
             <Link to={'/aboutus'} className={` hover:text-yellow-200`}>
                 About Us
             </Link>
-            <Link to={'/feedback'} className=' hover:text-yellow-200'>
-                Feedback
+            <Link to={'/contactus'} className=' hover:text-yellow-200'>
+                ContactUs
             </Link>
         </div>
         <div className='md:w-[20%] w-full font-bold md:text-xl text-lg flex flex-col gap-4 justify-center'>
