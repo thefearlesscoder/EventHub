@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../src/assets/logo.svg";
+import Logo from "../../src/assets/logo.jpg";
 import vivek from "../../src/assets/Images/vivek.jpeg"
 import { FiGithub } from "react-icons/fi";
 import { CiLinkedin } from "react-icons/ci";
@@ -7,12 +7,12 @@ import { CiLinkedin } from "react-icons/ci";
 const AboutUs = () => {
   return (
     <div className="w-[11/12] flex flex-col justify-center items-center">
-      <div className="w-full flex items-center min-h-[600px] py-3 px-10 gap-2">
-        <div className="w-[50%] px-5">
+      <div className="w-full flex md:flex-row flex-col items-center  min-h-[600px] py-3 px-10 gap-4">
+        <div className="md:w-[50%] w-full px-5 flex justify-center">
           <img src={Logo} className="w-[40%] rounded-full" alt="LOGO" />
         </div>
-        <div className="flex flex-col items-center justify-center space-y-5 w-[70%] gap-3">
-          <h1 className="text-white leading-10 text-7xl font-bold">
+        <div className="flex flex-col items-center justify-center space-y-5 w-[70%] gap-3 md:m-0 mt-3 mb-3">
+          <h1 className="text-white leading-10 md:text-7xl text-4xl font-bold">
             Music Mate
           </h1>
           <div className="bg-richblack-300 h-2 w-[20%] mx-auto my-4 rounded-md"></div>
@@ -27,11 +27,11 @@ const AboutUs = () => {
       </div>
 
       <div>
-        <div className="pb-5 flex flex-col">
+        <div className="pb-5 flex flex-col gap-3">
           <h1 className="text-white leading-10 text-5xl">Our Team</h1>
           <div className="bg-richblack-300 h-2 w-[20%] mx-auto my-4 rounded-md"></div>
         </div>
-        <div className="grid grid-cols-3 mx-auto px-3 gap-10">
+        <div className="grid md:grid-cols-3 mx-auto px-3 gap-10 grid-row-3 mb-4">
           <div>
             <div>
               <img

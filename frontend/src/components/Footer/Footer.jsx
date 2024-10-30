@@ -7,8 +7,8 @@ import { IoLogoInstagram } from "react-icons/io";
 
 const Footer = () => {
   return (
-    <div className=' w-full min-h-[150px] mt-3 bg-richblack-600 md:text-auto  text-richblack-25 md-gap gap-8 flex md:flex-row flex-col  md:justify-around 
-            p-5 items-center '>
+    <div className='  w-full min-h-[150px] mt-3 bg-richblack-600 md:text-auto  text-richblack-25 md-gap gap-8 flex md:flex-row flex-col  md:justify-around 
+    p-5 items-center  '>
         <div className='flex flex-col  gap-5 md:max-w-[25%] w-full ' >
             <div className=' w-full flex items-center text-xl font-bold text-richblack-25 gap-3 justify-center'>
                 <img src={Logo} className='md:w-[20%] w-[10%] rounded-full '></img>
