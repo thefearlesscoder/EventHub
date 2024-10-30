@@ -10,10 +10,12 @@ const Footer = () => {
     <div className='  w-full min-h-[150px] mt-3 bg-richblack-600 md:text-auto  text-richblack-25 md-gap gap-8 flex md:flex-row flex-col  md:justify-around 
     p-5 items-center  '>
         <div className='flex flex-col  gap-5 md:max-w-[25%] w-full ' >
+                <Link to={'/'}>
             <div className=' w-full flex items-center text-xl font-bold text-richblack-25 gap-3 justify-center'>
-                <img src={Logo} className='md:w-[20%] w-[10%] rounded-full '></img>
-                Musicmate
+                    <img src={Logo} className='md:w-[20%] w-[10%] rounded-full '></img>
+                    Musicmate
             </div>
+                </Link>
             <div className='font-semibold'>
                 <p>
                     Created By Team codebase | 2024
@@ -22,7 +24,7 @@ const Footer = () => {
             </div>
         </div>
         <div className=' md:w-[20%] w-full flex gap-4 items-center  font-bold justify-center md:text-xl text-lg md:flex-row flex-col  '>
-            <Link to={'/about'} className={` hover:text-yellow-200`}>
+            <Link to={'/aboutus'} className={` hover:text-yellow-200`}>
                 About Us
             </Link>
             <Link to={'/feedback'} className=' hover:text-yellow-200'>
