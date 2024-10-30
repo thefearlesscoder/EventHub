@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Firebase Auth</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  </head>
+  <body>
+    <h1>Firebase Authentication Test</h1>
+
+    <!-- Sign-in form -->
+    <input type="email" id="email" placeholder="Enter email" />
+    <input type="password" id="password" placeholder="Enter password" />
+    <button onclick="signIn()">Sign In</button>
+
+    <!-- Button to get ID token -->
+    <button onclick="getToken()">Get ID Token</button>
+
+    <script>
+      // Initialize Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyA3ZvxhismkqJSj-FfO4Gh-ZtDqNLvIhdc",
+        authDomain: "musicmate-a0747.firebaseapp.com",
+        projectId: "musicmate-a0747",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+
+      // Function to sign in a user
+      async function signIn() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        try {
+          await auth.signInWithEmailAndPassword(email, password);
+          alert("Signed in successfully!");
+        } catch (error) {
+          console.error("Error signing in:", error);
+        }
+      }
+
+      // Function to retrieve the ID token
+      async function getToken() {
+        try {
+          const user = auth.currentUser;
+          if (user) {
+            const idToken = await user.getIdToken();
+            console.log("ID Token:", idToken);
+            alert("ID Token generated and logged in console.");
+          } else {
+            alert("User not signed in");
+          }
+        } catch (error) {
+          console.error("Error getting ID token:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

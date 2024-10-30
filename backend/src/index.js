@@ -1,29 +1,68 @@
-import dotenv from "dotenv"
-dotenv.config({
-    path:'./.env'
-})
-
+import dotenv from "dotenv";
 import connectDB from "./Database/connectDb.js";
 import { app } from "./app.js";
-// console.log("skjjh");
+import admin from "firebase-admin";
+import { User } from "./Models/User.model.js";
+import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
 
+dotenv.config({ path: './.env' });
+
+// Initialize Firebase Admin with service account
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+});
+
+// Middleware for verifying the Firebase token
+async function verifyToken(req, res, next) {
+    const idToken = req.headers.authorization && req.headers.authorization.startsWith('Bearer ')
+        ? req.headers.authorization.split('Bearer ')[1]
+        : null;
+
+    if (!idToken) {
+        return res.status(401).send("Unauthorized: No token provided");
+    }
+
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        req.user = decodedToken;
+        next();
+    } catch (error) {
+        console.error("Token verification error:", error);
+        return res.status(401).send("Unauthorized: Token verification failed");
+    }
+}
+
+// Protected route
+app.post("/api/protected", verifyToken, async (req, res) => {
+    const { uid, name, email, picture } = req.user;
+
+    try {
+        let user = await User.findOne({ uid });
+        if (!user) {
+            user = new User({ uid, name, email, picture });
+            await user.save();
+        }
+        res.send(user);
+    } catch (error) {
+        console.error("Error retrieving or saving user:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+// Connect to database and start server
 connectDB()
-.then(()=>{
-    const port = process.env.PORT || 7000;
-    // listen for errors and
-    /* vks */
-    app.on("error", (error)=>{
-        console.log("error on port: " + error);
-        throw error;
-        
-    })
-    
-    app.listen(port,()=>{
-        console.log(`Server running on port ${port}`);
-    })
-})
-.catch((err)=>{
-    console.log("Mongo db connection error: " + err);
-    
-})
+    .then(() => {
+        const port = process.env.PORT || 7000;
 
+        app.on("error", (error) => {
+            console.error("Server error:", error);
+            throw error;
+        });
+
+        app.listen(port, () => {
+            console.log(`Server running on port ${port}`);
+        });
+    })
+    .catch((err) => {
+        console.error("MongoDB connection error:", err);
+    });
