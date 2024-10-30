@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage'
 import Login from './pages/Login'
 import { ToastContainer } from "react-toastify"
 import Signup from './pages/Signup';
+import Footer from './components/Footer/Footer';
 
 
 
@@ -22,7 +23,7 @@ function App() {
           <Route path="/signup" element={<Signup/>} />
         </Routes>
         <ToastContainer position="bottom-right" theme="dark" />
-        
+        <Footer/>
       {/* </Router> */}
     </div>
   );
