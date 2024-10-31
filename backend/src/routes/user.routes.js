@@ -4,10 +4,13 @@ import {
   loginUser,
   logOutUser,
   refreshAccessToken,
-  // changeCurrentPassword,
-  // getCurrentUser,
+  
+  getCurrentUser,
   updatedAccountDetails,
   updateUserAvatar,
+  forgotPassword,
+  changePassword,
+  resetPassword
   // updateUsercoverImage,
 } from "../controllers/user.controller.js";
 import { upload } from "../middleware/multer.middleware.js"
@@ -33,14 +36,8 @@ router
     upload.fields([{ name: "avatar", maxCount: 1 }]), // Fix here
     updateUserAvatar
   );
-
-
-// router
-//   .route("/update-coverImage")
-//   .post(
-//     verifyJwt,
-//     upload.fields({ name: "coverImage", maxCount: 1 }),
-//     updateUsercoverImage
-//   );
+  router.route("/change-password").post(verifyJwt, changePassword);
+  router.route("/forgot-password").post(forgotPassword);
+  router.route("/reset-password/:token").post(resetPassword);
 
 export default router;
