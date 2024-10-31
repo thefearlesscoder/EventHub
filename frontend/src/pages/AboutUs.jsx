@@ -27,7 +27,7 @@ const AboutUs = () => {
       </div>
 
       <div>
-        <div className="pb-5 flex flex-col gap-3">
+        <div className="pb-5 flex flex-col gap-3 items-center">
           <h1 className="text-white leading-10 text-5xl">Our Team</h1>
           <div className="bg-richblack-300 h-2 w-[20%] mx-auto my-4 rounded-md"></div>
         </div>
@@ -50,8 +50,8 @@ const AboutUs = () => {
               </span>
               <br />
               <div className="flex space-x-3">
-                <FiGithub className="w-[20px] h-[20px] hover:text-white transition-all duration-200" />
-                <CiLinkedin className="w-[25px] h-[25px] hover:text-white transition-all duration-200" />
+                <FiGithub className="w-[20px] h-[20px] hover:text-white transition-all duration-200 cursor-pointer" />
+                <CiLinkedin className="w-[25px] h-[25px] hover:text-white transition-all duration-200 cursor-pointer" />
               </div>
             </div>
           </div>
@@ -70,8 +70,8 @@ const AboutUs = () => {
               </span>
               <br />
               <div className="flex space-x-3">
-                <FiGithub className="w-[20px] h-[20px] hover:text-white transition-all duration-200" />
-                <CiLinkedin className="w-[25px] h-[25px] hover:text-white transition-all duration-200" />
+                <FiGithub className="w-[20px] h-[20px] hover:text-white transition-all duration-200 cursor-pointer" />
+                <CiLinkedin className="w-[25px] h-[25px] hover:text-white transition-all duration-200 cursor-pointer" />
               </div>
             </div>
           </div>
@@ -89,8 +89,8 @@ const AboutUs = () => {
               </span>
               <br />
               <div className="flex space-x-3">
-                <FiGithub className="w-[20px] h-[20px] hover:text-white transition-all duration-200" />
-                <CiLinkedin className="w-[25px] h-[25px] hover:text-white transition-all duration-200" />
+                <FiGithub className="w-[20px] h-[20px] hover:text-white transition-all duration-200 cursor-pointer" />
+                <CiLinkedin className="w-[25px] h-[25px] hover:text-white transition-all duration-200 cursor-pointer" />
               </div>
             </div>
           </div>
