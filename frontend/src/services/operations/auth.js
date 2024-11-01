@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 // import { Toast } from "react-hot-toast";
 // import { toast } from "react-toastif";
 
-const { SIGNUP_API } = authApi  ;
+const { SIGNUP_API , LOGIN_API } = authApi  ;
 
 // user registration 
 export function signUp(
@@ -47,6 +47,40 @@ export function signUp(
         console.log("SIGNUP API ERROR............", error)
         toast.error()
         navigate("/signup")
+      }
+      dispatch(setLoading(false))
+
+    }
+  }
+
+
+  export function login (
+    email,
+    password,
+    navigate
+    ) {
+    //   const navigate = useNavigate() ;
+    return async (dispatch) => {
+      
+      dispatch(setLoading(true))
+      try {
+        const response = await apiconnector("POST", LOGIN_API , {
+          email,
+          password,
+        })
+  
+        console.log("LOGIN API RESPONSE............", response)
+  
+        if (!response?.success) {
+          throw new Error(response?.message)
+        }else {
+            toast.success("Login Successful")
+            navigate("/aboutus")
+        }
+      } catch (error) {
+        console.log("LOGIN API ERROR............", error)
+        toast.error()
+        navigate("/login")
       }
       dispatch(setLoading(false))
 
