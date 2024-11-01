@@ -33,20 +33,20 @@ const registerUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password, confirmPassword, role, username } = req.body; // Include username in request body
   console.log("Request body:", req.body);
 
+
+  // Validate required fields
+  if ([firstName, lastName, email, password, role, username, password, confirmPassword].some(field => field?.trim() === "")) {
+    throw new ApiError(400, "All fields are required");
+  }
+  
   // Check if passwords match
   if (password !== confirmPassword) {
     throw new ApiError(400, "Passwords should match");
   }
-
-  // Validate required fields
-  if ([firstName, lastName, email, password, role, username].some(field => field?.trim() === "")) {
-    throw new ApiError(400, "All fields are required");
-  }
-
   // Check if user already exists based on email or username
   const existingUser = await User.findOne({ $or: [{ email }, { username }] }); // Check for username as well
   if (existingUser) {
-    throw new ApiError(409, "Email or username already exists");
+    throw new ApiError(409, "","Email or username already exists");
   }
 
   // Hash the password before saving it
