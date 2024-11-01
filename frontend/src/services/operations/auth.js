@@ -1,7 +1,7 @@
 
 import { apiconnector } from "../apiconnector";
 import { authApi } from "../apis";
-import { setLoading } from "../../slices/authSlice";
+import { setLoading, setUser } from "../../slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 // import { Toast } from "react-hot-toast";
@@ -38,6 +38,7 @@ export function signUp(
         console.log("SIGNUP API RESPONSE............", response)
   
         if (!response?.success) {
+            toast.error(response?.message)
           throw new Error(response?.message)
         }else {
             toast.success("Signup Successful")
@@ -45,7 +46,6 @@ export function signUp(
         }
       } catch (error) {
         console.log("SIGNUP API ERROR............", error)
-        toast.error()
         navigate("/signup")
       }
       dispatch(setLoading(false))
@@ -69,17 +69,19 @@ export function signUp(
           password,
         })
   
-        console.log("LOGIN API RESPONSE............", response)
+        // console.log("LOGIN API RESPONSE............", response)
   
         if (!response?.success) {
+            toast(response?.message)
           throw new Error(response?.message)
         }else {
+            localStorage.setItem('user' , JSON.stringify(response?.data?.user)) ;
             toast.success("Login Successful")
             navigate("/aboutus")
         }
       } catch (error) {
         console.log("LOGIN API ERROR............", error)
-        toast.error()
+        // toast.error()
         navigate("/login")
       }
       dispatch(setLoading(false))
