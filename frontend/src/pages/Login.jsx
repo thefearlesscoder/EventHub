@@ -2,6 +2,7 @@ import loginImg from "../assets/Images/login.webp"
 
 import { useSelector } from "react-redux"
 import Template from "../components/Login/Template";
+
 const Login = () => {
   
   const { loading } = useSelector( (state) => state.auth ) ;
@@ -10,7 +11,7 @@ const Login = () => {
   return (
 
     loading ? (
-      <div>loading.....</div>
+      <div className="text-richblack-25 ">loading.....</div>
     ) : 
     ( 
       <div>

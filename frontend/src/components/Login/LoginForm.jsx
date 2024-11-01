@@ -1,3 +1,4 @@
+import { login } from "../../services/operations/auth"
 import { useState } from "react"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux"
@@ -27,8 +28,7 @@ function LoginForm() {
 
   const handleOnSubmit = (e) => {
     e.preventDefault()
-
-    // navigate('/dashboard') 
+    dispatch(login(email,password,navigate)) ; 
   }
 
   return (

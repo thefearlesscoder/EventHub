@@ -34,8 +34,13 @@ const registerUser = asyncHandler(async (req, res) => {
   console.log("Request body:", req.body);
 
 
+  // // Validate required fields
+  // if ([firstName, lastName, email, password, role, username, password, confirmPassword].some(field => field?.trim() === "")) {
+  //   throw new ApiError(400, "All fields are required");
+  // }
   // Validate required fields
-  if ([firstName, lastName, email, password, role, username, password, confirmPassword].some(field => field?.trim() === "")) {
+  // change by kunal 
+  if (!firstName || !lastName|| !email || !password || !role|| !username ) {
     throw new ApiError(400, "All fields are required");
   }
   
@@ -44,11 +49,6 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Passwords should match");
   }
 
-  // Validate required fields
-  // change by kunal 
-  if (!firstName || !lastName|| !email || !password || !role|| !username ) {
-    throw new ApiError(400, "All fields are required");
-  }
 
   // Check if user already exists based on email or username
   const existingUser = await User.findOne({ $or: [{ email }, { username }] }); // Check for username as well
