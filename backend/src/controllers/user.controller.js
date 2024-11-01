@@ -39,7 +39,8 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Validate required fields
-  if ([firstName, lastName, email, password, role, username].some(field => field?.trim() === "")) {
+  // change by kunal 
+  if (!firstName || !lastName|| !email || !password || !role|| !username ) {
     throw new ApiError(400, "All fields are required");
   }
 
@@ -72,6 +73,7 @@ const registerUser = asyncHandler(async (req, res) => {
   // Return a success response
   return res.status(201).json(new ApiResponse(201, createdUser, "User registered successfully"));
 });
+
 const loginUser = asyncHandler(async (req, res) => {
   const { password, email } = req.body;
   // console.log("req body :", req.body);

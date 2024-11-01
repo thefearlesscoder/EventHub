@@ -9,7 +9,7 @@ const Signup = () => {
   const { loading } = useSelector( (state) => state.auth )
 
   return (
-    loading ? ( <div>Loading...</div>) : (
+    loading ? ( <div className="text-white">Loading...</div>) : (
 
       <Template
         title="Join the millions meeting together with MusicMate"

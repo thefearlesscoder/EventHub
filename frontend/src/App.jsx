@@ -10,15 +10,17 @@ import Signup from './pages/Signup';
 import Footer from './components/Footer/Footer';
 import AboutUs from './pages/AboutUs';
 import Feedback from './pages/Feedback';
+import { Toaster } from 'react-hot-toast';
 
 
 
 function App() {
-  
 
   return (
+
     <div className="">
       {/* <Router> */}
+      
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
@@ -26,10 +28,13 @@ function App() {
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<Feedback />} />
       </Routes>
-      <ToastContainer position="bottom-right" theme="dark" />
+      {/* <ToastContainer /> */}
+      <Toaster></Toaster>
       <Footer />
+
       {/* </Router> */}
     </div>
+
   );
 }
 

@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-
+import { signUp } from "../../services/operations/auth"
 
 
 function SignupForm() {
@@ -17,12 +17,15 @@ function SignupForm() {
     email: "",
     password: "",
     confirmPassword: "",
+    username:"",
   })
 
+  const [ role , setrole ] = useState("user") ;
+  const [ boolrole , setboolrole ] = useState(true) ;
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
-  const { firstName, lastName, email, password, confirmPassword } = formData
+  const { firstName, lastName, email, password, confirmPassword , username } = formData
 
   const handleOnChange = (e) => {
     setFormData((prevData) => ({
@@ -32,18 +35,59 @@ function SignupForm() {
   }
 
   const handleOnSubmit = (e) => {
-    e.preventDefault()
-
+    e.preventDefault();
+    dispatch(signUp(firstName , lastName , email , password , confirmPassword , role , username ,navigate ));
   }
 
+  const handleclick = () => {
+      setboolrole(!boolrole) ;
+
+      if ( role == "user" ) {
+          setrole("admin") 
+      }else {
+        setrole("user")
+      }
+      console.log(role) ;
+  }
   
 
   return (
     <div className="">
-      <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-4 mt-8 mb-8 text-left ">
-        <div className="flex gap-x-4 md:flex-row flex-col gap-y-3">
+      <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-4 mt-8 mb-8 text-left p-2">
+        <div className=" flex gap-x-14 md:flex-row flex-col gap-y-3 items-center">
+            <div className="text-richblack-25 bg-richblack-600 p-3 h-fit font-bold rounded-full  w-[40%]
+                    md:w-[20%] md:ml-[10%] md:mr-[10%] cursor-pointer flex items-center justify-center " onClick={handleclick}>
+              {
+                boolrole ? 
+                  ( <div>
+                      Admin
+                  </div>) : (<div>
+                      User
+                  </div>)
+              }
+            </div>
+            <label>
+                <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-left text-richblack-5">
+                  User Name <sup className="text-pink-200">*</sup>
+                </p>
+                <input
+                  required
+                  autoComplete="on"
+                  type="text"
+                  name="username"
+                  value={username}
+                  onChange={handleOnChange}
+                  placeholder="Enter a unique Username"
+                  style={{
+                    boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+                  }}
+                  className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-10 text-richblack-5"
+                />
+              </label>
+        </div>
+        <div className="flex gap-x-4 md:flex-row flex-col gap-y-3 w-full">
           <label>
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-left text-richblack-5">
+            <p className="mb-1 text-[0.875rem] leading-[1.375rem]  text-left text-richblack-5">
               First Name <sup className="text-pink-200">*</sup>
             </p>
             <input
@@ -57,7 +101,7 @@ function SignupForm() {
               style={{
                 boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
               }}
-              className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
+              className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-10 text-richblack-5"
             />
           </label>
           <label>
@@ -75,7 +119,7 @@ function SignupForm() {
               style={{
                 boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
               }}
-              className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
+              className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-10 text-richblack-5"
             />
           </label>
         </div>
