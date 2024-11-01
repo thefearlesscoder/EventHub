@@ -11,6 +11,7 @@ import Footer from './components/Footer/Footer';
 import AboutUs from './pages/AboutUs';
 import Feedback from './pages/Feedback';
 import { Toaster } from 'react-hot-toast';
+import Navbar from './components/Navbar/Navbar';
 import Dashboard from './pages/Dashboard';
 
 
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <div className="">
+      <Navbar></Navbar>
       {/* <Router> */}
 
       <Routes>
