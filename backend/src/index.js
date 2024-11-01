@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import connectDB from "./Database/connectDb.js";
+import {connectDB } from "./Database/connectDB.js";
 import { app } from "./app.js";
 import admin from "firebase-admin";
 import { User } from "./Models/User.model.js";
