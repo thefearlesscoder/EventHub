@@ -458,8 +458,21 @@ const changePassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Password changed successfully"));
 });
 
+const fbSignIn = asyncHandler(async (req, res) => {
+  const { uid, name, email, picture } = req.user;
 
+  let user = await User.findOne({ uid });
+  // yahan model ki vajah se error aa sakta hai
+  // agr error aya to iska alg model banega
 
+  if (!user) {
+    user = new User({ uid, name, email, picture });
+    await user.save();
+  }
+
+  res.send(user);
+}
+)
 
 export {
   registerUser,
@@ -472,4 +485,5 @@ export {
   updateUserAvatar,
   forgotPassword,
   changePassword,
+  fbSignIn,
 };

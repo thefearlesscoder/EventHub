@@ -11,22 +11,23 @@ import Footer from './components/Footer/Footer';
 import AboutUs from './pages/AboutUs';
 import Feedback from './pages/Feedback';
 import { Toaster } from 'react-hot-toast';
+import Dashboard from './pages/Dashboard';
 
 
 
 function App() {
 
   return (
-
     <div className="">
       {/* <Router> */}
-      
+
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<Feedback />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>
@@ -34,7 +35,6 @@ function App() {
 
       {/* </Router> */}
     </div>
-
   );
 }
 
