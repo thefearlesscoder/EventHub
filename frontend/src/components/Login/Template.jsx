@@ -4,12 +4,66 @@ import frameImg from "../../assets/Images/frame.png"
 import LoginForm from "./LoginForm"
 import SignupForm from "./SignupForm"
 import { useSelector } from "react-redux"
+import { toast } from "react-toastify";
+import { auth, googleProvider } from "../../firebase.js";
+import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 function Template({ title, description1, description2, image, formType }) {
   
   const { loading } = useSelector((state) => state.auth)
   // let loading = true ;
   // min-h-[calc(100vh-3.5rem)]
+  const navigateTo = useNavigate();
+  const handleGoogleSignIn = async () => {
+    try {
+      console.log("inside handle sighin");
+      
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log("result is here :", result);
+      const token = await result.user.getIdToken();
+
+      const response = await fetch("http://localhost:5000/api/v1/googlesignin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      });
+
+      const userData = await response.json();
+      // console.log("User Data:", userData);
+      if (!userData) {
+        toast.error("Some error while signing In");
+        
+        console.error();
+        
+        
+        return res.status(500).json({
+          success: false,
+          message: "Failed to Sign In with Google",
+        })
+      }
+
+      if (userData.user) {
+        navigateTo("/dasboard")
+      }
+      toast.success("user signed in successfully");
+      console.log(userData);
+      
+      return res.status.json({
+        sucess: true,
+        message: "User signed in successfully",
+        userData,
+      })
+
+      
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+    }
+  }
+
+
   return (
     <div className="grid  place-items-center">
       {loading ? (
@@ -38,7 +92,7 @@ function Template({ title, description1, description2, image, formType }) {
                 </div>
 
                 <div className=" flex gap-5 md:text-4xl text-2xl font-bold p-4 ">
-                    <FcGoogle/>
+                  <FcGoogle onClick={ handleGoogleSignIn } className="cursor-pointer"/>
                     <FaFacebook className="text-blue-400"/>
                 </div>
             </div>

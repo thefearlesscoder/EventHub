@@ -10,11 +10,13 @@ import {
   updateUserAvatar,
   forgotPassword,
   changePassword,
-  resetPassword
+  resetPassword,
+  fbSignIn,
   // updateUsercoverImage,
 } from "../controllers/user.controller.js";
 import { upload } from "../middleware/multer.middleware.js"
 import { verifyJwt } from "../middleware/auth.middleware.js";
+import { verifyToken } from "../middleware/fbAuth.middleware.js";
 const router = Router();
 
 router.route("/register").post(
@@ -38,6 +40,7 @@ router
   );
   router.route("/change-password").post(verifyJwt, changePassword);
   router.route("/forgot-password").post(forgotPassword);
-  router.route("/reset-password/:token").post(resetPassword);
+router.route("/reset-password/:token").post(resetPassword);
+  router.route("/googlesignin").post(verifyToken, fbSignIn);
 
 export default router;
