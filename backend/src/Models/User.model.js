@@ -153,10 +153,12 @@ const userSchema = new Schema(
       type: String,
       unique: true,
     },
+    name: String,
     firstName: {
       type: String,
       required: true,
     },
+    picture: String,
     lastName: {
       type: String,
       required: true,
@@ -168,7 +170,7 @@ const userSchema = new Schema(
     },
     username: {
       type: String,
-      unique: true,// check it
+      unique: true, // check it
     },
     password: {
       type: String,
@@ -203,7 +205,7 @@ const userSchema = new Schema(
       default: "user",
       enum: ["user", "admin"], // admin to add concert
     },
-    myAddedConcerts:{
+    myAddedConcerts: {
       type: [Schema.Types.ObjectId],
       ref: "Concert",
     },
@@ -219,7 +221,6 @@ const userSchema = new Schema(
     resetPasswordExpires: {
       type: Date,
     },
-    
   },
   { timestamps: true }
 );

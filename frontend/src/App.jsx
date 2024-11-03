@@ -5,18 +5,16 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from './pages/LandingPage'
 import Login from './pages/Login'
-import { ToastContainer } from "react-toastify"
+// import { ToastContainer } from "react-toastify"
 import Signup from './pages/Signup';
 import Footer from './components/Footer/Footer';
 import AboutUs from './pages/AboutUs';
 import Feedback from './pages/Feedback';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar/Navbar';
-import Profile from './pages/Profile';
-import Dashboard from './pages/Dashboard';
+import TestPage from './pages/TestPage.jsx';
+import TestPage2 from './pages/TestPage2.jsx';
 import Updatedetail from './pages/Updatedetail';
-
-
 
 
 function App() {
@@ -34,6 +32,8 @@ function App() {
         <Route path="/contactus" element={<Feedback />} />
         <Route path='/profile' element={<Profile/>}></Route>
         <Route path='/update-profile' element={<Updatedetail/>}></Route>
+        <Route path="/testpage" element={<TestPage />} />
+        <Route path="/testpage2" element={<TestPage2 />} />
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>
