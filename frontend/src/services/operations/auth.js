@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 // import { Toast } from "react-hot-toast";
 // import { toast } from "react-toastif";
+import { setToken } from "../../slices/authSlice";
 
 const { SIGNUP_API , LOGIN_API } = authApi  ;
 
@@ -69,12 +70,14 @@ export function signUp(
           password,
         })
   
-        // console.log("LOGIN API RESPONSE............", response)
+        console.log("LOGIN API RESPONSE............", response)
   
         if (!response?.success) {
             toast(response?.message)
           throw new Error(response?.message)
         }else {
+            dispatch(setToken(response?.data?.AccessToken ))
+            dispatch(setUser(response?.data?.user )) ;
             localStorage.setItem('user' , JSON.stringify(response?.data?.user)) ;
             toast.success("Login Successful")
             navigate("/aboutus")
