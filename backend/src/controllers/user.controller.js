@@ -4,7 +4,7 @@ import { User } from "../Models/User.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { sendEmail } from "../utils/sendEmail.js";
 
 import mongoose from "mongoose";
@@ -30,50 +30,47 @@ const generateAccessAndRefreshToken = async (userId) => {
 };
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword, role, username } = req.body; // Include username in request body
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    role,
+    username,
+  } = req.body; // Include username in request body
   console.log("Request body:", req.body);
-
 
   // // Validate required fields
   // if ([firstName, lastName, email, password, role, username, password, confirmPassword].some(field => field?.trim() === "")) {
   //   throw new ApiError(400, "All fields are required");
   // }
   // Validate required fields
-  // change by kunal 
-  if (!firstName || !lastName|| !email || !password || !role|| !username ) {
-    return res
-    .status(400)
-    .json({
-        success:false ,
-        message: "All fields are required"
-      }
-    );
+  // change by kunal
+  if (!firstName || !lastName || !email || !password || !role || !username) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields are required",
+    });
     // return res.status(400).json(new ApiError(400, "All fields are required"));
   }
-  
+
   // Check if passwords match
   if (password !== confirmPassword) {
-    return res
-    .status(400)
-    .json({
-        success:false ,
-        message: "Passwords should match"
-      }
-    );
+    return res.status(400).json({
+      success: false,
+      message: "Passwords should match",
+    });
     // throw new ApiError(400, "" ,"Passwords should match");
   }
-
 
   // Check if user already exists based on email or username
   const existingUser = await User.findOne({ $or: [{ email }, { username }] }); // Check for username as well
   if (existingUser) {
-    return res
-    .status(400)
-    .json({
-        success:false ,
-        message: "Email or username already exists"
-      }
-    );
+    return res.status(400).json({
+      success: false,
+      message: "Email or username already exists",
+    });
     // throw new ApiError(409, "","Email or username already exists");
   }
 
@@ -92,54 +89,48 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   // Retrieve the created user without sensitive information
-  const createdUser = await User.findById(user._id).select("-password -refreshToken");
+  const createdUser = await User.findById(user._id).select(
+    "-password -refreshToken"
+  );
   if (!createdUser) {
-    return res
-    .status(500)
-    .json({
-        success:false ,
-        message: "Error in creating user"
-      }
-    );
+    return res.status(500).json({
+      success: false,
+      message: "Error in creating user",
+    });
     // throw new ApiError(500, "Error in creating user");
   }
 
   // Return a success response
-  return res.status(201).json(new ApiResponse(201, createdUser, "User registered successfully"));
+  return res
+    .status(201)
+    .json(new ApiResponse(201, createdUser, "User registered successfully"));
 });
 
-
-
-
 const loginUser = asyncHandler(async (req, res) => {
-
   const { password, email } = req.body;
   // console.log("req body :", req.body);
 
   if (!email && !password) {
-    throw new ApiError(400, "all fields are required");
+    return res.status(500).json({
+      success: false,
+      message: "all fields are required",
+    });
   }
 
   const user = await User.findOne({ $or: [{ email }] });
   if (!user) {
-    return res
-    .status(404)
-    .json({
-        success:false ,
-        message: "No user found"
-      }
-    );
+    return res.status(404).json({
+      success: false,
+      message: "No user found",
+    });
   }
 
   const checkPass = await user.isPasswordCorrect(password);
   if (!checkPass) {
-    return res
-    .status(401)
-    .json({
-        success:false ,
-        message: "Invalid user credentials"
-      }
-    );
+    return res.status(401).json({
+      success: false,
+      message: "Invalid user credentials",
+    });
   }
   console.log("before login");
 
@@ -209,11 +200,19 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     );
     const user = await User.findById(decodedToken?._id);
     if (!user) {
-      throw new ApiError(401, "Invalid user unauthorized request");
+      return res.status(401).json({
+        success: false,
+        message: "Invalid user unauthorized request",
+      });
+      
     }
 
     if (incomingRefreshToken !== user?.refreshToken) {
-      throw new ApiError(401, "refresh token is expired");
+      return res.status(401).json({
+        success: false,
+        message: "refresh token is expired",
+      });
+      
     }
     const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(
       user._id
@@ -237,7 +236,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         )
       );
   } catch (error) {
-    throw new ApiError(500, error?.message || "inValid refresh token");
+    return res.status(401).json({
+      success: false,
+      message: "inValid refresh token",
+    });
   }
 });
 
@@ -309,13 +311,16 @@ const generateResetEmail = (resetUrl) => `
   </html>
 `;
 
-
 const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw new ApiError(404, "This email is not registered");
+    return res.status(401).json({
+      success: false,
+      message: "This email is not registered",
+    });
+    
   }
   console.log("User found");
 
@@ -333,22 +338,13 @@ const forgotPassword = asyncHandler(async (req, res) => {
     "host"
   )}/api/v1/users/reset-password/${resetToken}`;
 
-  // Set up email transporter
-  // const transporter = nodemailer.createTransport({
-  //   service: process.env.SMTP_SERVICE,
-  //   auth: {
-  //     user: process.env.SMTP_MAIL,
-  //     pass: process.env.SMTP_PASSWORD,
-  //   },
-  // });
-
-  // Send email
+ 
 
   await sendEmail({
     email: user.email,
     subject: "password reset",
-    htmlContent : generateResetEmail(resetUrl),
-    });
+    htmlContent: generateResetEmail(resetUrl),
+  });
 
   // await transporter.sendMail(mailOptions);
 
@@ -364,7 +360,11 @@ const resetPassword = asyncHandler(async (req, res) => {
     resetPasswordExpires: { $gt: Date.now() }, // This is a MongoDB comparison operator meaning "greater than". // Ensures token is not expired
   });
   if (!user) {
-    throw new ApiError(400, "Invalid or expired token");
+    return res.status(400).json({
+      success: false,
+      message: "Invalid or expired token",
+    })
+   
   }
 
   if (password !== confirmPassword) {
@@ -382,7 +382,6 @@ const resetPassword = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, user, "Password reset successfully"));
 });
-
 
 const getCurrentUser = asyncHandler(async (req, res) => {
   console.log("Get current user: ", req.user);
@@ -436,7 +435,66 @@ const updatedAccountDetails = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, user, "Account details updated successfully"));
 });
 
+const changeImage = asyncHandler(async (req, res) => {
+  
+  console.log("Inside changeImage handler");
 
+  const admin = req.user;
+  console.log("Admin:", admin);
+
+  let imagePath;
+  if (
+    req.files &&
+    Array.isArray(req.files.image) &&
+    req.files.image.length > 0
+  ) {
+    imagePath = req.files.image[0].path;
+  }
+  console.log("Image Path:", imagePath);
+
+  if (!imagePath) {
+    throw new ApiError(400, "Image not found");
+  }
+
+  // Upload new image to Cloudinary
+  const imageUrl = await uploadOnCloudinary(imagePath);
+
+  // Find the existing admin to retrieve the old image URL
+  const existingAdmin = await User.findById(admin._id);
+  if (!existingAdmin) {
+    throw new ApiError(404, "Admin not found");
+  }
+
+  const oldImage = existingAdmin.image;
+  console.log("old image ", oldImage);
+
+  // Update the admin's image URL
+  console.log("id: ", admin._id.toString());
+  console.log("sjcvjhds:",imageUrl);
+  
+  const updatedAdmin = await User.findByIdAndUpdate(
+    admin._id.toString(), // Convert ObjectId to string
+    { image: imageUrl.secure_url },
+    { new: true }
+  );
+
+  console.log("Updated Admin:", updatedAdmin);
+
+  // Remove the old image from Cloudinary if it exists
+  // if (oldImage) {
+  //   await deleteFromCloudinary(oldImage);
+  // }
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(200, updatedAdmin, "Admin details updated successfully")
+  );
+  
+
+  // console.error("Error in changeImage:", error);
+  // throw new ApiError(500, "Failed to change image");
+
+});
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
   // Ensure avatar file is provided
@@ -451,7 +509,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
   // Upload avatar to Cloudinary
   const avatar = await uploadOnCloudinary(avatarLocalPath);
   console.log("Uploading avatar :", avatar);
-  
+
   if (!avatar || !avatar.url) {
     throw new ApiError(500, "Error occurred while uploading avatar.");
   }
@@ -515,8 +573,7 @@ const fbSignIn = asyncHandler(async (req, res) => {
   }
 
   res.send(user);
-}
-)
+});
 
 export {
   registerUser,
@@ -530,4 +587,5 @@ export {
   forgotPassword,
   changePassword,
   fbSignIn,
+  changeImage
 };
