@@ -5,7 +5,6 @@ import { ApiError } from "../utils/ApiError.js";
 
 import { User } from "../Models/User.model.js";
 
-//  adding cookie object in at the time of creation
 export const verifyJwt = asyncHandler(async (req, res, next) => {
   try {
     const token =
@@ -24,20 +23,16 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
     console.log("djkbdjk : ",user);
     
     if (!user) {
-      // discuss about frontend
       throw new ApiError(401, "Invalid access token");
     }
 
-    // add new object in user
     req.user = user;
     // console.log("user : ", user);
     
     next();
   } catch (error) {
     // console.log("dvklbdkjvnidnkvlnsdrkvvcew");
-    // throw new ApiError(400, "Invalid access token");
     throw new ApiError(400, error?.message || "Invalid access token");
     
-    // throw new ApiError(401, );
   }
 });
