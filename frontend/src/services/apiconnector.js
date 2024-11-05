@@ -18,6 +18,7 @@ export const apiconnector = async ( method , url, bodyData = null,
             ...headers, 
             'Content-Type': 'application/json',
         },
+        Credential: "include"
     };
 
     if (bodyData ) {

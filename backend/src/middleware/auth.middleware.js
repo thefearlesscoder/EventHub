@@ -9,10 +9,17 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
   try {
     const token =
       req.cookies?.AccessToken ||
-      req.header("Authorization")?.replace("Bearer ", "");
+      req.header("Authorization")?.replace("Bearer ", "") || req.token ;
 
     if (!token) {
-      throw new ApiError(401, "You are not authorized to access this route.");
+      return res
+    .status(400)
+    .json({
+        success:false ,
+        message: "You are not authorized to access this route."
+      }
+    );
+      // throw new ApiError(401, "You are not authorized to access this route.");
     }
    
     const decodedToken =  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -23,7 +30,19 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
     console.log("djkbdjk : ",user);
     
     if (!user) {
+<<<<<<< HEAD
       throw new ApiError(401, "Invalid access token");
+=======
+      // discuss about frontend
+      return res
+      .status(400)
+      .json({
+          success:false ,
+          message: "Invalid access token"
+        }
+      );
+      // throw new ApiError(401, "Invalid access token");
+>>>>>>> 84f8a5c5aaefc3cbd712145ba1994bd1ca61b1de
     }
 
     req.user = user;
@@ -32,7 +51,19 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
     next();
   } catch (error) {
     // console.log("dvklbdkjvnidnkvlnsdrkvvcew");
+<<<<<<< HEAD
     throw new ApiError(400, error?.message || "Invalid access token");
+=======
+    // throw new ApiError(400, "Invalid access token");
+    return res
+      .status(400)
+      .json({
+          success:false ,
+          message: "Invalid access token"
+        }
+      );
+    // throw new ApiError(400, error?.message || "Invalid access token");
+>>>>>>> 84f8a5c5aaefc3cbd712145ba1994bd1ca61b1de
     
   }
 });

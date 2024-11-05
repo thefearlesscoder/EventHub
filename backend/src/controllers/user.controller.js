@@ -377,16 +377,32 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 
-const updatedAccountDetails = asyncHandler(async (req, res) => {
+const updatedAccountDetails = asyncHandler( async (req, res) => {
   const { firstName, lastName, username, phone, address } = req.body;
 
   if (!firstName && !lastName && !username && !phone && !address) {
     throw new ApiError(400, "Provide at least one field to update");
+  // Check for at least one field to update
+  if ( !firstName && !lastName && !username && !phone && !address ) {
+    return res
+    .status(400)
+    .json({
+        success:false ,
+        message: "Provide at least one field to update"
+      }
+    );
   }
 
   const existUser = await User.findById(req.user?._id);
   if (!existUser) {
-    throw new ApiError(400, "User does not exist");
+    return res
+    .status(400)
+    .json({
+        success:false ,
+        message: "User does not exist"
+      }
+    );
+    // throw new ApiError(400, "User does not exist");
   }
 
   const updateData = {};
@@ -394,15 +410,8 @@ const updatedAccountDetails = asyncHandler(async (req, res) => {
   if (lastName) updateData.lastName = lastName;
   if (username) updateData.username = username;
   if (phone) updateData.phone = phone;
-  if (address) {
-    updateData.address = {
-      street: address.street,
-      city: address.city,
-      state: address.state,
-      zipCode: address.zipCode,
-      country: address.country,
-    };
-  }
+  if (address) updateData.address = address ;
+  
 
   const user = await User.findByIdAndUpdate(
     req.user?._id,
@@ -470,6 +479,8 @@ const changeImage = asyncHandler(async (req, res) => {
 });
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
+  // Ensure avatar file is provided
+  console.log(hello) ;
   const avatarFile = req.files?.avatar?.[0];
   if (!avatarFile) {
     throw new ApiError(400, "Avatar file is required.");

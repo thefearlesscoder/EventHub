@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Profilebar = ( { item1 , item2 }) => {
+const UpdateProfilebar = () => {
   return (
     <div>
         <div className=' font-bold text-2xl text-black '>
@@ -11,12 +11,12 @@ const Profilebar = ( { item1 , item2 }) => {
                 focus:outline-none cursor-default text-2xl rounded-lg
                  placeholder:text-richblack-900 p-2 mt-2 
                 w-full  '
-            placeholder={ ` ${ item2 ? item2 : "" }`}
-            readOnly
+            defaultValue={ ` ${ item2 ? item2 : "" }`}
+            
         >
         </input>
     </div>
   )
 }
 
-export default Profilebar
+export default UpdateProfilebar

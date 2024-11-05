@@ -5,3 +5,7 @@ export const authApi = {
     SIGNUP_API : `${BASE_URL}/users/register`,
     LOGIN_API : `${BASE_URL}/users/login`
 }
+
+export const updateApi = {
+    UPDATEPROFILE_API : `${BASE_URL}/users/update-details`
+}

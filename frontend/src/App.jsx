@@ -14,6 +14,8 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar/Navbar';
 import TestPage from './pages/TestPage.jsx';
 import TestPage2 from './pages/TestPage2.jsx';
+import Updatedetail from './pages/Updatedetail';
+
 
 function App() {
 
@@ -28,6 +30,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<Feedback />} />
+        <Route path='/profile' element={<Profile/>}></Route>
+        <Route path='/update-profile' element={<Updatedetail/>}></Route>
         <Route path="/testpage" element={<TestPage />} />
         <Route path="/testpage2" element={<TestPage2 />} />
       </Routes>

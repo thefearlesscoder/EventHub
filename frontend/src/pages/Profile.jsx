@@ -1,6 +1,8 @@
 import React from 'react'
 import logo from '../assets/logo.jpg'
 import Profilebar from '../components/profile/Profilebar'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const dummydata = {
     firstName: 'kunal',
@@ -9,12 +11,19 @@ const dummydata = {
     role: 'user',
     username: 'kuanl',
     image : logo,
-    phone :  "",
-
+    phone :  null ,
+    address : null ,
 }
 
 
 const Profile = () => {
+
+    const user = useSelector( (state) => state.auth.user ) ;    
+    const dummydata = JSON.parse(user) ;
+    console.log(dummydata)
+
+    const navigate = useNavigate() ;
+
   return (
     <div className=' min-h-screen text-richblack-25 p-10'>
         <div>
@@ -24,7 +33,7 @@ const Profile = () => {
             <div className=' mt-10'>
                 <div className=' flex w-full justify-around md:flex-row md:gap gap-y-5 flex-col  items-center'>
                     <img src={dummydata.image} alt="" className='md:w-[20%] w-[50%] rounded-full'/>
-                    <button className=' bg-yellow-50 text-black p-2 font-bold rounded-lg'>
+                    <button onClick={ () => { navigate('/update-profile')}} className=' bg-yellow-50 text-black p-2 font-bold rounded-lg text-xl'>
                         Edit image
                     </button>
                 </div>
@@ -49,7 +58,7 @@ const Profile = () => {
                     </div>
 
                     <div className=' mx-auto mt-5 '>
-                        <button className=' bg-yellow-50 text-black p-2 font-bold rounded-lg '>
+                        <button onClick={ () => { navigate('/update-profile')}} className=' bg-yellow-50 text-black p-2 font-bold rounded-lg text-xl '>
                             Change Detail
                         </button>
                     </div>
