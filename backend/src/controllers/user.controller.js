@@ -416,87 +416,41 @@ const updatedAccountDetails = asyncHandler(async (req, res) => {
 
 
 const changeImage = asyncHandler(async (req, res) => {
-  
-  console.log("Inside changeImage handler");
-
-  const admin = req.user;
-  console.log("Admin:", admin);
+  const user = req.user;
 
   let imagePath;
-  if (
-    req.files &&
-    Array.isArray(req.files.image) &&
-    req.files.image.length > 0
-  ) {
+  if (req.files && Array.isArray(req.files.image) && req.files.image.length > 0) {
     imagePath = req.files.image[0].path;
   }
-  console.log("Image Path:", imagePath);
 
   if (!imagePath) {
     throw new ApiError(400, "Image not found");
   }
+console.log(imagePath);
 
   const imageUrl = await uploadOnCloudinary(imagePath);
-
-  const existingAdmin = await User.findById(admin._id);
-  if (!existingAdmin) {
-    throw new ApiError(404, "Admin not found");
+  const existingUser = await User.findById(user._id);
+  if (!existingUser) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found"
+    });
   }
-
-  const oldImage = existingAdmin.image;
-  console.log("old image ", oldImage);
-
-  console.log("id: ", admin._id.toString());
-  console.log("sjcvjhds:",imageUrl);
-  
-  const updatedAdmin = await User.findByIdAndUpdate(
-    admin._id.toString(),
+ console.log("Uploading image :", imageUrl);
+ 
+  const updatedUser = await User.findByIdAndUpdate(
+    user._id.toString(),
     { image: imageUrl.secure_url },
     { new: true }
   );
 
-  console.log("Updated Admin:", updatedAdmin);
-
-  
-  return res
-  .status(200)
-  .json(
-    new ApiResponse(200, updatedAdmin, "Admin details updated successfully")
+  return res.status(200).json(
+    new ApiResponse(200, updatedUser, "Admin details updated successfully")
   );
-  
-
-
-
 });
 
-const updateUserAvatar = asyncHandler(async (req, res) => {
-  console.log(hello) ;
-  const avatarFile = req.files?.avatar?.[0];
-  if (!avatarFile) {
-    throw new ApiError(400, "Avatar file is required.");
-  }
 
-  const avatarLocalPath = avatarFile.path;
-  console.log("Local avatar path:", avatarLocalPath);
 
-  const avatar = await uploadOnCloudinary(avatarLocalPath);
-  console.log("Uploading avatar :", avatar);
-
-  if (!avatar || !avatar.url) {
-    throw new ApiError(500, "Error occurred while uploading avatar.");
-  }
-  console.log("Uploaded avatar URL:", avatar.url);
-
-  const user = await User.findByIdAndUpdate(
-    req.user?._id,
-    { $set: { image: avatar.url } },
-    { new: true }
-  ).select("-password");
-
-  return res
-    .status(200)
-    .json(new ApiResponse(200, user, "Avatar updated successfully"));
-});
 
 const changePassword = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user?._id);
@@ -550,7 +504,7 @@ export {
   resetPassword,
   getCurrentUser,
   updatedAccountDetails,
-  updateUserAvatar,
+  // updateUserAvatar,
   forgotPassword,
   changePassword,
   fbSignIn,
