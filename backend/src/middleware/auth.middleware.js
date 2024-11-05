@@ -10,7 +10,7 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
   try {
     const token =
       req.cookies?.AccessToken ||
-      req.header("Authorization")?.replace("Bearer ", "") || req.token ;
+      req.header("Authorization")?.replace("Bearer ", "") || req.body.token ;
 
     if (!token) {
       return res
