@@ -16,16 +16,14 @@ app.use(cors({
 app.use(express.json({limit:"20kb"}));
 
 app.use(express.urlencoded({extended: true, limit:"20kb"}))
-// files folder store in server 
+ 
 app.use(express.static("public"));
-// for cookie 
-app.use(cookieParser());// read nd access cookie
 
-// routes
+app.use(cookieParser());
 
 import userRouter  from "./routes/user.routes.js"
 import concertRouter from "./routes/concert.routes.js"
-// routes declarations
+
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/concert",concertRouter);

@@ -25,11 +25,19 @@ const addConcert = asyncHandler(async (req, res) => {
   const requiredFields = [artist, place, description, pincode, date, ticketPrice, seatingCapacity];
 
   if (requiredFields.some(field => typeof field === 'string' && field.trim() === "")) {
-    throw new ApiError(400, "All fields are required");
+    return res.status(400).json({
+      success: false,
+      message: "All fields are required",
+    })
+   
   }
 
   if (new Date(date) <= Date.now()) {
-    throw new ApiError(400, "Concert date must be in the future");
+    return res.status(400).json({
+      success: false,
+      message: "Concert date must be in the future",
+    })
+    
   }
 
   const adminId = req.user._id;
@@ -75,8 +83,12 @@ const updateConcert = asyncHandler(async (req, res) => {
   } = req.body;
 
   const concert = await Concert.findById(Id);
+  
   if (!concert) {
-    throw new ApiError(404, "Concert not found");
+    return res.status(404).json({
+      success: false,
+      message: "Concert not found",
+    });
   }
 
   const requiredFields = [artist, place, description, pincode, date, ticketPrice, seatingCapacity];
@@ -86,7 +98,11 @@ const updateConcert = asyncHandler(async (req, res) => {
   }
 
   if (new Date(date) <= Date.now()) {
-    throw new ApiError(400, "Concert date must be in the future");
+    return res.status(404).json({
+      success: false,
+      message: "Concert date must be in the future",
+    })
+    
   }
 
   concert.artist = artist;
@@ -115,7 +131,11 @@ const registerForConcert = asyncHandler(async (req, res) => {
 
   const concert = await Concert.findById(Id);
   if (!concert) {
-    throw new ApiError(404, "Concert not found");
+    return res.status(404).json({
+      success: false,
+      message: "Concert not found",
+    });
+    
   }
 
   if (!concert.peoples.includes(userId)) {
@@ -125,7 +145,11 @@ const registerForConcert = asyncHandler(async (req, res) => {
 
   const user = await User.findById(userId);
   if (!user) {
-    throw new ApiError(404, "User not found");
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    })
+    
   }
 
   if (!user.upcoming_attendconcert.includes(Id)) {

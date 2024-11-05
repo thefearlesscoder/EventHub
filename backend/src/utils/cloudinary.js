@@ -21,17 +21,14 @@ const uploadOnCloudinary = async (localFilePath)=>{
             folder: "MusicMate",
         })
 
-        // file has been uploaded successfully
-        // console.log("file uploaded successfully to cloudinary");
-        // console.log("response : ", response);
-        fs.unlinkSync(localFilePath)// remove the locally saved temporary file as the upload failed
-
+        
+        fs.unlinkSync(localFilePath)
         return response;
         
         
 
     } catch (error) {
-        fs.unlinkSync(localFilePath)// remove the locally saved temporary file as the upload failed
+        fs.unlinkSync(localFilePath)
         return null;
     }
 }

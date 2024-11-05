@@ -7,12 +7,10 @@ import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
 
 dotenv.config({ path: "./.env" });
 
-// Initialize Firebase Admin with service account
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-// Middleware for verifying the Firebase token
 async function verifyToken(req, res, next) {
   const idToken =
     req.headers.authorization && req.headers.authorization.startsWith("Bearer ")
@@ -33,7 +31,6 @@ async function verifyToken(req, res, next) {
   }
 }
 
-// Protected route
 app.post("/api/protected", verifyToken, async (req, res) => {
   const { uid, name, email, picture } = req.user;
 
@@ -50,7 +47,6 @@ app.post("/api/protected", verifyToken, async (req, res) => {
   }
 });
 
-// Connect to database and start server
 connectDB()
   .then(() => {
     const port = process.env.PORT || 7000;

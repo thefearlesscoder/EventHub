@@ -180,7 +180,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     req.cookies.RefreshToken || req.body.RefreshToken;
 
   if (!incomingRefreshToken) {
-    throw new ApiError(401, "No refresh token provided unAuthorizedm request");
+    return res.status(401).json({
+      success: false,
+      message: "No refresh token provided unauthorized request",
+    });
   }
 
   try {
@@ -321,9 +324,8 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   await user.save();
 
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/users/reset-password/${resetToken}`;
+  const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+
 
  
 
@@ -377,32 +379,22 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 
-const updatedAccountDetails = asyncHandler( async (req, res) => {
+const updatedAccountDetails = asyncHandler(async (req, res) => {
   const { firstName, lastName, username, phone, address } = req.body;
 
   if (!firstName && !lastName && !username && !phone && !address) {
-    throw new ApiError(400, "Provide at least one field to update");
-  // Check for at least one field to update
-  if ( !firstName && !lastName && !username && !phone && !address ) {
-    return res
-    .status(400)
-    .json({
-        success:false ,
-        message: "Provide at least one field to update"
-      }
-    );
+    return res.status(400).json({
+      success: false,
+      message: "Provide at least one field to update"
+    });
   }
 
   const existUser = await User.findById(req.user?._id);
   if (!existUser) {
-    return res
-    .status(400)
-    .json({
-        success:false ,
-        message: "User does not exist"
-      }
-    );
-    // throw new ApiError(400, "User does not exist");
+    return res.status(400).json({
+      success: false,
+      message: "User does not exist"
+    });
   }
 
   const updateData = {};
@@ -410,19 +402,18 @@ const updatedAccountDetails = asyncHandler( async (req, res) => {
   if (lastName) updateData.lastName = lastName;
   if (username) updateData.username = username;
   if (phone) updateData.phone = phone;
-  if (address) updateData.address = address ;
-  
+  if (address) updateData.address = address;
 
   const user = await User.findByIdAndUpdate(
     req.user?._id,
     { $set: updateData },
     { new: true }
-  ).select("-password"); 
+  ).select("-password");
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, user, "Account details updated successfully"));
+  return res.status(200).json(new ApiResponse(200, user, "Account details updated successfully"));
 });
+
+
 
 const changeImage = asyncHandler(async (req, res) => {
   
@@ -479,7 +470,6 @@ const changeImage = asyncHandler(async (req, res) => {
 });
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
-  // Ensure avatar file is provided
   console.log(hello) ;
   const avatarFile = req.files?.avatar?.[0];
   if (!avatarFile) {
