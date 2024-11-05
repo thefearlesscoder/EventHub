@@ -1,10 +1,11 @@
 import { useState } from "react"
 import { toast } from "react-hot-toast"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
 import { signUp } from "../../services/operations/auth"
-
+import { FcGoogle } from "react-icons/fc"
+import { FaFacebook } from "react-icons/fa";
 
 function SignupForm() {
   const navigate = useNavigate()
@@ -32,6 +33,7 @@ function SignupForm() {
       ...prevData,
       [e.target.name]: e.target.value,
     }))
+    console.log(formData) 
   }
 
   const handleOnSubmit = (e) => {
@@ -50,164 +52,130 @@ function SignupForm() {
       console.log(role) ;
   }
   
+  const { loading } = useSelector( (state) => (state.auth))
 
   return (
-    <div className="">
-      <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-4 mt-8 mb-8 text-left p-2">
-        <div className=" flex gap-x-14 md:flex-row flex-col gap-y-3 items-center">
-            <div className="text-richblack-25 bg-richblack-600 p-3 h-fit font-bold rounded-full  w-[40%]
-                    md:w-[20%] md:ml-[10%] md:mr-[10%] cursor-pointer flex items-center justify-center " onClick={handleclick}>
-              {
-                boolrole ? 
-                  ( <div>
-                      Admin
-                  </div>) : (<div>
-                      User
-                  </div>)
-              }
-            </div>
-            <label>
-                <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-left text-richblack-5">
-                  User Name <sup className="text-pink-200">*</sup>
-                </p>
+    <section className="flex items-center justify-center  bg-gray-100 mx-auto m-10">
+        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+          <div className="mb-6 text-center">
+            <h3 className="text-2xl font-semibold">Create a new account</h3>
+          </div>
+          <form onSubmit={handleOnSubmit} className="">
+              <div className=" flex items-center justify-center">
+                <div className="text-black border border-black  p-3 h-fit font-bold rounded-full  w-[40%]
+                        md:w-[20%]  cursor-pointer flex items-center justify-center mb-4 " onClick={handleclick}>
+                  {
+                    boolrole ? 
+                      ( <div>
+                          Admin
+                      </div>) : (<div>
+                          User
+                      </div>)
+                  }
+                </div>
+
+              </div>
+            <div className="mb-4 ">
+              <label className="block text-gray-700 mb-2">UserName</label>
+              <div className="flex items-center border border-gray-300 ">
                 <input
-                  required
-                  autoComplete="on"
                   type="text"
+                  placeholder="Your User Name"
                   name="username"
-                  value={username}
+                  value={formData.username}
                   onChange={handleOnChange}
-                  placeholder="Enter a unique Username"
-                  style={{
-                    boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
-                  }}
-                  className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-10 text-richblack-5"
+                  className="flex-1 p-2 focus:outline-none"
                 />
-              </label>
-        </div>
-        <div className="flex gap-x-4 md:flex-row flex-col gap-y-3 w-full">
-          <label>
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem]  text-left text-richblack-5">
-              First Name <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              autoComplete="on"
-              type="text"
-              name="firstName"
-              value={firstName}
-              onChange={handleOnChange}
-              placeholder="Enter first name"
-              style={{
-                boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
-              }}
-              className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-10 text-richblack-5"
-            />
-          </label>
-          <label>
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-              Last Name <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              autoComplete="on"
-              type="text"
-              name="lastName"
-              value={lastName}
-              onChange={handleOnChange}
-              placeholder="Enter last name"
-              style={{
-                boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
-              }}
-              className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-10 text-richblack-5"
-            />
-          </label>
-        </div>
-        <label className="w-full">
-          <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-            Email Address <sup className="text-pink-200">*</sup>
-          </p>
-          <input
-            required
-            autoComplete="on"
-            type="text"
-            name="email"
-            value={email}
-            onChange={handleOnChange}
-            placeholder="Enter email address"
-            style={{
-              boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
-            }}
-            className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
-          />
-        </label>
-        <div className="flex gap-x-4 md:flex-row flex-col gap-y-3">
-          <label className="relative">
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-              Create Password <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              autoComplete="on"
-              type={showPassword ? "text" : "password"}
-              name="password"
-              value={password}
-              onChange={handleOnChange}
-              placeholder="Enter Password"
-              style={{
-                boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
-              }}
-              className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-10 text-richblack-5"
-            />
-            <span
-              onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-[38px] z-[10] cursor-pointer"
-            >
-              {showPassword ? (
-                <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-              ) : (
-                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
-              )}
-            </span>
-          </label>
-          <label className="relative">
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-              Confirm Password <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              type={showConfirmPassword ? "text" : "password"}
-              name="confirmPassword"
-              value={confirmPassword}
-              autoComplete="on"
-              onChange={handleOnChange}
-              placeholder="Confirm Password"
-              style={{
-                boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
-              }}
-              className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-10 text-richblack-5 "
-            />
-            <span
-              onClick={() => setShowConfirmPassword((prev) => !prev)}
-              className="absolute right-3 top-[38px] z-[10] cursor-pointer"
-            >
-              {showConfirmPassword ? (
-                <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-              ) : (
-                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
-              )}
-            </span>
-          </label>
-        </div>
-        <button
-          type="submit"
+                {/* <FaPencilAlt className="text-gray-400 ml-2" /> */}
+              </div>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">FristName</label>
+              <div className="flex items-center border border-gray-300 ">
+                <input
+                  type="text"
+                  placeholder="Your First Name"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleOnChange}
+                  className="flex-1 p-2 focus:outline-none"
+                />
+              </div>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">LastName</label>
+              <div className="flex items-center border border-gray-300 ">
+                <input
+                  type="text"
+                  placeholder="Your Last Name"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleOnChange}
+                  className="flex-1 p-2 focus:outline-none"
+                />
+              </div>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">Email Address</label>
+              <div className="flex items-center border border-gray-300 ">
+                <input
+                  type="email"
+                  placeholder="youremail@gmail.com"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleOnChange}
+                  className="flex-1 p-2 focus:outline-none"
+                />
         
-          className="mt-6 rounded-[8px] font-bold bg-yellow-50 py-[8px] px-[12px]  text-richblack-900"
-        >
-          Create Account
-        </button>
-      </form>
-    </div>
+              </div>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">Password</label>
+              <div className="flex items-center border border-gray-300 ">
+                <input
+                  type="password"
+                  placeholder="Your Password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleOnChange}
+                  className="flex-1 p-2 focus:outline-none"
+                />
+        
+              </div>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">Confirm Password</label>
+              <div className="flex items-center border border-gray-300">
+                <input
+                  type="password"
+                  placeholder="Your Password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleOnChange}
+                  className="flex-1 p-2 focus:outline-none"
+                />
+              
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+            >
+              Register
+            </button>
+            <div className="mt-4 text-center">
+              <Link to={"/login"} className="text-blue-500 hover:underline">
+                Login Now
+              </Link>
+            </div>
+            <div className=" flex gap-5 md:text-4xl text-2xl font-bold p-4 justify-center">
+                  <FcGoogle  className="cursor-pointer"/>
+                    <FaFacebook className="text-blue-400"/>
+              </div>
+          </form>
+        </div>
+      </section>
   )
 }
 

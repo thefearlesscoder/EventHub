@@ -14,7 +14,7 @@ const Login = () => {
       <div className="text-richblack-25 ">loading.....</div>
     ) : 
     ( 
-      <div>
+      <div className=" bg-richblack-25">
         <Template
           title="Welcome Back"
           description1="Find your way today, discover more tomorrow, and navigate with confidence beyond. "

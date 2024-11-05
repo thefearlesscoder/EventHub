@@ -1,100 +1,90 @@
 import { login } from "../../services/operations/auth"
 import { useState } from "react"
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
-
+import { FcGoogle } from "react-icons/fc"
+import { FaFacebook } from "react-icons/fa";
 // import { login } from "../../../services/operations/authAPI"
 
 function LoginForm() {
   const navigate = useNavigate()
   const { loading } = useSelector( (state) => state.auth ) ;
   const dispatch = useDispatch()
-  
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
+
+  const [email , setEmail ] = useState("") ;
+  const [password , setPassword ] = useState("") ;
 
   const [showPassword, setShowPassword] = useState(false)
 
-  const { email, password } = formData
-
-  const handleOnChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [e.target.name]: e.target.value,
-    }))
-  }
-
   const handleOnSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     dispatch(login(email,password,navigate)) ; 
   }
 
   return (
-    <form
-      onSubmit={handleOnSubmit}
-      className=" flex flex-col gap-y-4 md:w-full  p-10  mx-auto "
-    >
-      <label className="w-full ">
-        <p className="mb-2  text-left font-bold md:text-md text-sm leading-[1.375rem] text-richblack-5">
-          Email Address <sup className="text-pink-200">*</sup>
-        </p>
-        <input
-          required
-          type="text"
-          name="email"
-          value={email}
-          onChange={handleOnChange}
-          autoComplete="on"
-          placeholder="Enter email address"
-          style={{
-            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
-          }}
-          className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-richblack-5"
-        />
-      </label>
-      <label className="relative">
-        <p className="mb-2 text-left font-bold md:text-md text-sm leading-[1.375rem] text-richblack-5">
-          Password <sup className="text-pink-200">*</sup>
-        </p>
-        <input
-          required
-          type={showPassword ? "text" : "password"}
-          name="password"
-          value={password}
-          autoComplete="on"
-          onChange={handleOnChange}
-          placeholder="Enter Password"
-          style={{
-            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
-          }}
-          className="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-12 text-richblack-5"
-        />
-        <span
-          onClick={() => setShowPassword((prev) => !prev)}
-          className="absolute right-3 top-[38px] z-[10] cursor-pointer"
-        >
-          {showPassword ? (
-            <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-          ) : (
-            <AiOutlineEye fontSize={24} fill="#AFB2BF" />
-          )}
-        </span>
-        <Link to="/forgot-password">
-          <p className="mt-2 ml-auto max-w-max text-xs text-blue-100">
-            Forgot Password
-          </p>
-        </Link>
-      </label>
-      <button
-        type="submit"
-        className="mt-6 rounded-[8px]  bg-yellow-50 py-[8px] px-[12px] font-bold text-richblack-900"
-      >
-        Log In
-      </button>
-    </form>
+    <section className="flex items-center justify-center h-screen bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <div className="mb-6 text-center">
+          <h3 className="text-2xl font-semibold">Login</h3>
+        </div>
+        <form onSubmit={handleOnSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">Email Address</label>
+            <div className="flex items-center border border-gray-300 ">
+              <input
+                type="email"
+                placeholder="youremail@gmail.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 p-2 focus:outline-none"
+                required
+              />
+            </div>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">Password</label>
+            <div className="flex items-center border border-gray-300 ">
+              <input
+                type="password"
+                placeholder="Your Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="flex-1 p-2 focus:outline-none"
+                required
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-2 rounded-md transition duration-300 ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-500 text-white hover:bg-blue-600"
+            }`}
+          >
+            {loading ? "Loading..." : "Login"}
+          </button>
+          <div className="mt-4 text-center">
+            <Link
+              to={"/forgot-password"}
+              className="text-blue-500 hover:underline"
+            >
+              Forgot Password?
+            </Link>
+          </div>
+          <div className="mt-4 text-center">
+            <Link to={"/signup"} className="text-blue-500 hover:underline">
+              Create an Account
+            </Link>
+          </div>
+          <div className=" flex gap-5 md:text-4xl text-2xl font-bold p-4 justify-center">
+                  <FcGoogle  className="cursor-pointer"/>
+                    <FaFacebook className="text-blue-400"/>
+                </div>
+        </form>
+      </div>
+    </section>
   )
 }
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import MapComponent from './MapComponent';
 
 const PickPlace = () => {
-      const [location, setLocation] = useState({ lat: 40.7128, lng: -74.006 }); // Default to New York
+      const [location, setLocation] = useState({ lat: 23.181467, lng: 79.986404 }); // Default to New York
       const [placeType, setPlaceType] = useState("cafe");
 
       const handleSearch = () => {

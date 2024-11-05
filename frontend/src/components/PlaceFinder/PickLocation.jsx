@@ -17,7 +17,7 @@ const PickLocation = () => {
         apiKey="AIzaSyDNiOqUpj6xCRs4S-emUa_QOUjneanBqFs"
         solutionChannel="GMP_GCC_placepicker_v1"
       />
-      <div class="container">
+      <div className="container">
         <PlacePicker
           country={countries}
           placeholder="Enter a place to see its address"

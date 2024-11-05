@@ -7,7 +7,7 @@ import { IoLogoInstagram } from "react-icons/io";
 
 const Footer = () => {
   return (
-    <div className='  w-full min-h-[150px] mt-3 text-center bg-richblack-600 md:text-auto  text-richblack-25 md-gap gap-8 flex md:flex-row flex-col  md:justify-around 
+    <div className='  w-full min-h-[150px]  text-center bg-black md:text-auto  text-richblack-25 md-gap gap-8 flex md:flex-row flex-col  md:justify-around 
     p-5 items-center  '>
         <div className='flex flex-col  gap-5 md:max-w-[25%] w-full ' >
                 <Link to={'/'}>
@@ -37,8 +37,8 @@ const Footer = () => {
             </div>
 
             <div className='flex  md:text-4xl text-xl items-center gap-3 justify-center'>
-                <IoLogoInstagram className=' rounded-lg bg-cover  hover:bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] '/>
-                <FaFacebook className={` hover:text-blue-200 `}></FaFacebook>
+                <IoLogoInstagram className=' transition-all duration-500  rounded-lg bg-cover  hover:bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] '/>
+                <FaFacebook className={` transition-all duration-200 hover:text-blue-200 `}></FaFacebook>
             </div>
         </div>
     </div>
