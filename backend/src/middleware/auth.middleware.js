@@ -1,11 +1,10 @@
 
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
-import { ApiError } from "../utils/ApiError.js";
+
 
 import { User } from "../Models/User.model.js";
 
-//  adding cookie object in at the time of creation
 export const verifyJwt = asyncHandler(async (req, res, next) => {
   try {
     const token =
@@ -20,7 +19,6 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
         message: "You are not authorized to access this route."
       }
     );
-      // throw new ApiError(401, "You are not authorized to access this route.");
     }
    
     const decodedToken =  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -39,17 +37,15 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
           message: "Invalid access token"
         }
       );
-      // throw new ApiError(401, "Invalid access token");
     }
 
-    // add new object in user
     req.user = user;
     // console.log("user : ", user);
     
     next();
   } catch (error) {
     // console.log("dvklbdkjvnidnkvlnsdrkvvcew");
-    // throw new ApiError(400, "Invalid access token");
+   
     return res
       .status(400)
       .json({
@@ -57,8 +53,6 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
           message: "Invalid access token"
         }
       );
-    // throw new ApiError(400, error?.message || "Invalid access token");
     
-    // throw new ApiError(401, );
   }
 });

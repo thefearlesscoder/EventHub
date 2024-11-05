@@ -22,7 +22,7 @@ const concertSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: function(v) {
-          return /\d{6}/.test(v); // Example validation for Indian pincode (6 digits)
+          return /\d{6}/.test(v); 
         },
         message: props => `${props.value} is not a valid pincode!`
       },
@@ -58,17 +58,17 @@ const concertSchema = new mongoose.Schema(
     },
     genre: {
       type: String,
-      enum: ["Pop", "Rock", "Jazz", "Classical", "Hip-Hop", "Electronic", "Other"], // Example genres
+      enum: ["Pop", "Rock", "Jazz", "Classical", "Hip-Hop", "Electronic", "Other"], 
     },
     media: {
       images: [
         {
-          type: String, // URL to the image
+          type: String, 
         },
       ],
       videos: [
         {
-          type: String, // URL to the video
+          type: String, 
         },
       ],
     },

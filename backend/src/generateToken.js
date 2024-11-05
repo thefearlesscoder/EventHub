@@ -1,5 +1,4 @@
 import admin from "firebase-admin";
-// import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
 import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
 
 admin.initializeApp({
@@ -8,12 +7,10 @@ admin.initializeApp({
 
 async function generateTestIdToken() {
   try {
-    // Generate a custom token for a test user ID (use any unique user ID)
     const customToken = await admin.auth().createCustomToken("test-user-id");
 
     console.log("Custom Token:", customToken);
 
-    // Now, verify the custom token to get an ID token
     const userCredential = await admin.auth().verifyIdToken(customToken);
     const idToken = userCredential.token;
 
@@ -24,5 +21,4 @@ async function generateTestIdToken() {
   }
 }
 
-// Run the function
 generateTestIdToken();

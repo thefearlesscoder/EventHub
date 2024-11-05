@@ -6,7 +6,6 @@ import {
   refreshAccessToken,
   getCurrentUser,
   updatedAccountDetails,
-  updateUserAvatar,
   forgotPassword,
   changePassword,
   resetPassword,
@@ -38,13 +37,7 @@ router.route("/update-image").post(
   ]),
   changeImage
 );
-// router
-//   .route("/update-avatar")
-//   .post(
-//     verifyJwt,
-//     upload.fields([{ name: "avatar", maxCount: 1 }]), // Fix here
-//     updateUserAvatar
-//   );
+
 router.route("/change-password").post(verifyJwt, changePassword);
 router.route("/forgot-password").post(forgotPassword);
 router.route("/reset-password/:token").post(resetPassword);
