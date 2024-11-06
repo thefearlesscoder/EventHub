@@ -53,25 +53,25 @@ const Updatedetail = () => {
       };
       
       const { token } = useSelector( (state) => state.auth ) ;
-    const HandleOnSumbit = (e) => {
+        const HandleOnSumbit = (e) => {
         e.preventDefault() ;
         console.log("hello jii ") ;
-        dispatch( updateprofile( formData.firstName , formData.lastName , formData.address , formData.username , 
-            formData.phone , navigate , token  )) ;
+        dispatch( updateprofile( formData.firstName , formData.lastName , formData.username  , formData.address , 
+            formData.phone , navigate , JSON.parse(token)  )) ;
     }
 
 
     return (
         <div className=' min-h-screen text-richblack-25 p-10'>
             <div>
-                <div className=' font-bold text-2xl md:ml-[10%]'>
+                <div className=' font-bold text-2xl md:ml-[10%] text-black'>
                     Home / UpdateProfile
                 </div>
                 {
                     loading ? ( <div className='text-white'>Loading</div>) :
                     (
                         <form className=' mt-10' onSubmit={ HandleOnSumbit }>
-                            <div className=' flex w-full justify-around md:flex-row md:gap gap-y-5 flex-col  items-center'>
+                            <div className=' flex w-full text-black justify-around md:flex-row md:gap gap-y-5 flex-col  items-center'>
                                 <img src={dummydata.image} alt="" className='md:w-[20%] w-[50%] rounded-full'/>
                                 {/* <button className=' bg-yellow-50 text-black p-2 font-bold rounded-lg text-xl'>
                                     Edit image

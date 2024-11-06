@@ -6,7 +6,7 @@ import SignupForm from "./SignupForm"
 import { useSelector } from "react-redux"
 import { toast } from "react-toastify";
 import { auth, googleProvider } from "../../firebase.js";
-import { signInWithPopup } from "firebase/auth.js";
+import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 function Template({ title, description1, description2, image, formType }) {

@@ -24,11 +24,11 @@ export function updateprofile (
       dispatch(setLoading(true))
       try {
 
-        console.log(firstName )
-        console.log(lastName )
-        console.log(username )
-        console.log(address )
-        console.log(phone )
+        // console.log(firstName )
+        // console.log(lastName )
+        // console.log(username )
+        // console.log(address )
+        // console.log(phone )
         const response = await apiconnector("POST", UPDATEPROFILE_API , {
           firstName,
           lastName ,
@@ -47,7 +47,7 @@ export function updateprofile (
             toast.success(response?.message)
             setUser(response?.data) ;
             localStorage.setItem('user' , JSON.stringify(response?.data))
-            navigate("/profile")
+            navigate("/aboutus")
         }
       } catch (error) {
         console.log("profile API ERROR............", error)

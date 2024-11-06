@@ -79,6 +79,7 @@ export function signUp(
             dispatch(setToken(response?.data?.AccessToken ))
             dispatch(setUser(response?.data?.user )) ;
             localStorage.setItem('user' , JSON.stringify(response?.data?.user)) ;
+            localStorage.setItem('token' , JSON.stringify(response?.data?.AccessToken)) ;
             toast.success("Login Successful")
             navigate("/aboutus")
         }

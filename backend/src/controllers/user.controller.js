@@ -134,6 +134,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
+    sameSite: 'None',
   };
   return res
     .status(200)
@@ -327,8 +328,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
 
 
- 
-
   await sendEmail({
     email: user.email,
     subject: "password reset",
@@ -336,7 +335,8 @@ const forgotPassword = asyncHandler(async (req, res) => {
   });
 
 
-  res.status(200).json({ message: "Password reset link sent to email" });
+  res.status(200).json({ success:true ,
+    message: "Password reset link sent to email" });
 });
 
 const resetPassword = asyncHandler(async (req, res) => {

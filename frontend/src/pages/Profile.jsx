@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import logo from '../assets/logo.jpg'
 import Profilebar from '../components/profile/Profilebar'
 import { useSelector } from 'react-redux'
@@ -17,15 +17,16 @@ const dummydata = {
 
 
 const Profile = () => {
-
     const user = useSelector( (state) => state.auth.user ) ;    
     const dummydata = JSON.parse(user) ;
     console.log(dummydata)
 
+
+
     const navigate = useNavigate() ;
 
   return (
-    <div className=' min-h-screen text-richblack-25 p-10'>
+    <div className=' min-h-screen text-black p-10'>
         <div>
             <div className=' font-bold text-2xl md:ml-[10%]'>
                 Home / Profile
