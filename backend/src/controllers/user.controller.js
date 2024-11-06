@@ -42,7 +42,12 @@ const registerUser = asyncHandler(async (req, res) => {
   } = req.body; 
   console.log("Request body:", req.body);
 
-  
+  if (!password) {
+    return res.status(400).json({
+      success: false,
+      message: "Password is required",
+    });
+  }
   if (!firstName || !lastName || !email || !password || !role || !username) {
     return res.status(400).json({
       success: false,
@@ -489,8 +494,15 @@ const fbSignIn = asyncHandler(async (req, res) => {
 
   let user = await User.findOne({ uid });
 
+  console.log("user after google: ",user);
+  
+
   if (!user) {
-    user = new User({ uid, name, email, picture });
+    const firstName = name.split(" ")[0];
+    const lastName = name.split(" ")[1] || "";
+    const username = email.split("@")[0];
+
+    user = new User({ username, firstName, lastName,email });
     await user.save();
   }
 

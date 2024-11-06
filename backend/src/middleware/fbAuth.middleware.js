@@ -1,27 +1,36 @@
+import admin from "firebase-admin";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const verifyToken = asyncHandler(async (req, res, next) => {
-    const idToken = req.headers.authorization;
+  const authorizationHeader = req.headers.authorization;
+  console.log("Authorization Header:", authorizationHeader); // Check if the header is received
 
-    if (!idToken) {
-        return (
-            res.status(401).json({
-                success: false,
-                message: "Unauthorized: No token provided"
-            })
-        )
-        
-    }
+  // Parse token from the "Bearer <token>" format
+  const idToken =
+    authorizationHeader && authorizationHeader.startsWith("Bearer ")
+      ? authorizationHeader.split(" ")[1]
+      : authorizationHeader;
 
-    try {
-      const decodedToken = await admin.auth().verifyIdToken(idToken);
-      req.user = decodedToken;
-      next();
-    } catch (error) {
-        return res.status(401).json({
-          success: false,
-          message: "Unauthorized: Invalid token"
-  
-      });
-    }
-})
+  console.log("middle");
+  console.log(idToken);
+
+  if (!idToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized: No token provided",
+    });
+  }
+
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    req.user = decodedToken;
+    console.log("user token gys: ", decodedToken);
+
+    next();
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized: Invalid token",
+    });
+  }
+});
