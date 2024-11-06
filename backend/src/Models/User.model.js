@@ -65,7 +65,8 @@ const userSchema = new Schema(
       ref: "Concert",
     },
     image: {
-      type: String,
+      public_id: String,
+      url: String,
     },
     refreshToken: {
       type: String,

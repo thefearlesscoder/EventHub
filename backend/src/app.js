@@ -2,6 +2,7 @@ console.log("sbbshjcd");
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import fileUpload from "express-fileupload";
 
 const app = express();
 
@@ -21,6 +22,11 @@ app.use(express.static("public"));
 
 app.use(cookieParser());
 
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+  }));
+  
 import userRouter  from "./routes/user.routes.js"
 import concertRouter from "./routes/concert.routes.js"
 
