@@ -60,7 +60,7 @@ function Navbar() {
 
               user && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
                 <a
-                  href="#"
+                  href="/dashboard"
                   className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
                   transition-all duration-200"
                 >
