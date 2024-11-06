@@ -454,7 +454,7 @@ const fbSignIn = asyncHandler(async (req, res) => {
   const { uid, name, email, picture } = req.user;
 
   let user = await User.findOne({ uid });
-
+  
   console.log("user after google: ",user);
   
 
