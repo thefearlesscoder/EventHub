@@ -17,6 +17,7 @@ import Profile from './pages/Profile';
 import ForgetPassword from './pages/ForgetPassword';
 import LoginForm from './components/Login/LoginForm';
 import SignupForm from './components/Login/SignupForm';
+import { ResetPasswordPage } from './pages/ResetPassword';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/testpage" element={<TestPage />} />
         <Route path="/testpage2" element={<TestPage2 />} />
         <Route path='/forgot-password' element={<ForgetPassword/>}></Route>
+        <Route path='/reset-password/:token' element={<ResetPasswordPage/>}></Route>
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>

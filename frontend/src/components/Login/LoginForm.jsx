@@ -33,6 +33,7 @@ function LoginForm() {
             <div className="flex items-center border border-gray-300 ">
               <input
                 type="email"
+                autoComplete="on"
                 placeholder="youremail@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -46,6 +47,7 @@ function LoginForm() {
             <div className="flex items-center border border-gray-300 ">
               <input
                 type="password"
+                autoComplete="on"
                 placeholder="Your Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

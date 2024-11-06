@@ -80,6 +80,7 @@ function SignupForm() {
               <div className="flex items-center border border-gray-300 ">
                 <input
                   type="text"
+                  autoComplete="on"
                   placeholder="Your User Name"
                   name="username"
                   value={formData.username}
@@ -93,6 +94,7 @@ function SignupForm() {
               <label className="block text-gray-700 mb-2">FristName</label>
               <div className="flex items-center border border-gray-300 ">
                 <input
+                  autoComplete="on"
                   type="text"
                   placeholder="Your First Name"
                   name="firstName"
@@ -107,6 +109,7 @@ function SignupForm() {
               <div className="flex items-center border border-gray-300 ">
                 <input
                   type="text"
+                autoComplete="on"
                   placeholder="Your Last Name"
                   name="lastName"
                   value={formData.lastName}
@@ -120,6 +123,7 @@ function SignupForm() {
               <div className="flex items-center border border-gray-300 ">
                 <input
                   type="email"
+                autoComplete="on"
                   placeholder="youremail@gmail.com"
                   name="email"
                   value={formData.email}
@@ -134,6 +138,8 @@ function SignupForm() {
               <div className="flex items-center border border-gray-300 ">
                 <input
                   type="password"
+                autoComplete="on"
+
                   placeholder="Your Password"
                   name="password"
                   value={formData.password}
@@ -148,6 +154,7 @@ function SignupForm() {
               <div className="flex items-center border border-gray-300">
                 <input
                   type="password"
+                autoComplete="on"
                   placeholder="Your Password"
                   name="confirmPassword"
                   value={formData.confirmPassword}
