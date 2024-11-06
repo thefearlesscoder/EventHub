@@ -1,11 +1,11 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../Models/User.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { sendEmail } from "../utils/sendEmail.js";
+import { v2 as cloudinary } from "cloudinary";
 
 
 import crypto from "crypto";
@@ -414,44 +414,6 @@ const updatedAccountDetails = asyncHandler(async (req, res) => {
 });
 
 
-
-const changeImage = asyncHandler(async (req, res) => {
-  const user = req.user;
-
-  let imagePath;
-  if (req.files && Array.isArray(req.files.image) && req.files.image.length > 0) {
-    imagePath = req.files.image[0].path;
-  }
-
-  if (!imagePath) {
-    throw new ApiError(400, "Image not found");
-  }
-console.log(imagePath);
-
-  const imageUrl = await uploadOnCloudinary(imagePath);
-  const existingUser = await User.findById(user._id);
-  if (!existingUser) {
-    return res.status(404).json({
-      success: false,
-      message: "User not found"
-    });
-  }
- console.log("Uploading image :", imageUrl);
- 
-  const updatedUser = await User.findByIdAndUpdate(
-    user._id.toString(),
-    { image: imageUrl.secure_url },
-    { new: true }
-  );
-
-  return res.status(200).json(
-    new ApiResponse(200, updatedUser, "Admin details updated successfully")
-  );
-});
-
-
-
-
 const changePassword = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user?._id);
 
@@ -495,6 +457,79 @@ const fbSignIn = asyncHandler(async (req, res) => {
 
   res.send(user);
 });
+
+const changeImage = asyncHandler(async (req, res) => {
+  try {
+    // console.log("Updating image...");
+    // console.log("Checking if files are uploaded");
+    // console.log(req.files);
+
+    let newUserData = {}; 
+
+    if (req.files && req.files.image) {
+      const image = req.files.image;
+
+      const currentImageId = req.user.image ? req.user.image.public_id : null;
+      console.log("Current Image ID:", currentImageId);
+
+      
+      if (currentImageId) {
+        try {
+          await cloudinary.uploader.destroy(currentImageId);
+        } catch (error) {
+          return res.status(500).json({
+            success: false,
+            message: "Error while deleting current image",
+          });
+        }
+      }
+
+     
+      try {
+        console.log("cnbvn");
+        console.log("safc: ",image.tempFilePath);
+        
+        const newImage = await cloudinary.uploader.upload(image.tempFilePath, {
+          folder: "MusicMate",
+        });
+        console.log("new image :", newImage);
+        
+        newUserData.image = {
+          public_id: newImage.public_id,
+          url: newImage.secure_url,
+        };
+      } catch (error) {
+        return res.status(500).json({
+          success: false,
+          message: "Error while uploading new image",
+        });
+      }
+    }
+
+    // console.log("Finding and updating user");
+
+    const user = await User.findByIdAndUpdate(req.user._id, newUserData, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    }).select("-password");
+
+    // console.log("User updated:", user.image);
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile image updated successfully",
+      user,
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error while updating profile image",
+    });
+  }
+});
+
 
 export {
   registerUser,

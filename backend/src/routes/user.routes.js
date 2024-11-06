@@ -10,7 +10,7 @@ import {
   changePassword,
   resetPassword,
   fbSignIn,
-  changeImage
+  changeImage,
   // updateUsercoverImage,
 } from "../controllers/user.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
@@ -27,16 +27,7 @@ router.route("/refresh-token").post(refreshAccessToken);
 // router.route("/change-password").post(verifyJwt, changeCurrentPassword);
 // router.route("/getCurrentUser").get(verifyJwt, getCurrentUser);
 router.route("/update-details").post(verifyJwt, updatedAccountDetails);
-router.route("/update-image").post(
-  verifyJwt,
-  upload.fields([
-    {
-      name: "image",
-      maxCount: 1,
-    },
-  ]),
-  changeImage
-);
+router.route("/update-image").post(verifyJwt, changeImage);
 
 router.route("/change-password").post(verifyJwt, changePassword);
 router.route("/forgot-password").post(forgotPassword);
