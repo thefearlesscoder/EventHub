@@ -5,7 +5,7 @@ import Profilebar from '../components/profile/Profilebar'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { updateprofile } from '../services/operations/updateProfile'
-
+import { updateImage } from '../services/operations/updateProfile'
 
 
 // how to remove red line 
@@ -37,29 +37,46 @@ const Updatedetail = () => {
             ...prevData,
             [e.target.name]: e.target.value,
           }))
-          console.log(formData)
+        //   console.log(formData)
     }
     const handleDrop = (e) => {
         e.preventDefault() ;
         const droppedFile = e.dataTransfer.files[0] ;
         setFormData({ ...formData, image: droppedFile });
-        console.log(formData);
-      };
+        
+        console.log(formData.image)
+        
+    };
     
-      const handleFileChange = (e) => {
+    const handleFileChange = (e) => {
+        e.preventDefault() ;
         const selectedFile = e.target.files[0];
         setFormData({ ...formData, image: selectedFile });
-        // console.log(formData);
+        console.log(formData.image)
+        console.log(formData);
       };
       
       const { token } = useSelector( (state) => state.auth ) ;
-        const HandleOnSumbit = (e) => {
-        e.preventDefault() ;
-        console.log("hello jii ") ;
-        dispatch( updateprofile( formData.firstName , formData.lastName , formData.username  , formData.address , 
-            formData.phone , navigate , JSON.parse(token)  )) ;
-    }
 
+    const HandleOnSumbit = (e) => {
+        e.preventDefault();
+        console.log("Submitting form");
+
+        // Use a new FormData object for submission
+        let formSubmitData = new FormData();
+        formSubmitData.append("image", formData.image);  // Append the image file
+        formSubmitData.append("token", JSON.parse(token));
+        console.log( "image ->>>>> " , formData.image )
+        // console.log(formSubmitData.image)
+
+        
+        // Dispatch the update image action first if needed, then update profile
+        // dispatch(updateImage(formSubmitData, token , navigate));
+        dispatch(updateprofile(formData.firstName, formData.lastName, formData.username, 
+            formData.address, formData.phone, navigate, JSON.parse(token)));
+      };
+      
+        // console.log(formData)
 
     return (
         <div className=' min-h-screen text-richblack-25 p-10'>
@@ -68,11 +85,11 @@ const Updatedetail = () => {
                     Home / UpdateProfile
                 </div>
                 {
-                    loading ? ( <div className='text-white'>Loading</div>) :
+                    loading ? ( <div className='text-black'>Loading...</div>) :
                     (
                         <form className=' mt-10' onSubmit={ HandleOnSumbit }>
                             <div className=' flex w-full text-black justify-around md:flex-row md:gap gap-y-5 flex-col  items-center'>
-                                <img src={dummydata.image} alt="" className='md:w-[20%] w-[50%] rounded-full'/>
+                                <img src={dummydata.image.url} alt="" className='md:w-[20%] w-[50%] rounded-full'/>
                                 {/* <button className=' bg-yellow-50 text-black p-2 font-bold rounded-lg text-xl'>
                                     Edit image
                                 </button> */}

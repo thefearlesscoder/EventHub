@@ -533,7 +533,7 @@ const changeImage = asyncHandler(async (req, res) => {
       useFindAndModify: false,
     }).select("-password");
 
-    // console.log("User updated:", user.image);
+    console.log("User updated:", user.image.url);
 
     return res.status(200).json({
       success: true,

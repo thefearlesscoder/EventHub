@@ -30,9 +30,5 @@ export const apiconnector = async ( method , url, bodyData = null,
 
     const response = await fetch(url, options);
 
-    // if (!response.status) {
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    // }
-
     return response.json() ;
 };
