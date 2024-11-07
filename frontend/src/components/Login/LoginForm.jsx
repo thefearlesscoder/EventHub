@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../firebase.js";
+import axios from "axios";
 // import { login } from "../../../services/operations/authAPI"
 
 function LoginForm() {
@@ -31,30 +32,19 @@ function LoginForm() {
 
       //sending the data to the back end
 
-      const response = await fetch(
+      const response = await axios.post(
         "http://localhost:5000/api/v1/users/googlesignin",
+        {},
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            Authorization: token, 
           },
         }
       );
 
-      const { uid, displayName, email , photoURL} = result.user;
-
-      // Split displayName if available for first and last names
-      const [firstname = "", lastname = ""] = displayName
-        ? displayName.split(" ")
-        : ["", ""];
-
-      // Log the destructured values
-      console.log("User ID:", uid);
-      console.log("First Name:", firstname);
-      console.log("Last Name:", lastname);
-      console.log("Email:", email);
-      console.log("photo iD :",photoURL);
+      console.log(("fetch response: ", response.message));
+      
     } catch (error) {
       console.error("Error during Google login", error);
     }

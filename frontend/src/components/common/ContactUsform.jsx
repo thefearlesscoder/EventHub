@@ -1,156 +1,79 @@
-import React from 'react'
-import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
-import CountryCode from "../../data/countrycode.json"
+import React from "react";
 
-const ContactUsform = () => {
-    const [loading, setLoading] = useState(false)
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors, isSubmitSuccessful },
-    } = useForm()
+function ContactUsform() {
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-6">
+      <div className="max-w-3xl w-full bg-richblue-25 rounded-lg shadow-lg p-8">
+        <h1 className="text-4xl font-bold text-richblue-500 text-center mb-8">
+          Contact Us
+        </h1>
 
-  const submitContactForm = async (data) => {
-    
-    
-  }
+        <p className="text-lg text-richblue-400 text-center mb-8">
+          Have questions or feedback? We'd love to hear from you! Fill out the
+          form below, and our team will get back to you as soon as possible.
+        </p>
 
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset({
-        email: "",
-        firstname: "",
-        lastname: "",
-        message: "",
-        phoneNo: "",
-      })
-    }
-  }, [reset, isSubmitSuccessful])
+        <form className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-richblue-400">
+              Name
+            </label>
+            <input
+              type="text"
+              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Your Name"
+              required
+            />
+          </div>
 
-    return (
-        <form
-            className="flex flex-col gap-7 text-richblack-5"
-            onSubmit={handleSubmit(submitContactForm)}
-            >
-            <div className="flex flex-col gap-5 lg:flex-row">
-                <div className="flex flex-col gap-2 lg:w-[48%]">
-                <label htmlFor="firstname" className="lable-style">
-                    First Name
-                </label>
-                <input
-                    type="text"
-                    name="firstname"
-                    id="firstname"
-                    placeholder="Enter first name"
-                    className="form-style bg-richblack-600 outline-none text-white p-1 rounded-md"
-                    {...register("firstname", { required: true })}
-                />
-                {errors.firstname && (
-                    <span className="-mt-1 text-[12px] text-yellow-100">
-                    Please enter your name.
-                    </span>
-                )}
-                </div>
-                <div className="flex flex-col gap-2 lg:w-[48%]">
-                <label htmlFor="lastname" className="lable-style">
-                    Last Name
-                </label>
-                <input
-                    type="text"
-                    name="lastname"
-                    id="lastname"
-                    placeholder="Enter last name"
-                    className="form-style bg-richblack-600 outline-none text-white p-1 rounded-md"
+          <div>
+            <label className="block text-sm font-medium text-richblue-400">
+              Email
+            </label>
+            <input
+              type="email"
+              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
 
-                    {...register("lastname")}
-                />
-                </div>
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-richblue-400">
+              Subject
+            </label>
+            <input
+              type="text"
+              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Subject"
+              required
+            />
+          </div>
 
-            <div className="flex flex-col gap-2">
-                <label htmlFor="email" className="lable-style">
-                Email Address
-                </label>
-                <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Enter email address"
-                className="form-style bg-richblack-600 outline-none text-white p-1 rounded-md"
+          <div>
+            <label className="block text-sm font-medium text-richblue-400">
+              Message
+            </label>
+            <textarea
+              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              rows="5"
+              placeholder="Write your message here..."
+              required
+            ></textarea>
+          </div>
 
-                {...register("email", { required: true })}
-                />
-                {errors.email && (
-                <span className="-mt-1 text-[12px] text-yellow-100">
-                    Please enter your Email address.
-                </span>
-                )}
-            </div>
-
-            <div className="flex flex-col gap-2">
-                <label htmlFor="phonenumber" className="">
-                Phone Number
-                </label>
-              
-                    <input
-                    type="number"
-                    name="phonenumber"
-                    id="phonenumber"
-                    placeholder="12345 67890"
-                    className="form-style bg-richblack-600 outline-none text-white p-1 rounded-md"
-                    {...register("phoneNo", {
-                        required: {
-                        value: true,
-                        message: "Please enter your Phone Number.",
-                        },
-                        maxLength: { value: 12, message: "Invalid Phone Number" },
-                        minLength: { value: 10, message: "Invalid Phone Number" },
-                    })}
-                    />
-      
-              
-                {errors.phoneNo && (
-                <span className="-mt-1 text-[12px] text-yellow-100">
-                    {errors.phoneNo.message}
-                </span>
-                )}
-            </div>
-
-            <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="lable-style">
-                Message
-                </label>
-                <textarea
-                name="message"
-                id="message"
-                cols="30"
-                rows="7"
-                placeholder="Enter your message here"
-                className="form-style bg-richblack-600 outline-none text-white p-1 rounded-md"
-                {...register("message", { required: true })}
-                />
-                {errors.message && (
-                <span className="-mt-1 text-[12px] text-yellow-100">
-                    Please enter your Message.
-                </span>
-                )}
-            </div>
-
+          <div className="text-center">
             <button
-                disabled={loading}
-                type="submit"
-                className={`rounded-md bg-yellow-50 px-6 py-3 p-1 text-center text-[13px] font-bold text-black shadow-[2px_2px_0px_0px_rgba(255,255,255,0.18)] 
-                ${
-                !loading &&
-                "transition-all duration-200 hover:scale-95 hover:shadow-none "
-                }  disabled:bg-richblack-500 sm:text-[16px] `}
+              type="submit"
+              className="bg-richblue-500 text-richblue-50 font-semibold px-6 py-2 rounded-lg hover:bg-richblue-300 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-transform transform hover:scale-105"
             >
-                Send Message
+              Send Message
             </button>
+          </div>
         </form>
-    )
+      </div>
+    </div>
+  );
 }
 
-export default ContactUsform
+export default ContactUsform;

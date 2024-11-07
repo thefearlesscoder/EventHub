@@ -453,7 +453,7 @@ const changePassword = asyncHandler(async (req, res) => {
 const fbSignIn = asyncHandler(async (req, res) => {
   const { uid, name, email, picture } = req.user;
 
-  let user = await User.findOne({ uid });
+  let user = await User.findOne({ email });
 
   console.log("user after google: ",user);
   
@@ -467,7 +467,14 @@ const fbSignIn = asyncHandler(async (req, res) => {
     await user.save();
   }
 
-  res.send(user);
+  // res.send(user);
+  console.log("user response wla -> :",user);
+  
+  return res.status(200).json({
+    success: true,
+    user,
+    message: "User signed in successfully"
+  });
 });
 
 const changeImage = asyncHandler(async (req, res) => {
