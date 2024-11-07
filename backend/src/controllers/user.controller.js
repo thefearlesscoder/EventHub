@@ -9,6 +9,7 @@ import { v2 as cloudinary } from "cloudinary";
 
 
 import crypto from "crypto";
+import { log } from "console";
 const generateAccessAndRefreshToken = async (userId) => {
   try {
     const user = await User.findById(userId);
@@ -452,22 +453,54 @@ const changePassword = asyncHandler(async (req, res) => {
 
 const fbSignIn = asyncHandler(async (req, res) => {
   const { uid, name, email, picture } = req.user;
-
-  let user = await User.findOne({ uid });
+  // console.log("dsvdv:",req.user);
+  // console.log("uid:",uid);
+  // console.log("scc",email);
+  // console.log("name:",name);
   
-  console.log("user after google: ",user);
   
+  
+  let user = await User.findOne({ email });
 
+  // console.log("user after google: ",user);
+  
+  
   if (!user) {
+    // console.log("inside ");
+    
     const firstName = name.split(" ")[0];
     const lastName = name.split(" ")[1] || "";
     const username = email.split("@")[0];
-
-    user = new User({ username, firstName, lastName,email });
-    await user.save();
+    console.log("firstName: " + firstName);
+    console.log("lastName: " + lastName);
+    console.log("username: " + username);
+    const  user1 = await User.create({
+      uid: uuidv4(), 
+      image:{url:picture||""},
+      firstName,
+      lastName,
+      email,
+      username, 
+      // password, 
+    });
+    console.log("user1: " + user1);
+    return res.status(200).json({
+      success: true,
+      user : user1,
+      message: "Congratulations, you are registered successfully"
+    });
+    // user = await User.create({ username, firstName, lastName,email });
+    
   }
 
-  res.send(user);
+  // res.send(user);
+  console.log("user response wla -> :",user);
+  
+  return res.status(200).json({
+    success: true,
+    user:user,
+    message: "logged in successfully"
+  });
 });
 
 const changeImage = asyncHandler(async (req, res) => {
@@ -526,7 +559,7 @@ const changeImage = asyncHandler(async (req, res) => {
       useFindAndModify: false,
     }).select("-password");
 
-    // console.log("User updated:", user.image);
+    console.log("User updated:", user.image.url);
 
     return res.status(200).json({
       success: true,

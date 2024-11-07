@@ -1,6 +1,8 @@
 import React from "react";
 import Logo from "../../src/assets/logo.jpg";
 import vivek from "../../src/assets/Images/vivek.jpeg"
+import varun from "../../src/assets/Images/varun.png";
+
 import { FiGithub } from "react-icons/fi";
 import { CiLinkedin } from "react-icons/ci";
 
@@ -58,8 +60,8 @@ const AboutUs = () => {
           </div>
 
           <div>
-            <div>
-              <img src={vivek} className=" w-[1/3]  rounded-full " alt="" />
+            <div className="">
+              <img src={vivek} className=" w-[1/3] rounded-full " alt="" />
             </div>
             <div className="flex flex-col justify-center items-center space-y-1 leading-5 text-sm font-semibold
              text-richblack-600 mt-2">

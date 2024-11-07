@@ -87,7 +87,6 @@ function SignupForm() {
                   onChange={handleOnChange}
                   className="flex-1 p-2 focus:outline-none"
                 />
-                {/* <FaPencilAlt className="text-gray-400 ml-2" /> */}
               </div>
             </div>
             <div className="mb-4">
