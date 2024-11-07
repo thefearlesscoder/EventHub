@@ -1,6 +1,8 @@
 import React from "react";
 import Logo from "../../src/assets/logo.jpg";
 import vivek from "../../src/assets/Images/vivek.jpeg"
+import kunal from "../../src/assets/Images/kunal.jpeg"
+// import varun from "../../src/assets/Images/vivek.jpeg"
 import varun from "../../src/assets/Images/varun.png";
 
 import { FiGithub } from "react-icons/fi";
@@ -14,7 +16,7 @@ const AboutUs = () => {
           <img src={Logo} className="w-[40%] rounded-full" alt="LOGO" />
         </div>
         <div className="flex flex-col items-center justify-center space-y-5 w-[70%] gap-3 md:m-0 mt-3 mb-3">
-          <h1 className="text-black leading-10 md:text-7xl text-4xl font-bold">
+          <h1 className="text-black leading-10 md:text-7xl text-4xl font-bold md:text-auto text-center">
             Music Mate
           </h1>
           <div className="bg-richblack-300 h-2 w-[20%] mx-auto my-4 rounded-md"></div>
@@ -81,7 +83,7 @@ const AboutUs = () => {
           </div>
           <div>
             <div>
-              <img src={vivek} className=" w-[1/3]  rounded-full " alt="" />
+              <img src={vivek} className=" w-[1/3] rounded-full " alt="" />
             </div>
             <div className="flex flex-col justify-center items-center space-y-1 leading-5 text-sm font-semibold
              text-richblack-600 mt-2">

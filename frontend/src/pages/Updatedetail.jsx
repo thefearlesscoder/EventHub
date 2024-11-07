@@ -89,7 +89,7 @@ const Updatedetail = () => {
                     (
                         <form className=' mt-10' onSubmit={ HandleOnSumbit }>
                             <div className=' flex w-full text-black justify-around md:flex-row md:gap gap-y-5 flex-col  items-center'>
-                                <img src={dummydata.image.url} alt="" className='md:w-[20%] w-[50%] rounded-full'/>
+                                <img src={dummydata.image ? dummydata.image.url : ""} alt="" className='md:w-[20%] w-[50%] rounded-full'/>
                                 {/* <button className=' bg-yellow-50 text-black p-2 font-bold rounded-lg text-xl'>
                                     Edit image
                                 </button> */}
