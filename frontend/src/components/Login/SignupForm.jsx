@@ -67,9 +67,9 @@ function SignupForm() {
                   {
                     boolrole ? 
                       ( <div>
-                          Admin
-                      </div>) : (<div>
                           User
+                      </div>) : (<div>
+                          Admin
                       </div>)
                   }
                 </div>

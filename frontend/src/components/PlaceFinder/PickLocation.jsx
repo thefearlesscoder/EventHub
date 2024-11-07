@@ -3,13 +3,22 @@ import {
   APILoader,
   PlacePicker,
 } from "@googlemaps/extended-component-library/react";
+import { setLocation } from "../../slices/concertSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const PickLocation = () => {
+const PickLocation = ({setlocation}) => {
+  
   const [formattedAddress, setFormattedAddress] = React.useState("");
+  const dispatch = useDispatch() ;
   const handlePlaceChange = (e) => {
     setFormattedAddress(e.target.value?.formattedAddress ?? "");
+    // dispatch(setLocation(formattedAddress)) ;
+    setlocation(e.target.value?.formattedAddress ?? "") ;
+
   };
   const countries = [];
+
+  // console.log(formattedAddress)
 
   return (
     <div>
@@ -23,7 +32,12 @@ const PickLocation = () => {
           placeholder="Enter a place to see its address"
           onPlaceChange={handlePlaceChange}
         />
-        <div className="result">{formattedAddress}</div>
+        {
+            formattedAddress == "" ? (<div></div>) : (
+
+              <div className="result"> Selected location - {formattedAddress}</div>
+            )
+        }
       </div>
     </div>
   );

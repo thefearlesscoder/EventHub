@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 // import { toast } from "react-toastif";
 import { setToken } from "../../slices/authSlice";
 
-const { SIGNUP_API , LOGIN_API } = authApi  ;
+const { SIGNUP_API , LOGIN_API  , LOGOUT_API } = authApi  ;
 
 // user registration 
 export function signUp(
@@ -92,3 +92,14 @@ export function signUp(
 
     }
   }
+
+  export function logout(navigate) {
+    return (dispatch) => {
+      dispatch(setToken(null))
+      dispatch(setUser(null))
+      localStorage.removeItem("token")
+      localStorage.removeItem("user")
+      toast.success("Logged Out")
+      navigate("/")
+    }
+}

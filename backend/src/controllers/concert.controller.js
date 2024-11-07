@@ -22,9 +22,7 @@ const addConcert = asyncHandler(async (req, res) => {
 
   console.log("Request body:", req.body);
 
-  const requiredFields = [artist, place, description, pincode, date, ticketPrice, seatingCapacity];
-
-  if (requiredFields.some(field => typeof field === 'string' && field.trim() === "")) {
+  if ( !artist || !place || !description || !pincode || !date || !ticketPrice || !seatingCapacity ) {
     return res.status(400).json({
       success: false,
       message: "All fields are required",

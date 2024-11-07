@@ -18,6 +18,8 @@ import ForgetPassword from './pages/ForgetPassword';
 import LoginForm from './components/Login/LoginForm';
 import SignupForm from './components/Login/SignupForm';
 import { ResetPasswordPage } from './pages/ResetPassword';
+import Dashboard from './pages/Dashboard';
+import CreateConcert from './pages/CreateConcert';
 
 
 function App() {
@@ -33,12 +35,14 @@ function App() {
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<Feedback />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path='/profile' element={<Profile/>}></Route>
         <Route path='/update-profile' element={<Updatedetail/>}></Route>
         <Route path="/testpage" element={<TestPage />} />
         <Route path="/testpage2" element={<TestPage2 />} />
         <Route path='/forgot-password' element={<ForgetPassword/>}></Route>
         <Route path='/reset-password/:token' element={<ResetPasswordPage/>}></Route>
+        <Route path='/create-concert' element={<CreateConcert/>}></Route>
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>

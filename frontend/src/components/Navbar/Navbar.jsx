@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.jpg";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../services/operations/auth";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,6 +10,12 @@ function Navbar() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const dispatch = useDispatch () ;
+  const navigate = useNavigate() ;
+  function handleclick (){
+    console.log("click") ;
+    dispatch(logout(navigate)) ;
+  }
 
   return (
     <div className="bg-richblack-5 rounded-sm">
@@ -86,15 +93,12 @@ function Navbar() {
             }
             {
               // bg-gray problem
-              user && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
-                <a
-                  href="/logout"
-                  className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
-                  transition-all duration-200"
-                >
-                  Logout
-                </a>
-              </div>
+              user && <button className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105" onClick={handleclick}>
+              <p className="bg-gray-700 px-4 rounded-lg font-bold hover:bg-gray-600  
+                  transition-all duration-200">
+                    Logout
+                </p>
+            </button>
             }
 
           </div>
