@@ -9,7 +9,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { Friend } from "../Models/Friend.model.js";
 import mongoose from "mongoose";
 import crypto from "crypto";
-import { log } from "util";
+
 
 const getAllMyFriends = asyncHandler(async (req, res) => {
   const userId = req.user?._id;
@@ -199,4 +199,15 @@ const responseForrequest = asyncHandler(async (req, res) => {
     .json(new ApiResponse(400, null, "Invalid status provided"));
 });
 
-export { getAllMyFriends, requestForFriend, responseForrequest };
+const usersRequestingMe = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const friends = await Friend.find({
+    receiver: userId,
+    status: "pending",
+  }).populate("sender receiver", "-password -refreshToken");
+  return res
+    .status(200)
+    .json(new ApiResponse(200, { friends }, "Users requesting you"));
+});
+
+export { getAllMyFriends, requestForFriend, responseForrequest,usersRequestingMe };

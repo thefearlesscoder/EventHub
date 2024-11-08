@@ -122,7 +122,6 @@ const updateConcert = asyncHandler(async (req, res) => {
   });
 });
 
-
 const registerForConcert = asyncHandler(async (req, res) => {
   const { Id } = req.params;
   const userId = req.user._id; 
@@ -162,5 +161,54 @@ const registerForConcert = asyncHandler(async (req, res) => {
   });
 });
 
+const allUpcomingConcerts = asyncHandler(async (req, res) => {
+  const currentDate = new Date();
+  const upcomingConcerts = await Concert.find({ date: { $gt: currentDate } });
 
-export  {addConcert, registerForConcert, updateConcert};
+  return res.status(200).json({
+    success: true,
+    data: upcomingConcerts,
+    message: "Upcoming concerts retrieved successfully"
+  });
+});
+
+const myattendeConcerts = asyncHandler(async(req,res)=>{
+  const userId = req.user._id;
+  const myattendedConcerts = await Concert.find({ peoples: userId });
+})
+
+const registerforConcert = asyncHandler(async(req,res)=>{
+  const {Id} = req.params;
+  const userId = req.user._id;
+  const concert = await Concert.findById(Id);
+  if(!concert){
+    return res.status(404).json({
+      success: false,
+      message: "Concert not found"
+    })
+  }
+  if(!concert.peoples.includes(userId)){
+    concert.peoples.push(userId);
+    await concert.save();
+  }
+  const user = await User.findById(userId);
+  if(!user){
+    return res.status(404).json({
+      success: false,
+      message: "User not found"
+    })
+  }
+  if(!user.upcoming_attendconcert.includes(Id)){
+    user.upcoming_attendconcert.push(Id);
+    await user.save();
+  }
+  return res.status(200).json({
+    success: true,
+    message: "Successfully registered for the concert",
+    concertId: Id,
+  });
+  
+})
+
+
+export  {addConcert, registerForConcert, allUpcomingConcerts};
