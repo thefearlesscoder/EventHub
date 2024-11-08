@@ -140,12 +140,31 @@ const allUpcomingConcerts = asyncHandler(async (req, res) => {
   const currentDate = new Date();
   const upcomingConcerts = await Concert.find({ date: { $gt: currentDate } });
 
+  const concertArray = upcomingConcerts.map(concert => ({
+    id: concert._id,
+    artist: concert.artist,
+    place: concert.place,
+    description: concert.description,
+    pincode: concert.pincode,
+    date: concert.date,
+    peoples: concert.peoples.length,
+    addedBy: concert.addedBy,
+    ticketPrice: concert.ticketPrice,
+    seatingCapacity: concert.seatingCapacity,
+    genre: concert.genre,
+    media: {
+      images: concert.media.images,
+      videos: concert.media.videos,
+    },
+  }));
+
   return res.status(200).json({
     success: true,
-    data: upcomingConcerts,
+    data: concertArray,
     message: "Upcoming concerts retrieved successfully",
   });
 });
+
 
 const registerForConcert = asyncHandler(async (req, res) => {
   const { Id } = req.params;
