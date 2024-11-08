@@ -1,12 +1,8 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../Models/User.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import jwt from "jsonwebtoken";
-
 import { Concert } from "../Models/Concert.model.js";
-
+import { ApiResponse } from "../utils/ApiResponse.js";
 const addConcert = asyncHandler(async (req, res) => {
   const {
     artist,
@@ -22,22 +18,26 @@ const addConcert = asyncHandler(async (req, res) => {
 
   console.log("Request body:", req.body);
 
-  if ( !artist || !place || !description || 
-    !pincode || !date || !ticketPrice 
-    || !seatingCapacity ) {
+  if (
+    !artist ||
+    !place ||
+    !description ||
+    !pincode ||
+    !date ||
+    !ticketPrice ||
+    !seatingCapacity
+  ) {
     return res.status(400).json({
       success: false,
       message: "All fields are required",
-    })
-   
+    });
   }
 
   if (new Date(date) <= Date.now()) {
     return res.status(400).json({
       success: false,
       message: "Concert date must be in the future",
-    })
-    
+    });
   }
 
   const adminId = req.user._id;
@@ -56,8 +56,8 @@ const addConcert = asyncHandler(async (req, res) => {
   });
 
   await User.findByIdAndUpdate(
-    adminId, 
-    { $push: { myAddedConcerts: concert._id } }, 
+    adminId,
+    { $push: { myAddedConcerts: concert._id } },
     { new: true }
   );
 
@@ -68,6 +68,7 @@ const addConcert = asyncHandler(async (req, res) => {
   });
 });
 
+// corrrently we are not using this
 const updateConcert = asyncHandler(async (req, res) => {
   const { Id } = req.params;
   const {
@@ -83,7 +84,7 @@ const updateConcert = asyncHandler(async (req, res) => {
   } = req.body;
 
   const concert = await Concert.findById(Id);
-  
+
   if (!concert) {
     return res.status(404).json({
       success: false,
@@ -91,9 +92,21 @@ const updateConcert = asyncHandler(async (req, res) => {
     });
   }
 
-  const requiredFields = [artist, place, description, pincode, date, ticketPrice, seatingCapacity];
+  const requiredFields = [
+    artist,
+    place,
+    description,
+    pincode,
+    date,
+    ticketPrice,
+    seatingCapacity,
+  ];
 
-  if (requiredFields.some(field => typeof field === 'string' && field.trim() === "")) {
+  if (
+    requiredFields.some(
+      (field) => typeof field === "string" && field.trim() === ""
+    )
+  ) {
     throw new ApiError(400, "All fields are required");
   }
 
@@ -101,8 +114,7 @@ const updateConcert = asyncHandler(async (req, res) => {
     return res.status(404).json({
       success: false,
       message: "Concert date must be in the future",
-    })
-    
+    });
   }
 
   concert.artist = artist;
@@ -124,10 +136,41 @@ const updateConcert = asyncHandler(async (req, res) => {
   });
 });
 
+const allUpcomingConcerts = asyncHandler(async (req, res) => {
+  const currentDate = new Date();
+  const upcomingConcerts = await Concert.find({ date: { $gt: currentDate } });
+
+  const concertArray = upcomingConcerts.map((concert) => ({
+    id: concert._id,
+    artist: concert.artist,
+    place: concert.place,
+    description: concert.description,
+    pincode: concert.pincode,
+    date: concert.date,
+    peoples: concert.peoples.length,
+    addedBy: concert.addedBy,
+    ticketPrice: concert.ticketPrice,
+    seatingCapacity: concert.seatingCapacity,
+    genre: concert.genre,
+    media: {
+      images: concert.media.images,
+      videos: concert.media.videos,
+    },
+  }));
+
+  return res.status(200).json({
+    success: true,
+    data: concertArray,
+    message: "Upcoming concerts retrieved successfully",
+  });
+});
 
 const registerForConcert = asyncHandler(async (req, res) => {
   const { Id } = req.params;
-  const userId = req.user._id; 
+  const userId = req.user._id;
+
+  console.log("Concert ID: ", Id);
+  console.log("User ID: ", userId);
 
   const concert = await Concert.findById(Id);
   if (!concert) {
@@ -135,26 +178,28 @@ const registerForConcert = asyncHandler(async (req, res) => {
       success: false,
       message: "Concert not found",
     });
-    
   }
-
-  if (!concert.peoples.includes(userId)) {
-    concert.peoples.push(userId);
-    await concert.save(); 
-  }
-
   const user = await User.findById(userId);
   if (!user) {
     return res.status(404).json({
       success: false,
       message: "User not found",
-    })
-    
+    });
+  }
+
+  if (!concert.peoples.includes(userId)) {
+    concert.peoples.push(userId);
+    await concert.save();
+  } else {
+    return res.status(400).json({
+      success: false,
+      message: "You are already registered for this concert",
+    });
   }
 
   if (!user.upcoming_attendconcert.includes(Id)) {
     user.upcoming_attendconcert.push(Id);
-    await user.save(); 
+    await user.save();
   }
 
   return res.status(200).json({
@@ -164,5 +209,40 @@ const registerForConcert = asyncHandler(async (req, res) => {
   });
 });
 
+const myAttendedConcerts = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
 
-export  {addConcert, registerForConcert, updateConcert};
+  console.log("User ID: ", userId);
+
+  const myAttendedConcerts = await Concert.find({ peoples: userId });
+  return res.status(200).json({
+    success: true,
+    concerts: myAttendedConcerts,
+  });
+});
+
+const concertDetails = asyncHandler(async (req, res) => {
+  const { Id } = req.params;
+  const concert = await Concert.findById(Id);
+
+  if (!concert) {
+    return res.status(404).json({
+      success: false,
+      message: "Concert not found",
+    });
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, concert, "Data of concert fetched successfully")
+    );
+});
+
+export {
+  addConcert,
+  registerForConcert,
+  allUpcomingConcerts,
+  myAttendedConcerts,
+  concertDetails,
+};
