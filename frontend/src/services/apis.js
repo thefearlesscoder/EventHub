@@ -15,5 +15,5 @@ export const updateApi = {
 }
 
 export const concertApi = {
-    ADDCONCERT_API : `${BASE_URL}/users/add-concert`,
+    ADDCONCERT_API : `${BASE_URL}/concert/add-concert`,
 }

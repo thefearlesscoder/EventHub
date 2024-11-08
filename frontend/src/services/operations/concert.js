@@ -9,16 +9,29 @@ const { ADDCONCERT_API } = concertApi  ;
 export function createConcert (
     artist ,
     description  ,
-    pincode ,
     date ,
+    pincode ,
     ticketPrice ,
     seatingCapacity  ,
     genre , 
     place , 
+    token
   ) {
 
     return async (dispatch) => {
       try {
+
+        // console.log({
+        //   artist,
+        //   description,
+        //   date,
+        //   pincode,
+        //   ticketPrice,
+        //   seatingCapacity,
+        //   genre,
+        //   place
+        // });
+        
         const response = await apiconnector("POST", ADDCONCERT_API , {
             artist ,
             description  ,
@@ -27,7 +40,9 @@ export function createConcert (
             ticketPrice ,
             seatingCapacity  ,
             genre , 
-            place 
+            place ,
+            token 
+            
         })
   
         console.log("UPLOAD CONCERT API RESPONSE............", response)
