@@ -45,13 +45,14 @@ const CreateConcert = () => {
   
     try {
       console.log(updatedFormData);
-      await dispatch(createConcert(formData.artist ,
+      dispatch(createConcert(formData.artist ,
          formData.description , formData.date , formData.pincode ,
           formData.ticketPrice , formData.seatingCapacity , 
-          formData.genre , location , JSON.parse(token) ));
-      navigate('/dashboard')
+          formData.genre , location , JSON.parse(token) , navigate ));
+      // navigate('/dashboard')
     } catch (error) {
       console.error("Error creating concert:", error);
+
     } finally {
       setloading(false);
     }

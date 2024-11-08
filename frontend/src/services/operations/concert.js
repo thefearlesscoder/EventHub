@@ -15,22 +15,25 @@ export function createConcert (
     seatingCapacity  ,
     genre , 
     place , 
-    token
+    token ,
+    navigate 
   ) {
 
     return async (dispatch) => {
       try {
 
-        // console.log({
-        //   artist,
-        //   description,
-        //   date,
-        //   pincode,
-        //   ticketPrice,
-        //   seatingCapacity,
-        //   genre,
-        //   place
-        // });
+        console.log({
+          artist,
+          description,
+          date,
+          pincode,
+          ticketPrice,
+          seatingCapacity,
+          genre,
+          place
+        });
+
+        
         
         const response = await apiconnector("POST", ADDCONCERT_API , {
             artist ,
@@ -52,6 +55,7 @@ export function createConcert (
           throw new Error(response?.message)
         }else {
             toast.success(response?.message)
+            navigate('/dashboard')
         }
       } catch (error) {
         console.log("UPLOAD CONCERT API ERROR............", error)
