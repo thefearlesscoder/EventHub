@@ -1,5 +1,5 @@
 import { v2 as cloudinary} from "cloudinary";
-import { log } from "console";
+
 import fs from "fs"
 
 cloudinary.config({ 
@@ -11,6 +11,8 @@ cloudinary.config({
 
 const uploadOnCloudinary = async (localFilePath)=>{
     try {
+        console.log("here at cloudinary");
+        
         if(!localFilePath){
             console.log("could not find local file path");
             return null;

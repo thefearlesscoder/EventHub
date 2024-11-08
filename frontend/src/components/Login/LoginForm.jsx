@@ -7,6 +7,8 @@ import { FaFacebook } from "react-icons/fa";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../../firebase.js";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { setUser,setToken } from "../../slices/authSlice";
 // import { login } from "../../../services/operations/authAPI"
 
 function LoginForm() {
@@ -38,13 +40,27 @@ function LoginForm() {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: token, 
+            Authorization: token,
           },
         }
       );
 
-      console.log(("fetch response: ", response.message));
-      
+      console.log("fetch response: ", response.data.AccessToken);
+      // toast.success(response.data.message);
+      if (response.data.success) {
+        console.log("here");
+        
+        dispatch(setToken(response?.data?.AccessToken));
+        dispatch(setUser(response?.data?.user));
+        localStorage.setItem("user", JSON.stringify(response?.data?.user));
+        localStorage.setItem(
+          "token",
+          JSON.stringify(response?.data?.AccessToken)
+        );
+        toast.success("Login Successful");
+
+        navigate("/aboutus");
+      }
     } catch (error) {
       console.error("Error during Google login", error);
     }

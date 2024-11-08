@@ -9,6 +9,12 @@ import { v2 as cloudinary } from "cloudinary";
 
 
 import crypto from "crypto";
+
+const options = {
+  httpOnly: false,
+  secure: false,// here i changed
+  sameSite: 'None',
+};
 const generateAccessAndRefreshToken = async (userId) => {
   try {
     const user = await User.findById(userId);
@@ -136,11 +142,7 @@ const loginUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
 
-  const options = {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'None',
-  };
+  
   return res
     .status(200)
     .cookie("AccessToken", AccessToken, options)
@@ -452,29 +454,60 @@ const changePassword = asyncHandler(async (req, res) => {
 
 const fbSignIn = asyncHandler(async (req, res) => {
   const { uid, name, email, picture } = req.user;
-
+  // console.log("dsvdv:",req.user);
+  // console.log("uid:",uid);
+  // console.log("scc",email);
+  // console.log("name:",name);
+  
   let user = await User.findOne({ email });
 
-  console.log("user after google: ",user);
+  // console.log("user after google: ",user);
   
-
   if (!user) {
+    // console.log("inside ");
+    
     const firstName = name.split(" ")[0];
     const lastName = name.split(" ")[1] || "";
     const username = email.split("@")[0];
+    console.log("firstName: " + firstName);
+    console.log("lastName: " + lastName);
+    console.log("username: " + username);
+    const user1 = await User.create({
+      uid: uuidv4(), 
+      image: { url: picture || "" },
+      firstName,
+      lastName,
+      email,
+      username, 
+    });
+    console.log("user1: " + user1);
 
-    user = new User({ username, firstName, lastName,email });
-    await user.save();
+    const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(user1._id);
+    return res
+      .status(200)
+      .cookie("AccessToken", AccessToken, options)
+      .cookie("RefreshToken", RefreshToken,options)
+      .json({
+        success: true,
+        user: user1,
+        AccessToken,
+        RefreshToken,
+        message: "Congratulations, you are registered successfully"
+      });
   }
 
-  // res.send(user);
-  console.log("user response wla -> :",user);
-  
-  return res.status(200).json({
-    success: true,
-    user,
-    message: "User signed in successfully"
-  });
+  const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(user._id);
+  return res
+    .status(200)
+    .cookie("AccessToken", AccessToken, { httpOnly: false, secure: false, sameSite: 'None' })
+    .cookie("RefreshToken", RefreshToken, { httpOnly: false, secure: false, sameSite: 'None' })
+    .json({
+      success: true,
+      user: user,
+      AccessToken,
+      RefreshToken,
+      message: "logged in successfully"
+    });
 });
 
 const changeImage = asyncHandler(async (req, res) => {

@@ -3,9 +3,9 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const verifyToken = asyncHandler(async (req, res, next) => {
   const authorizationHeader = req.headers.authorization;
-  console.log("Authorization Header:", authorizationHeader); // Check if the header is received
+  console.log("Authorization Header:", authorizationHeader); 
 
-  // Parse token from the "Bearer <token>" format
+
   const idToken =
     authorizationHeader && authorizationHeader.startsWith("Bearer ")
       ? authorizationHeader.split(" ")[1]
