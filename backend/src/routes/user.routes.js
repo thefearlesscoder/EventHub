@@ -11,6 +11,7 @@ import {
   resetPassword,
   fbSignIn,
   changeImage,
+  
   // updateUsercoverImage,
 } from "../controllers/user.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
@@ -33,5 +34,6 @@ router.route("/change-password").post(verifyJwt, changePassword);
 router.route("/forgot-password").post(forgotPassword);
 router.route("/reset-password/:token").post(resetPassword);
 router.route("/googlesignin").post(verifyToken, fbSignIn);
+
 
 export default router;

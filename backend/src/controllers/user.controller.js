@@ -6,14 +6,16 @@ import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { sendEmail } from "../utils/sendEmail.js";
 import { v2 as cloudinary } from "cloudinary";
-
-
+import { Friend } from "../Models/Friend.model.js";
+import mongoose from "mongoose";
 import crypto from "crypto";
+import { log } from "util";
+
 
 const options = {
   httpOnly: false,
-  secure: false,// here i changed
-  sameSite: 'None',
+  secure: false, // here i changed
+  sameSite: "None",
 };
 const generateAccessAndRefreshToken = async (userId) => {
   try {
@@ -30,9 +32,8 @@ const generateAccessAndRefreshToken = async (userId) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Something went wrong while generating access and refresh token"
+      message: "Something went wrong while generating access and refresh token",
     });
-    
   }
 };
 
@@ -45,7 +46,7 @@ const registerUser = asyncHandler(async (req, res) => {
     confirmPassword,
     role,
     username,
-  } = req.body; 
+  } = req.body;
   console.log("Request body:", req.body);
 
   if (!password) {
@@ -61,34 +62,29 @@ const registerUser = asyncHandler(async (req, res) => {
     });
   }
 
-
   if (password !== confirmPassword) {
     return res.status(400).json({
       success: false,
       message: "Passwords should match",
     });
-
   }
 
-
-  const existingUser = await User.findOne({ $or: [{ email }] }); 
+  const existingUser = await User.findOne({ $or: [{ email }] });
   if (existingUser) {
     return res.status(400).json({
       success: false,
       message: "Email already exists",
     });
-    
   }
 
-  
   const user = await User.create({
-    uid: uuidv4(), 
+    uid: uuidv4(),
     role,
     firstName,
     lastName,
     email,
-    username, 
-    password, 
+    username,
+    password,
   });
 
   const createdUser = await User.findById(user._id).select(
@@ -142,7 +138,6 @@ const loginUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
 
-  
   return res
     .status(200)
     .cookie("AccessToken", AccessToken, options)
@@ -168,12 +163,12 @@ const logOutUser = asyncHandler(async (req, res) => {
       $set: { refreshToken: undefined },
     },
     {
-      new: true, 
+      new: true,
     }
   );
 
   const options = {
-    httpOnly: true, 
+    httpOnly: true,
     secure: true,
   };
   return res
@@ -205,7 +200,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         success: false,
         message: "Invalid user unauthorized request",
       });
-      
     }
 
     if (incomingRefreshToken !== user?.refreshToken) {
@@ -213,14 +207,13 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         success: false,
         message: "refresh token is expired",
       });
-      
     }
     const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(
       user._id
     );
 
     const options = {
-      httpOnly: true, 
+      httpOnly: true,
       secure: true,
     };
     console.log("refresh tokennlkwfklweff");
@@ -321,7 +314,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
       success: false,
       message: "This email is not registered",
     });
-    
   }
   console.log("User found");
 
@@ -334,16 +326,15 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
 
-
   await sendEmail({
     email: user.email,
     subject: "password reset",
     htmlContent: generateResetEmail(resetUrl),
   });
 
-
-  res.status(200).json({ success:true ,
-    message: "Password reset link sent to email" });
+  res
+    .status(200)
+    .json({ success: true, message: "Password reset link sent to email" });
 });
 
 const resetPassword = asyncHandler(async (req, res) => {
@@ -352,21 +343,20 @@ const resetPassword = asyncHandler(async (req, res) => {
   console.log("Token received:", token);
   const user = await User.findOne({
     resetPasswordToken: token,
-    resetPasswordExpires: { $gt: Date.now() }, 
+    resetPasswordExpires: { $gt: Date.now() },
   });
   if (!user) {
     return res.status(400).json({
       success: false,
       message: "Invalid or expired token",
-    })
-   
+    });
   }
 
   if (password !== confirmPassword) {
     throw new ApiError(400, "Passwords do not match");
   }
 
-  user.password = password; 
+  user.password = password;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpires = undefined;
 
@@ -385,14 +375,13 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, req.user, "User data retrieved successfully"));
 });
 
-
 const updatedAccountDetails = asyncHandler(async (req, res) => {
   const { firstName, lastName, username, phone, address } = req.body;
 
   if (!firstName && !lastName && !username && !phone && !address) {
     return res.status(400).json({
       success: false,
-      message: "Provide at least one field to update"
+      message: "Provide at least one field to update",
     });
   }
 
@@ -400,7 +389,7 @@ const updatedAccountDetails = asyncHandler(async (req, res) => {
   if (!existUser) {
     return res.status(400).json({
       success: false,
-      message: "User does not exist"
+      message: "User does not exist",
     });
   }
 
@@ -417,9 +406,10 @@ const updatedAccountDetails = asyncHandler(async (req, res) => {
     { new: true }
   ).select("-password");
 
-  return res.status(200).json(new ApiResponse(200, user, "Account details updated successfully"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Account details updated successfully"));
 });
-
 
 const changePassword = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user?._id);
@@ -431,7 +421,6 @@ const changePassword = asyncHandler(async (req, res) => {
   if (!oldPassword || !newPassword || !confirmNewPassword) {
     throw new ApiError(400, "All fields are required");
   }
-
 
   const isMatch = await user.isPasswordCorrect(oldPassword);
   if (!isMatch) {
@@ -458,14 +447,14 @@ const fbSignIn = asyncHandler(async (req, res) => {
   // console.log("uid:",uid);
   // console.log("scc",email);
   // console.log("name:",name);
-  
+
   let user = await User.findOne({ email });
 
   // console.log("user after google: ",user);
-  
+
   if (!user) {
     // console.log("inside ");
-    
+
     const firstName = name.split(" ")[0];
     const lastName = name.split(" ")[1] || "";
     const username = email.split("@")[0];
@@ -473,40 +462,52 @@ const fbSignIn = asyncHandler(async (req, res) => {
     console.log("lastName: " + lastName);
     console.log("username: " + username);
     const user1 = await User.create({
-      uid: uuidv4(), 
+      uid: uuidv4(),
       image: { url: picture || "" },
       firstName,
       lastName,
       email,
-      username, 
+      username,
     });
     console.log("user1: " + user1);
 
-    const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(user1._id);
+    const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(
+      user1._id
+    );
     return res
       .status(200)
       .cookie("AccessToken", AccessToken, options)
-      .cookie("RefreshToken", RefreshToken,options)
+      .cookie("RefreshToken", RefreshToken, options)
       .json({
         success: true,
         user: user1,
         AccessToken,
         RefreshToken,
-        message: "Congratulations, you are registered successfully"
+        message: "Congratulations, you are registered successfully",
       });
   }
 
-  const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(user._id);
+  const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(
+    user._id
+  );
   return res
     .status(200)
-    .cookie("AccessToken", AccessToken, { httpOnly: false, secure: false, sameSite: 'None' })
-    .cookie("RefreshToken", RefreshToken, { httpOnly: false, secure: false, sameSite: 'None' })
+    .cookie("AccessToken", AccessToken, {
+      httpOnly: false,
+      secure: false,
+      sameSite: "None",
+    })
+    .cookie("RefreshToken", RefreshToken, {
+      httpOnly: false,
+      secure: false,
+      sameSite: "None",
+    })
     .json({
       success: true,
       user: user,
       AccessToken,
       RefreshToken,
-      message: "logged in successfully"
+      message: "logged in successfully",
     });
 });
 
@@ -516,7 +517,7 @@ const changeImage = asyncHandler(async (req, res) => {
     // console.log("Checking if files are uploaded");
     // console.log(req.files);
 
-    let newUserData = {}; 
+    let newUserData = {};
 
     if (req.files && req.files.image) {
       const image = req.files.image;
@@ -524,7 +525,6 @@ const changeImage = asyncHandler(async (req, res) => {
       const currentImageId = req.user.image ? req.user.image.public_id : null;
       console.log("Current Image ID:", currentImageId);
 
-      
       if (currentImageId) {
         try {
           await cloudinary.uploader.destroy(currentImageId);
@@ -536,16 +536,15 @@ const changeImage = asyncHandler(async (req, res) => {
         }
       }
 
-     
       try {
         console.log("cnbvn");
-        console.log("safc: ",image.tempFilePath);
-        
+        console.log("safc: ", image.tempFilePath);
+
         const newImage = await cloudinary.uploader.upload(image.tempFilePath, {
           folder: "MusicMate",
         });
         console.log("new image :", newImage);
-        
+
         newUserData.image = {
           public_id: newImage.public_id,
           url: newImage.secure_url,
@@ -573,7 +572,6 @@ const changeImage = asyncHandler(async (req, res) => {
       message: "Profile image updated successfully",
       user,
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -581,6 +579,9 @@ const changeImage = asyncHandler(async (req, res) => {
     });
   }
 });
+
+
+
 
 
 export {
@@ -595,5 +596,6 @@ export {
   forgotPassword,
   changePassword,
   fbSignIn,
-  changeImage
+  changeImage,
+  
 };

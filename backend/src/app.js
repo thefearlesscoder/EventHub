@@ -29,11 +29,11 @@ app.use(fileUpload({
   
 import userRouter  from "./routes/user.routes.js"
 import concertRouter from "./routes/concert.routes.js"
-
+import friendRouter from "./routes/friends.routes.js"
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/concert",concertRouter);
-
+app.use("/api/v1/friends", friendRouter);
 
 
 export { app };
