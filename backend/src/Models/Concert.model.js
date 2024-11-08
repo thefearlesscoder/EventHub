@@ -58,7 +58,7 @@ const concertSchema = new mongoose.Schema(
     },
     genre: {
       type: String,
-      enum: ["Pop", "Rock", "Jazz", "Classical", "Hip-Hop", "Electronic", "Other"], 
+      enum: ["Pop", "Rock", "Jazz", "Classical", "Hip-Hop", "Electronic" , "Genz", "Other"], 
     },
     media: {
       images: [
