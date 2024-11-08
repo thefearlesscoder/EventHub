@@ -205,9 +205,21 @@ const usersRequestingMe = asyncHandler(async (req, res) => {
     receiver: userId,
     status: "pending",
   }).populate("sender receiver", "-password -refreshToken");
+
+  
+  const friendsArray = friends.map((friend) => ({
+    senderId: friend.sender._id,  
+    status: friend.status,
+    createdAt: friend.createdAt,
+    updatedAt: friend.updatedAt,
+  }));
+
   return res
     .status(200)
-    .json(new ApiResponse(200, { friends }, "Users requesting you"));
+    .json(
+      new ApiResponse(200, { friends: friendsArray }, "Users requesting you")
+    );
 });
+
 
 export { getAllMyFriends, requestForFriend, responseForrequest,usersRequestingMe };
