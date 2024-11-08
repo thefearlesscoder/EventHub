@@ -165,6 +165,8 @@ const allUpcomingConcerts = asyncHandler(async (req, res) => {
   const currentDate = new Date();
   const upcomingConcerts = await Concert.find({ date: { $gt: currentDate } });
 
+  console.log(upcomingConcerts);
+  
   return res.status(200).json({
     success: true,
     data: upcomingConcerts,
@@ -172,7 +174,7 @@ const allUpcomingConcerts = asyncHandler(async (req, res) => {
   });
 });
 
-const myattendeConcerts = asyncHandler(async(req,res)=>{
+const myattendedConcerts = asyncHandler(async(req,res)=>{
   const userId = req.user._id;
   const myattendedConcerts = await Concert.find({ peoples: userId });
 })

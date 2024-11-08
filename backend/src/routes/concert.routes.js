@@ -9,5 +9,5 @@ import { verifyAdmin } from "../middleware/verifyAdmin.middleware.js";
 const router = Router();
 
 router.post("/add-concert", verifyJwt,verifyAdmin ,upload.single("media"), addConcert);
-router.route("/upcoming-concert").get(verifyJwt, allUpcomingConcerts)
+router.route("/upcoming-concert").get(allUpcomingConcerts)
 export default router;

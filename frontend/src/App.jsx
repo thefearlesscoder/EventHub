@@ -18,8 +18,8 @@ import ForgetPassword from './pages/ForgetPassword';
 import LoginForm from './components/Login/LoginForm';
 import SignupForm from './components/Login/SignupForm';
 import { ResetPasswordPage } from './pages/ResetPassword';
-import Dashboard from './pages/Dashboard';
 import CreateConcert from './pages/CreateConcert';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 
 function App() {
