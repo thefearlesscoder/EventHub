@@ -19,7 +19,8 @@ const MyFriends = () => {
           },
         }
       );
-      console.log(response); 
+      console.log("xyz:", response.data.data); 
+      setMyFriends(response.data.data);  
     } catch (error) {
       console.error(error); 
     }

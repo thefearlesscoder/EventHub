@@ -15,29 +15,34 @@ const getAllMyFriends = asyncHandler(async (req, res) => {
   const userId = req.user?._id;
   console.log("userId: " + userId);
 
-const friends = await Friend.find({
-  $or: [{ sender: userId }, { receiver: userId }],
-  status: "accepted",
-}).populate("sender receiver", "name image -password -refreshToken"); // Populate name and image
+  const friends = await Friend.find({
+    $or: [{ sender: userId }, { receiver: userId }],
+    status: "accepted",
+  }).populate("sender receiver", "firstName lastName image"); 
 
-  console.log("friends :", friends);
+  console.log("friends:", friends);
 
-  
-  const friendsData = friends.map((friend) => ({
-    senderId: friend.sender._id,
-    name: `${friend.sender.firstName} ${friend.sender.lastName}`,
-    image: `${friend.sender.image?.url}`,
-    status: friend.status,
-  }));
+  const friendsData = friends.map((friend) => {
+    const isSender = friend.sender._id.equals(userId);  
+    const friendUser = isSender ? friend.receiver : friend.sender;  
 
-  console.log("froends data: ", friendsData);
+    return {
+      friendId: friendUser._id,
+      name: `${friendUser.firstName} ${friendUser.lastName}`,
+      image: friendUser.image?.url,
+      status: friend.status,
+    };
+  });
+
+  console.log("friends data:", friendsData);
   
   return res
     .status(200)
     .json(
-      new ApiResponse(200, { friends: friendsData }, "Friends fetched successfully")
+      new ApiResponse(200, friendsData, "Friends fetched successfully")
     );
 });
+
 
 const requestForFriend = asyncHandler(async (req, res) => {
   const userId = req.user._id;
