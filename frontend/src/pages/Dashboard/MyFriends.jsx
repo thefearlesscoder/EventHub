@@ -9,16 +9,20 @@ const MyFriends = () => {
   
 
   const fetchMyFriends = async () => {
-    const response = await axios.post(
-      "http://localhost:5000/api/v1/friends/my-friends",
-      { token },
-      {
-        headers: {
-          Authorization: token, // Sending token in the header
-        },
-      }
-    );
-    console.log(response); 
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/friends/my-friends",
+        { token },
+        {
+          headers: {
+            Authorization: token, // Sending token in the header
+          },
+        }
+      );
+      console.log(response); 
+    } catch (error) {
+      console.error(error); 
+    }
   } 
 
   useEffect(() => {
