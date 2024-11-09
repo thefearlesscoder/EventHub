@@ -20,6 +20,6 @@ router.post(
 );
 router.route("/upcoming-concert").get(allUpcomingConcerts);
 router.post("/register-for-concert/:Id", verifyJwt, registerForConcert);
-router.get("/my-attended-concerts", verifyJwt, myAttendedConcerts);
+router.post("/my-attended-concerts", verifyJwt, myAttendedConcerts);
 router.route("/concert/:Id").get(concertDetails);
 export default router;
