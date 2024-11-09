@@ -13,9 +13,6 @@ const LandingPage = () => {
     <div className="bg-gray-900 text-black min-h-screen">
 
 
-
-
-
       {/* Hero Section */}
       <section
         className="flex items-center justify-center md:pt-30 md:pb-40 p-20 bg-cover bg-center relative w-full"
@@ -99,28 +96,31 @@ const LandingPage = () => {
 
       {/* Featured Concerts Section */}
       <section className="py-12 md:py-16 bg-gray-900">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-semibold text-center mb-8 md:mb-10">Featured Concerts</h2>
-          <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3].map((concert) => (
-              <div key={concert} className="bg-gray-800 p-6 rounded-lg shadow-md">
-                <img src={`https://example.com/concert${concert}.jpg`} alt="Concert" className="rounded-md mb-4 w-full" />
-                <h3 className="text-lg md:text-xl font-semibold">Concert Title {concert}</h3>
-                <p className="text-sm md:text-md mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <div className="mt-4">
-                  <span className="font-bold">Date:</span> Dec 10, 2024
-                </div>
-                <div className="mt-2">
-                  <span className="font-bold">Venue:</span> Madison Square Garden
-                </div>
-                <button className="mt-4 px-4 py-2 bg-blue-600 rounded-full hover:bg-blue-500 transition duration-300">
-                  Buy Tickets
-                </button>
-              </div>
-            ))}
+  <div className="container mx-auto px-4">
+    <h2 className="text-4xl md:text-6xl font-semibold text-center text-bla mb-8 md:mb-10">Featured Concerts</h2>
+    <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {[1, 2, 3].map((concert) => (
+        <div
+          key={concert}
+          className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300"
+        >
+          <h3 className="text-lg md:text-xl font-semibold text-black">Concert Title {concert}</h3>
+          <p className="text-sm md:text-md mt-2 text-gray-400">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <div className="mt-4 text-gray-300">
+            <span className="font-bold">Date:</span> Dec 10, 2024
           </div>
+          <div className="mt-2 text-gray-300">
+            <span className="font-bold">Venue:</span> Madison Square Garden
+          </div>
+          <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition duration-300">
+            Buy Tickets
+          </button>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       <footer className="py-8 bg-gray-800 text-center">
         <p className="text-gray-400 text-sm md:text-md">© 2024 MusicMate. All rights reserved</p>
