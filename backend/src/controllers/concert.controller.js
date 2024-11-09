@@ -140,30 +140,32 @@ const allUpcomingConcerts = asyncHandler(async (req, res) => {
   const currentDate = new Date();
   const upcomingConcerts = await Concert.find({ date: { $gt: currentDate } });
 
-  const concertArray = upcomingConcerts.map((concert) => ({
-    id: concert._id,
-    artist: concert.artist,
-    place: concert.place,
-    description: concert.description,
-    pincode: concert.pincode,
-    date: concert.date,
-    peoples: concert.peoples.length,
-    addedBy: concert.addedBy,
-    ticketPrice: concert.ticketPrice,
-    seatingCapacity: concert.seatingCapacity,
-    genre: concert.genre,
-    media: {
-      images: concert.media.images,
-      videos: concert.media.videos,
-    },
-  }));
-
+  const concertArray = upcomingConcerts
+    .map((concert) => ({
+      id: concert._id,
+      artist: concert.artist,
+      place: concert.place,
+      description: concert.description,
+      pincode: concert.pincode,
+      date: concert.date,
+      peoples: concert.peoples.length,
+      addedBy: concert.addedBy,
+      ticketPrice: concert.ticketPrice,
+      seatingCapacity: concert.seatingCapacity,
+      genre: concert.genre,
+      media: {
+        images: concert.media.images,
+        videos: concert.media.videos,
+      },
+    }))
+    .sort((a, b) => a.date - b.date); 
   return res.status(200).json({
     success: true,
     data: concertArray,
     message: "Upcoming concerts retrieved successfully",
   });
 });
+
 
 const registerForConcert = asyncHandler(async (req, res) => {
   const { Id } = req.params;
@@ -209,18 +211,6 @@ const registerForConcert = asyncHandler(async (req, res) => {
   });
 });
 
-const myAttendedConcerts = asyncHandler(async (req, res) => {
-  const userId = req.user._id;
-
-  console.log("User ID: ", userId);
-
-  const myAttendedConcerts = await Concert.find({ peoples: userId });
-  return res.status(200).json({
-    success: true,
-    concerts: myAttendedConcerts,
-  });
-});
-
 const concertDetails = asyncHandler(async (req, res) => {
   const { Id } = req.params;
   const concert = await Concert.findById(Id);
@@ -239,10 +229,75 @@ const concertDetails = asyncHandler(async (req, res) => {
     );
 });
 
+const myUpcomingConcerts = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+  const user = await User.findById(userId).populate({
+    path: "upcoming_attendconcert",
+    match: { date: { $gt: Date.now() } },
+    select: "artist place date ticketPrice genre",
+  });
+
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        true,
+        user.upcoming_attendconcert,
+        "User's upcoming concerts retrieved successfully"
+      )
+    );
+});
+
+const myAttendedConcerts = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+  console.log("User ID: ", userId);
+
+  const user = await User.findById(userId).populate({
+    path: "upcoming_attendconcert",
+    match: { date: { $lt: Date.now() } }, 
+    select: "artist place date ticketPrice genre",
+  });
+  console.log("xbvkjcj: ", user);
+  
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+
+  const attendedConcerts = user.upcoming_attendconcert
+  .map(concert => ({
+    artist: concert.artist,
+    place: concert.place,
+    date: concert.date,
+    ticketPrice: concert.ticketPrice,
+    genre: concert.genre,
+  }))
+  .sort((a, b) => b.date - a.date); 
+
+
+  return res.status(200).json({
+    success: true,
+    data: attendedConcerts,
+    message: "User's attended concerts retrieved successfully",
+  });
+});
+
 export {
   addConcert,
   registerForConcert,
   allUpcomingConcerts,
   myAttendedConcerts,
   concertDetails,
+  myUpcomingConcerts,
 };
