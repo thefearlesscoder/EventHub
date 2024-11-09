@@ -224,7 +224,7 @@ const registerForConcert = asyncHandler(async (req, res) => {
 
 const concertDetails = asyncHandler(async (req, res) => {
   const { Id } = req.params;
-  const concert = await Concert.findById(Id);
+  const concert = await Concert.findById(Id).populate('addedBy'); 
 
   if (!concert) {
     return res.status(404).json({
@@ -236,7 +236,8 @@ const concertDetails = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, concert, "Data of concert fetched successfully")
+      new ApiResponse(200, concert, 
+        "Data of concert fetched successfully")
     );
 });
 
@@ -351,6 +352,7 @@ const filterConcerts = asyncHandler(async (req, res) => {
     });
   }
 });
+
 
 
 export {
