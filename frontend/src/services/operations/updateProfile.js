@@ -1,7 +1,7 @@
 
 import { apiconnector } from "../apiconnector";
 import { updateApi } from "../apis";
-import { setLoading, setUser } from "../../slices/authSlice";
+import { setLoading, setUser, setToken } from "../../slices/authSlice";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -47,8 +47,9 @@ export function updateprofile(
       } else {
         toast.success(response?.message)
         setUser(response?.data);
+        localStorage.removeItem('user')
         localStorage.setItem('user', JSON.stringify(response?.data))
-        navigate("/aboutus")
+        // navigate("/aboutus")
       }
     } catch (error) {
       console.log("profile API ERROR............", error)
@@ -75,7 +76,16 @@ export function updateImage(formData, token, navigate) {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("UPDATEIMAGE API RESPONSE:", response);
+      console.log("UPDATEIMAGE API RESPONSE:", response.data.user);
+      // dispatch(setToken(response?.data?.user?.AccessToken));
+        dispatch(setUser(response?.data?.user));
+         localStorage.removeItem("user")
+        localStorage.setItem("user", JSON.stringify(response?.data?.user));
+      //   localStorage.setItem(
+      //     "token",
+      //     JSON.stringify(response?.data?.AccessToken)
+      //   );
+        navigate('/aboutus')
     } catch (error) {
       console.error("Error in update-image request:", error);
     }

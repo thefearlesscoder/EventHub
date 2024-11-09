@@ -9,76 +9,7 @@ import { updateImage } from "../services/operations/updateProfile";
 
 // how to remove red line
 const Updatedetail = () => {
-  // const user = useSelector( (state) => state.auth.user ) ;
-  // const dummydata = JSON.parse(user) ;
-  // // console.log(dummydata)
-
-  // const { loading } = useSelector( (state) => state.auth )
-
-  // const navigate = useNavigate() ;
-  // const dispatch = useDispatch() ;
-
-  // const [ formData , setFormData ] = useState({
-  //     firstName: dummydata.firstName ,
-  //     lastName: dummydata.lastName ,
-  //     email: dummydata.email ,
-  //     role: dummydata.role ,
-  //     username: dummydata.username ,
-  //     image : dummydata.image  ? dummydata.image : "",
-  //     phone : dummydata.phone   ,
-  //     address : `${ dummydata.address == undefined ? "" : dummydata.address }`
-  // })
-
-  // const HandleOnChange = (e) => {
-  //     setFormData((prevData) => ({
-  //         ...prevData,
-  //         [e.target.name]: e.target.value,
-  //       }))
-  //     //   console.log(formData)
-  // }
-  // const handleDrop = (e) => {
-  //     e.preventDefault() ;
-  //     const droppedFile = e.dataTransfer.files[0] ;
-  //     setFormData({ ...formData, image: droppedFile });
-
-  //     console.log(formData.image)
-
-  // };
-
-  // const handleFileChange = (e) => {
-  //     e.preventDefault() ;
-  //     const selectedFile = e.target.files[0];
-  //     setFormData({ ...formData, image: selectedFile });
-  //     console.log(formData.image)
-  //     console.log(formData);
-  //   };
-
-  //   const { token } = useSelector( (state) => state.auth ) ;
-
-  // const HandleOnSumbit = (e) => {
-  //     e.preventDefault();
-  //     console.log("Submitting form");
-  //     const file = e.target.files[0];//file at 0 index
-  // const reader = new FileReader();
-  // reader.readAsDataURL(file);
-  // reader.onload = () => {
-  //   setResumePreview(reader.result);
-  //   setResume(file);
-  // };
-  //     // Use a new FormData object for submission
-  //     let formSubmitData = new FormData();
-  //     formSubmitData.append("image", formData.image);  // Append the image file
-  //     formSubmitData.append("token", JSON.parse(token));
-  //     console.log( "image ->>>>> " , formData.image )
-  //     // console.log(formSubmitData.image)
-
-  //     // Dispatch the update image action first if needed, then update profile
-  //     dispatch(updateImage(formSubmitData.image, token , navigate));
-  //     dispatch(updateprofile(formData.firstName, formData.lastName, formData.username,
-  //         formData.address, formData.phone, navigate, JSON.parse(token)));
-  //   };
-
-  // console.log(formData)
+  
   const user = useSelector((state) => state.auth.user);
   const dummydata = JSON.parse(user);
 

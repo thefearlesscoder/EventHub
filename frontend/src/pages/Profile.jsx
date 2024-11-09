@@ -17,7 +17,8 @@ const dummydata = {
 
 
 const Profile = () => {
-    const user = useSelector( (state) => state.auth.user ) ;    
+    const user = useSelector( (state) => state.auth.user ) ;  
+    const { loading } = useSelector ( (state) => state.auth) ;  
     const dummydata = JSON.parse(user) ;
     console.log(dummydata)
 
@@ -26,6 +27,7 @@ const Profile = () => {
     const navigate = useNavigate() ;
 
   return (
+    
     <div className=' min-h-screen text-black p-10'>
         <div>
             <div className=' font-bold text-2xl md:ml-[10%]'>

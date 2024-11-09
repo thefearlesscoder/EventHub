@@ -1,7 +1,7 @@
 import React from "react";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
-// npm install @heroicons/react@v1
+// npm install @heroicons/react@v1 // check it
 
 function PaymentSuccessPage() {
   return (
