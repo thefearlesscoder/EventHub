@@ -22,6 +22,7 @@ import CreateConcert from './pages/CreateConcert';
 import Concert from './pages/Concert';
 import Dashboard from './pages/Dashboard/Dashboard';
 import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
+import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
 
 
 
@@ -51,6 +52,7 @@ function App() {
         <Route path="/create-concert" element={<CreateConcert />}></Route>
         <Route path="/concert" element={<Concert />}></Route>
         <Route path="/test1" element={<RequestPeople />}></Route>
+        <Route path="/test2" element={<UpcomingConcerts />}></Route>
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>

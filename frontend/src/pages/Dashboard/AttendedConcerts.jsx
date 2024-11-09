@@ -22,9 +22,17 @@ const AttendedConcerts = () => {
 
     setAttendedConcerts(response.data.data);
   };
+    
+// const calculateTotalExpense = (events) => {
+//   return events.reduce(
+//     (total, event) => total + event.ticketPrice,
+//     0
+//   );
+// };
 
   useEffect(() => {
-    fetchAttendedConcerts();
+      fetchAttendedConcerts();
+    //   calculateTotalExpense(attendedConcerts);
   }, []);
 
 useEffect(() => {
@@ -50,7 +58,7 @@ useEffect(() => {
 
   return (
     <div>
-      <div className="w-full p-10 min-h-screen relative">
+      <div className="w-full p-10 h-fit relative">
         <h2 className="text-3xl text-center font-bold mb-6">Attended Concerts</h2>
 
         {/* Slider with blurred edges */}
