@@ -18,9 +18,9 @@ const AttendedConcerts = () => {
         },
       }
     );
-    console.log("attende concerts:", response.data.concerts);
+    console.log("attende concerts:", response.data.data);
 
-    setAttendedConcerts(response.data.concerts);
+    setAttendedConcerts(response.data.data);
   };
 
   useEffect(() => {
@@ -51,7 +51,7 @@ useEffect(() => {
   return (
     <div>
       <div className="w-full p-10 min-h-screen relative">
-        <h2 className="text-3xl font-bold mb-6">Attended Concerts</h2>
+        <h2 className="text-3xl text-center font-bold mb-6">Attended Concerts</h2>
 
         {/* Slider with blurred edges */}
         <div className="relative">

@@ -5,10 +5,10 @@ import MyFriends from "./MyFriends";
 import AttendedConcerts from "./AttendedConcerts";
 
 const Dashboard = () => {
-    const [upcomingConcerts, setUpcomingConcerts] = useState([]);
-    const [incomingRequests, setIncomingRequests] = useState([]);
-    let { token } = useSelector((state) => state.auth)
-    token = JSON.parse(token)
+  const [upcomingConcerts, setUpcomingConcerts] = useState([]);
+  const [incomingRequests, setIncomingRequests] = useState([]);
+  let { token } = useSelector((state) => state.auth);
+  token = JSON.parse(token);
 
   const [error, setError] = useState(null);
   const sliderRef = useRef(null);
@@ -16,38 +16,37 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchConcerts = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/v1/concert/upcoming-concert"
-        );
+        const response = await axios.post(
+          "http://localhost:5000/api/v1/concert/my-upcoming-concerts",
+          { token }
+          );
         setUpcomingConcerts(response.data.data);
       } catch (err) {
         console.error("Error fetching concerts:", err);
         setError("Could not fetch concerts");
       }
     };
-      fetchConcerts();
-      
-      const fetchIncomingRequests = async () => { 
-          try {
-              console.log("sdhvhjckdsjcbhjdvs");
-              
-              const response = await axios.post(
-                "http://localhost:5000/api/v1/friends/users-requesting-me",
-                {token},
-                {
-                  headers: {
-                    Authorization: token, // Sending token in the header
-                  },
-                }
-              );
-              console.log(response.data.data.friends);
-              setIncomingRequests(response.data.data.friends);
-            } catch (err) {
+    fetchConcerts();
+
+    const fetchIncomingRequests = async () => {
+      try {
+        console.log("sdhvhjckdsjcbhjdvs");
+
+        const response = await axios.post(
+          "http://localhost:5000/api/v1/friends/users-requesting-me",
+          { token },
+          {
+            headers: {
+              Authorization: token, // Sending token in the header
+            },
           }
-      }
-      fetchIncomingRequests();
+        );
+        console.log(response.data.data.friends);
+        setIncomingRequests(response.data.data.friends);
+      } catch (err) {}
+    };
+    fetchIncomingRequests();
   }, []);
-    
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -64,8 +63,8 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="w-full p-10 min-h-screen relative">
-        <h2 className="text-3xl font-bold mb-6">Upcoming Concerts</h2>
+      <div className="w-full p-10 h-fit relative">
+        <h2 className="text-3xl text-center font-bold mb-6">Upcoming Concerts</h2>
 
         {/* Slider with blurred edges */}
         <div className="relative">
@@ -108,11 +107,7 @@ const Dashboard = () => {
                     </span>
                   </p>
                 </div>
-                <div className="flex justify-end p-4">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                    Buy Tickets
-                  </button>
-                </div>
+                
               </div>
             ))}
           </div>
@@ -155,7 +150,9 @@ const Dashboard = () => {
       {/* <MyFriends/> */}
 
       {/* Attended Concerts */}
-      <AttendedConcerts/>
+      <AttendedConcerts />
+
+      <MyFriends/>
     </div>
   );
 };

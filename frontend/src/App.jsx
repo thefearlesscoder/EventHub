@@ -21,7 +21,8 @@ import { ResetPasswordPage } from './pages/ResetPassword';
 import CreateConcert from './pages/CreateConcert';
 import Concert from './pages/Concert';
 import Dashboard from './pages/Dashboard/Dashboard';
-import PaymentSuccessPage from './pages/PaymentSuccessPage';
+import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
+
 
 
 function App() {
@@ -49,7 +50,7 @@ function App() {
         ></Route>
         <Route path="/create-concert" element={<CreateConcert />}></Route>
         <Route path="/concert" element={<Concert />}></Route>
-        <Route path="/test1" element={<PaymentSuccessPage />}></Route>
+        <Route path="/test1" element={<RequestPeople />}></Route>
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>
