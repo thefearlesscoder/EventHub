@@ -4,7 +4,8 @@ import {
   registerForConcert,
   allUpcomingConcerts,
   myAttendedConcerts,
-  concertDetails
+  concertDetails,
+  myUpcomingConcerts
 } from "../controllers/concert.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
 import { verifyJwt } from "../middleware/auth.middleware.js";
@@ -18,8 +19,9 @@ router.post(
   upload.single("media"),
   addConcert
 );
-router.route("/upcoming-concert").get(allUpcomingConcerts);
+router.route("/upcoming-concert").post(allUpcomingConcerts);
 router.post("/register-for-concert/:Id", verifyJwt, registerForConcert);
-router.get("/my-attended-concerts", verifyJwt, myAttendedConcerts);
-router.route("/concert/:Id").get(concertDetails);
+router.post("/my-attended-concerts", verifyJwt, myAttendedConcerts);
+router.route("/concert/:Id").post(concertDetails);
+router.route("/my-upcoming-concerts").post(verifyJwt, myUpcomingConcerts);
 export default router;
