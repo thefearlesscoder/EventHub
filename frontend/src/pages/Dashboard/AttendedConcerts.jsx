@@ -1,43 +1,57 @@
-import React, { useEffect, useRef, useState } from 'react'
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
-const UpcomingConcerts = () => {
-  const [upcomingConcerts, setUpcomingConcerts] = useState([]);
-    const [error, setError] = useState(null);
-    const sliderRef = useRef(null);
+const AttendedConcerts = () => {
+  const [attendedConcerts, setAttendedConcerts] = useState([]);
+  const sliderRef = useRef(null);
+  let { token } = useSelector((state) => state.auth);
+  token = JSON.parse(token);
+
+  const fetchAttendedConcerts = async () => {
+    const response = await axios.post(
+      "http://localhost:5000/api/v1/concert/my-attended-concerts",
+      { token },
+      {
+        headers: {
+          Authorization: token, // Sending token in the header
+        },
+      }
+    );
+    console.log("attende concerts:", response.data.concerts);
+
+    setAttendedConcerts(response.data.concerts);
+  };
 
   useEffect(() => {
-    const fetchConcerts = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/v1/concert/upcoming-concert"
-        );
-        setUpcomingConcerts(response.data.data);
-      } catch (err) {
-        console.error("Error fetching concerts:", err);
-        setError("Could not fetch concerts");
-      }
-    };
-    fetchConcerts();
+    fetchAttendedConcerts();
   }, []);
 
-    useEffect(() => {
-      const interval = setInterval(() => {
-        if (sliderRef.current) {
-          sliderRef.current.scrollLeft -= sliderRef.current.offsetWidth;
-          if (sliderRef.current.scrollLeft <= 0) {
-            sliderRef.current.scrollLeft = sliderRef.current.scrollWidth;
-          }
-        }
-      }, 3000); // Adjust the interval to control the speed
+useEffect(() => {
+  const interval = setInterval(() => {
+    if (sliderRef.current) {
+      // Check if we've reached the end
+      const maxScrollLeft =
+        sliderRef.current.scrollWidth - sliderRef.current.clientWidth;
 
-      return () => clearInterval(interval); // Clean up interval on component unmount
-    }, [upcomingConcerts]);
-  
-  
+      if (sliderRef.current.scrollLeft >= maxScrollLeft) {
+        // Reset to the beginning for a seamless loop
+        sliderRef.current.scrollLeft = 0;
+      } else {
+        // Increment scroll to the right
+        sliderRef.current.scrollLeft += 2; // Adjust this value for smoothness and speed
+      }
+    }
+  }, 20); // Short interval for smoother scroll effect
+
+  return () => clearInterval(interval); // Clean up interval on component unmount
+}, [attendedConcerts]);
+
+
   return (
     <div>
       <div className="w-full p-10 min-h-screen relative">
-        <h2 className="text-3xl font-bold mb-6">Upcoming Concerts</h2>
+        <h2 className="text-3xl font-bold mb-6">Attended Concerts</h2>
 
         {/* Slider with blurred edges */}
         <div className="relative">
@@ -50,7 +64,7 @@ const UpcomingConcerts = () => {
             className="flex overflow-hidden space-x-4 no-scrollbar pb-5"
             style={{ scrollBehavior: "smooth" }}
           >
-            {upcomingConcerts.map((concert) => (
+            {attendedConcerts.map((concert) => (
               <div
                 key={concert.id}
                 className="min-w-[300px] bg-white shadow-lg rounded-lg overflow-hidden p-5 transition-transform transform hover:scale-105"
@@ -80,20 +94,13 @@ const UpcomingConcerts = () => {
                     </span>
                   </p>
                 </div>
-                <div className="flex justify-end p-4">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                    Buy Tickets
-                  </button>
-                </div>
               </div>
             ))}
           </div>
         </div>
-
-        {error && <div className="text-red-500 text-lg mt-4">{error}</div>}
       </div>
     </div>
   );
-}
+};
 
-export default UpcomingConcerts
+export default AttendedConcerts;
