@@ -11,6 +11,7 @@ import {
   resetPassword,
   fbSignIn,
   changeImage,
+  contactUs,
   
   // updateUsercoverImage,
 } from "../controllers/user.controller.js";
@@ -34,6 +35,6 @@ router.route("/change-password").post(verifyJwt, changePassword);
 router.route("/forgot-password").post(forgotPassword);
 router.route("/reset-password/:token").post(resetPassword);
 router.route("/googlesignin").post(verifyToken, fbSignIn);
-
+router.route("/contact-us").post(verifyJwt, contactUs)
 
 export default router;

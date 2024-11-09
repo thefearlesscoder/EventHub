@@ -582,6 +582,59 @@ const changeImage = asyncHandler(async (req, res) => {
   }
 });
 
+const contactUs = asyncHandler(async (req, res) => {
+  const { name, email, subject, message } = req.body;
+  console.log("inside contact us");
+  
+  if (!name || !email || !subject || !message) {
+    return res.status(400).json({
+      success: false,
+      message: "All fields (name, email, subject, message) are required.",
+    });
+  }
+
+  try {
+    const supportEmailContent = `
+      <h2>Contact Us Message</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email} </p>
+      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Message:</strong> ${message}</p>
+    `;
+
+    
+    const userEmailContent = `
+      <h2>Thank you for contacting us, ${name}!</h2>
+      <p>We have received your message and will get back to you shortly.</p>
+      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Your Message:</strong> ${message}</p>
+    `;
+
+    
+    await sendEmail({
+      email: process.env.SUPPORT_EMAIL, 
+      subject: `New Contact Us Message: ${subject}`,
+      htmlContent: supportEmailContent,
+    });
+
+    await sendEmail({
+      email,
+      subject: "We received your message",
+      htmlContent: userEmailContent,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Your message has been sent successfully.",
+    });
+  } catch (error) {
+    console.error("Error in contactUs:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to send your message. Please try again later.",
+    });
+  }
+});
 
 
 
@@ -599,5 +652,5 @@ export {
   changePassword,
   fbSignIn,
   changeImage,
-  
+  contactUs
 };
