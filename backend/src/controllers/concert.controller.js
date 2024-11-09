@@ -304,6 +304,55 @@ const myAttendedConcerts = asyncHandler(async (req, res) => {
   });
 });
 
+const filterConcerts = asyncHandler(async (req, res) => {
+  try {
+    const { category } = req.body;
+    const currentDate = new Date();
+    let filter = { date: { $gt: currentDate } };
+
+    if (category && category !== "all") {
+      filter.genre = category;
+    }
+
+    const filteredConcerts = await Concert.find(filter);
+
+    const concertArray = filteredConcerts
+      .map(({ 
+        _id, artist, place, description, pincode, date, peoples, 
+        addedBy, ticketPrice, seatingCapacity, genre, media 
+      }) => ({
+        id: _id,
+        artist,
+        place,
+        description,
+        pincode,
+        date,
+        peoples: peoples.length,
+        addedBy,
+        ticketPrice,
+        seatingCapacity,
+        genre,
+        media: {
+          images: media.images,
+          videos: media.videos,
+        },
+      }))
+      .sort((a, b) => a.date - b.date);
+
+    return res.status(200).json({
+      success: true,
+      data: concertArray,
+      message: "Filtered concerts retrieved successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Error retrieving filtered concerts",
+    });
+  }
+});
+
+
 export {
   addConcert,
   registerForConcert,
@@ -311,4 +360,5 @@ export {
   myAttendedConcerts,
   concertDetails,
   myUpcomingConcerts,
+  filterConcerts
 };
