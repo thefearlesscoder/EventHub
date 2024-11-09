@@ -18,12 +18,31 @@ const getAllMyFriends = asyncHandler(async (req, res) => {
   const friends = await Friend.find({
     $or: [{ sender: userId }, { receiver: userId }],
     status: "accepted",
-  }).populate("sender receiver", "-password -refreshToken");
+  }).populate("sender receiver", "firstName lastName image"); 
 
+  console.log("friends:", friends);
+
+  const friendsData = friends.map((friend) => {
+    const isSender = friend.sender._id.equals(userId);  
+    const friendUser = isSender ? friend.receiver : friend.sender;  
+
+    return {
+      friendId: friendUser._id,
+      name: `${friendUser.firstName} ${friendUser.lastName}`,
+      image: friendUser.image?.url,
+      status: friend.status,
+    };
+  });
+
+  console.log("friends data:", friendsData);
+  
   return res
     .status(200)
-    .json(new ApiResponse(200, { friends }, "Friends fetched successfully"));
+    .json(
+      new ApiResponse(200, friendsData, "Friends fetched successfully")
+    );
 });
+
 
 const requestForFriend = asyncHandler(async (req, res) => {
   const userId = req.user._id;
@@ -200,28 +219,28 @@ const responseForrequest = asyncHandler(async (req, res) => {
 });
 
 const usersRequestingMe = asyncHandler(async (req, res) => {
-  console.log("xyz");
-  
   const userId = req.user._id;
+
   const friends = await Friend.find({
     receiver: userId,
     status: "pending",
-  }).populate("sender receiver", "-password -refreshToken");
+  }).populate({
+    path: "sender",
+    select: "firstName lastName image",
+  });
 
-  
-  const friendsArray = friends.map((friend) => ({
-    senderId: friend.sender._id,  
+  const friendsData = friends.map((friend) => ({
+    friendId: friend._id, 
+    senderId: friend.sender._id, 
+    name: `${friend.sender.firstName} ${friend.sender.lastName}`,
+    image: `${friend.sender.image?.url}` || `${friend.sender.firstName[0]}${friend.sender.lastName[0]}`, 
     status: friend.status,
-    createdAt: friend.createdAt,
-    updatedAt: friend.updatedAt,
   }));
 
   return res
     .status(200)
     .json(
-      new ApiResponse(200, { friends: friendsArray }, "Users requesting you")
+      new ApiResponse(200, { friends: friendsData }, "Users requesting you")
     );
 });
-
-
 export { getAllMyFriends, requestForFriend, responseForrequest,usersRequestingMe };

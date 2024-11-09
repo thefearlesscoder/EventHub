@@ -22,6 +22,8 @@ import CreateConcert from './pages/CreateConcert';
 import Concert from './pages/Concert';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Slider from './components/homepage/Slider';
+import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
+
 
 
 function App() {
@@ -38,15 +40,14 @@ function App() {
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<Feedback />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path='/profile' element={<Profile/>}></Route>
-        <Route path='/update-profile' element={<Updatedetail/>}></Route>
+        <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/update-profile" element={<Updatedetail />}></Route>
         <Route path="/testpage" element={<TestPage />} />
         <Route path="/testpage2" element={<TestPage2 />} />
         <Route path='/forgot-password' element={<ForgetPassword/>}></Route>
         <Route path='/reset-password/:token' element={<ResetPasswordPage/>}></Route>
         <Route path='/create-concert' element={<CreateConcert/>}></Route>
-        <Route path='/concert/:id' element={<Concert/>}></Route>
-        <Route path='/s' element={<Slider/>}></Route>
+        <Route path='/concert' element={<Concert/>}></Route>
         
       </Routes>
       {/* <ToastContainer /> */}

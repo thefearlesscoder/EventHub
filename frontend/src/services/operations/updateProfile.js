@@ -1,7 +1,7 @@
 
 import { apiconnector } from "../apiconnector";
 import { updateApi } from "../apis";
-import { setLoading, setUser } from "../../slices/authSlice";
+import { setLoading, setUser, setToken } from "../../slices/authSlice";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -47,8 +47,9 @@ export function updateprofile(
       } else {
         toast.success(response?.message)
         setUser(response?.data);
+        localStorage.removeItem('user')
         localStorage.setItem('user', JSON.stringify(response?.data))
-        navigate("/aboutus")
+        // navigate("/aboutus")
       }
     } catch (error) {
       console.log("profile API ERROR............", error)
@@ -65,29 +66,30 @@ export function updateImage(formData, token, navigate) {
     dispatch(setLoading(true));
 
     try {
-      const response = await axios.post(UPDATE_IMAGE, formData, {
+      console.log("bmncbskd");
+      console.log("FormData content:", [...formData.entries()]);
+
+      const response = await axios.post("http://localhost:5000/api/v1/users/update-image", formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`, // Add token to Authorization header
+          Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log("UPDATEIMAGE API RESPONSE............", response);
-
-      if (!response?.data?.success) {
-        toast.error(response?.data?.message || "Failed to update image.");
-        throw new Error(response?.data?.message);
-      } else {
-        toast.success(response?.data?.message || "Image updated successfully.");
-        setUser(response?.data?.user);
+      console.log("UPDATEIMAGE API RESPONSE:", response.data.user);
+      // dispatch(setToken(response?.data?.user?.AccessToken));
+        dispatch(setUser(response?.data?.user));
+         localStorage.removeItem("user")
         localStorage.setItem("user", JSON.stringify(response?.data?.user));
-        navigate("/aboutus");
-      }
+      //   localStorage.setItem(
+      //     "token",
+      //     JSON.stringify(response?.data?.AccessToken)
+      //   );
+        navigate('/aboutus')
     } catch (error) {
-      console.log("UPDATEIMAGE API ERROR............", error);
-      navigate("/update-profile");
-    } finally {
+      console.error("Error in update-image request:", error);
+    }
+     finally {
       dispatch(setLoading(false));
     }
   };

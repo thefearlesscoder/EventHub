@@ -5,13 +5,15 @@ import { User } from "../Models/User.model.js";
 
 export const verifyJwt = asyncHandler(async (req, res, next) => {
   try {
-    console.log(req.body);
+    console.log("ASFCADZVCXV:",req.body);
     
     const token =
       req.cookies?.AccessToken ||
       req.header("Authorization")?.replace("Bearer ", "") || req.body.token ;
 
     if (!token) {
+      console.log("dsjcvhjdsch");
+      
       return res
     .status(400)
     .json({
@@ -21,7 +23,7 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
     );
     }
 
-    console.log ( "token ->>>" , token )
+    // console.log ( "token ->>>" , token )
    
     const decodedToken =  jwt.verify(token, 
           process.env.ACCESS_TOKEN_SECRET);
@@ -29,7 +31,7 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
     const user =await User.findById(decodedToken?._id).select(
       "-password -refreshToken"
     );
-    console.log("djkbdjk : ",user);
+    // console.log("djkbdjk : ",user);
     
     if (!user) {
       // discuss about frontend
@@ -43,7 +45,7 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
     }
 
     req.user = user;
-    // console.log("user : ", user);
+    console.log("user : ", user);
     
     next();
   } catch (error) {
