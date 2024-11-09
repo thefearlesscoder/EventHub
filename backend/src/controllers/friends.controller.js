@@ -221,7 +221,6 @@ const responseForrequest = asyncHandler(async (req, res) => {
 const usersRequestingMe = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
-  
   const friends = await Friend.find({
     receiver: userId,
     status: "pending",
@@ -230,11 +229,11 @@ const usersRequestingMe = asyncHandler(async (req, res) => {
     select: "firstName lastName image",
   });
 
- 
   const friendsData = friends.map((friend) => ({
-    senderId: friend.sender._id,
+    friendId: friend._id, 
+    senderId: friend.sender._id, 
     name: `${friend.sender.firstName} ${friend.sender.lastName}`,
-    image: `${friend.sender.image.url}`,
+    image: `${friend.sender.image?.url}` || `${friend.sender.firstName[0]}${friend.sender.lastName[0]}`, 
     status: friend.status,
   }));
 
@@ -244,5 +243,4 @@ const usersRequestingMe = asyncHandler(async (req, res) => {
       new ApiResponse(200, { friends: friendsData }, "Users requesting you")
     );
 });
-
 export { getAllMyFriends, requestForFriend, responseForrequest,usersRequestingMe };

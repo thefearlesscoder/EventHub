@@ -81,6 +81,14 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
+// changed here
+
+userSchema.virtual("displayImage").get(function () {
+  if (this.image && this.image.url) {
+    return this.image.url;
+  }
+  return `${this.firstName[0] || ''}${this.lastName[0] || ''}`.toUpperCase();
+});
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
