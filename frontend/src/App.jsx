@@ -21,6 +21,7 @@ import { ResetPasswordPage } from './pages/ResetPassword';
 import CreateConcert from './pages/CreateConcert';
 import Concert from './pages/Concert';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Slider from './components/homepage/Slider';
 import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
 import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
 
