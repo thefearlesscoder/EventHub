@@ -65,29 +65,21 @@ export function updateImage(formData, token, navigate) {
     dispatch(setLoading(true));
 
     try {
-      const response = await axios.post(UPDATE_IMAGE, formData, {
+      console.log("bmncbskd");
+      console.log("FormData content:", [...formData.entries()]);
+
+      const response = await axios.post("http://localhost:5000/api/v1/users/update-image", formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`, // Add token to Authorization header
+          Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log("UPDATEIMAGE API RESPONSE............", response);
-
-      if (!response?.data?.success) {
-        toast.error(response?.data?.message || "Failed to update image.");
-        throw new Error(response?.data?.message);
-      } else {
-        toast.success(response?.data?.message || "Image updated successfully.");
-        setUser(response?.data?.user);
-        localStorage.setItem("user", JSON.stringify(response?.data?.user));
-        navigate("/aboutus");
-      }
+      console.log("UPDATEIMAGE API RESPONSE:", response);
     } catch (error) {
-      console.log("UPDATEIMAGE API ERROR............", error);
-      navigate("/update-profile");
-    } finally {
+      console.error("Error in update-image request:", error);
+    }
+     finally {
       dispatch(setLoading(false));
     }
   };

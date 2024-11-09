@@ -19,6 +19,8 @@ router.post(
   upload.single("media"),
   addConcert
 );
+
+
 router.route("/upcoming-concert").post(allUpcomingConcerts);
 router.post("/register-for-concert/:Id", verifyJwt, registerForConcert);
 router.post("/my-attended-concerts", verifyJwt, myAttendedConcerts);

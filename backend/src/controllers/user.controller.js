@@ -377,7 +377,8 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 const updatedAccountDetails = asyncHandler(async (req, res) => {
   const { firstName, lastName, username, phone, address } = req.body;
-
+  console.log("jhvjhsacsaacdscds");
+  
   if (!firstName && !lastName && !username && !phone && !address) {
     return res.status(400).json({
       success: false,
@@ -511,9 +512,10 @@ const fbSignIn = asyncHandler(async (req, res) => {
     });
 });
 
+
 const changeImage = asyncHandler(async (req, res) => {
   try {
-    // console.log("Updating image...");
+    console.log("Updating image...");
     // console.log("Checking if files are uploaded");
     // console.log(req.files);
 
