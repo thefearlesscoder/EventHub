@@ -200,6 +200,8 @@ const responseForrequest = asyncHandler(async (req, res) => {
 });
 
 const usersRequestingMe = asyncHandler(async (req, res) => {
+  console.log("xyz");
+  
   const userId = req.user._id;
   const friends = await Friend.find({
     receiver: userId,

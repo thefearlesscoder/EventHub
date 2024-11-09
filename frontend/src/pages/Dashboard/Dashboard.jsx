@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
     const [upcomingConcerts, setUpcomingConcerts] = useState([]);
     const [incomingRequests, setIncomingRequests] = useState([]);
+    let { token } = useSelector((state) => state.auth)
+    token = JSON.parse(token)
 
   const [error, setError] = useState(null);
   const sliderRef = useRef(null);
@@ -24,14 +27,24 @@ const Dashboard = () => {
       
       const fetchIncomingRequests = async () => { 
           try {
-              const response = await axios.get(
-                "http://localhost:5000/api/v1/friends/users-requesting-me"
+              console.log("sdhvhjckdsjcbhjdvs");
+              
+              const response = await axios.post(
+                "http://localhost:5000/api/v1/friends/users-requesting-me",
+                {token},
+                {
+                  headers: {
+                    Authorization: token, // Sending token in the header
+                  },
+                }
               );
+              console.log(response.data.data.friends);
               
             //   setIncomingRequests(response.data.data);
             } catch (err) {
           }
       }
+      fetchIncomingRequests();
   }, []);
     
 

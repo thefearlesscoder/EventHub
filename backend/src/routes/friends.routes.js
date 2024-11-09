@@ -11,10 +11,11 @@ import {
 } from "../controllers/friends.controller.js";
 
 router.route("/request-friend/:friendId").post(verifyJwt, requestForFriend);
-router.route("/my-friends").get(verifyJwt, getAllMyFriends);
+router.route("/my-friends").post(verifyJwt, getAllMyFriends);
 router
   .route("/response-request/:requestId")
   .post(verifyJwt, responseForrequest);
   
-router.route("/users-requesting-me").get(verifyJwt, usersRequestingMe);
+
+router.route("/users-requesting-me").post(verifyJwt, usersRequestingMe);
 export default router;
