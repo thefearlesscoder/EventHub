@@ -21,6 +21,7 @@ import { ResetPasswordPage } from './pages/ResetPassword';
 import CreateConcert from './pages/CreateConcert';
 import Concert from './pages/Concert';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Slider from './components/homepage/Slider';
 
 
 function App() {
@@ -44,7 +45,8 @@ function App() {
         <Route path='/forgot-password' element={<ForgetPassword/>}></Route>
         <Route path='/reset-password/:token' element={<ResetPasswordPage/>}></Route>
         <Route path='/create-concert' element={<CreateConcert/>}></Route>
-        <Route path='/concert' element={<Concert/>}></Route>
+        <Route path='/concert/:id' element={<Concert/>}></Route>
+        <Route path='/s' element={<Slider/>}></Route>
         
       </Routes>
       {/* <ToastContainer /> */}
