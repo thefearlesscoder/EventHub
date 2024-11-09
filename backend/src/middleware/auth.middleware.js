@@ -5,6 +5,8 @@ import { User } from "../Models/User.model.js";
 
 export const verifyJwt = asyncHandler(async (req, res, next) => {
   try {
+    console.log(req.body);
+    
     const token =
       req.cookies?.AccessToken ||
       req.header("Authorization")?.replace("Bearer ", "") || req.body.token ;
@@ -18,8 +20,11 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
       }
     );
     }
+
+    console.log ( "token ->>>" , token )
    
-    const decodedToken =  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const decodedToken =  jwt.verify(token, 
+          process.env.ACCESS_TOKEN_SECRET);
   
     const user =await User.findById(decodedToken?._id).select(
       "-password -refreshToken"

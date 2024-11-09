@@ -76,3 +76,57 @@
     @apply bg-background text-foreground;
   }
 } */
+
+
+/* Custom styles for additional tweaks */
+
+.sidebar-logo {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.nav-item:hover {
+  background-color: #1e293b; /* Darker color for hover */
+}
+
+.nav-icon {
+  margin-right: 8px;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table tr:hover {
+  background-color: #f9fafb;
+}
+
+.toggle-btn {
+  cursor: pointer;
+  padding: 8px;
+  background-color: #3b82f6; /* Blue color */
+  border-radius: 50%;
+  color: white;
+  font-size: 1.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background-color: #2563eb; /* Darker blue on hover */
+}
+
+.style{
+  background-color: #4e73c5;
+}
