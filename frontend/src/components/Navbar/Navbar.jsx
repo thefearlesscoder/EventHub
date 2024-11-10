@@ -40,20 +40,18 @@ function Navbar() {
           </div>
 
           <div className="flex items-center space-x-4">
-            
           {
-              // bg-gray problem
-              user && user.role == 'admin' && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
-                <a
-                  href="/create-concert"
-                  className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
-                  transition-all duration-200"
-                >
-                  Create Concert
-                </a>
-              </div>
-            }
-            
+
+            user && user.role == "admin" && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
+              <a
+                href="/create-concert"
+                className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
+                transition-all duration-200"
+              >
+                Create Concert
+              </a>
+            </div>
+            }        
             {
 
               user && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
@@ -144,14 +142,34 @@ function Navbar() {
             </Link>
           }
           {
+
+            user && user.role == "admin" && <Link
+              to="/create-concert"
+              onClick={toggleMenu}
+              className=" text-xl mb-4 hover:scale-105 transition-all duration-200 "
+            >
+              Create Concert 
+            </Link>
+            }
+          {
             user && 
             <Link
-              to="/find-concerts"
+              to="/profile"
               onClick={toggleMenu}
               className=" text-xl mb-4 hover:scale-105 transition-all duration-200"
             >
-              Find Concerts
+              Profile
             </Link>
+          }
+          {
+
+          user && <Link
+            to="/"
+            onClick={handleclick}
+            className=" text-xl mb-4 hover:scale-105 transition-all duration-200 "
+          >
+            logout
+          </Link>
           }
           {/* {
 

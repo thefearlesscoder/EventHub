@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { json } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 function ContactUsForm() {
   const { token } = useSelector((state) => state.auth);
@@ -50,13 +51,14 @@ function ContactUsForm() {
       );
 
       if (response.data.success) {
-        setResponseMessage("Your message has been sent successfully.");
+        toast.success("Your message has been sent successfully.");
       } else {
-        setResponseMessage("Failed to send your message. Please try again.");
+        toast.error("Failed to send your message. Please try again.");
       }
     } catch (error) {
       console.error("Error sending message:", error);
-      setResponseMessage("Error sending message. Please try again.");
+      // setResponseMessage("Error sending message. Please try again.");
+      toast.error("You need to login before sending mail")
     } finally {
       setLoading(false);
     }

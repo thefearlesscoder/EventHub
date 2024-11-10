@@ -25,11 +25,6 @@ export function updateprofile(
     dispatch(setLoading(true))
     try {
 
-      // console.log(firstName )
-      // console.log(lastName )
-      // console.log(username )
-      // console.log(address )
-      // console.log(phone )
       const response = await apiconnector("POST", UPDATEPROFILE_API, {
         firstName,
         lastName,
@@ -49,7 +44,8 @@ export function updateprofile(
         setUser(response?.data);
         localStorage.removeItem('user')
         localStorage.setItem('user', JSON.stringify(response?.data))
-        // navigate("/aboutus")
+        // navigate("/ab")
+        navigate('/dashboard')
       }
     } catch (error) {
       console.log("profile API ERROR............", error)
@@ -79,18 +75,12 @@ export function updateImage(formData, token, navigate) {
       console.log("UPDATEIMAGE API RESPONSE:", response.data.user);
       // dispatch(setToken(response?.data?.user?.AccessToken));
         dispatch(setUser(response?.data?.user));
-         localStorage.removeItem("user")
+         localStorage.removeItem('user')
         localStorage.setItem("user", JSON.stringify(response?.data?.user));
-      //   localStorage.setItem(
-      //     "token",
-      //     JSON.stringify(response?.data?.AccessToken)
-      //   );
-        navigate('/aboutus')
+        toast.success("Image updated suceesfully")
+        // navigate('/dashboard')
     } catch (error) {
       console.error("Error in update-image request:", error);
-    }
-     finally {
-      dispatch(setLoading(false));
     }
   };
 }

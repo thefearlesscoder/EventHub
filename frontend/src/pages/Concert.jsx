@@ -11,10 +11,13 @@ import { useSelector } from "react-redux";
 
 const Concert = () => {
   const { id } = useParams();
-  const { token } = useSelector((state) => state.auth);
+  let { token , user } = useSelector((state) => state.auth);
   const [concertdetails, setconcdetails] = useState("");
   const [loading, setLoading] = useState(false);
+    // user = JSON.parse(user) ;
+    // token = JSON.parse(token) ;
 
+    
   const searchConcert = async () => {
     try {
       const response = await fetch(
@@ -53,93 +56,99 @@ const Concert = () => {
 
   const navigate = useNavigate();
 
-  const addingDetails = async () => {
+    const addingDetails = async () => {
     try {
-    // setLoading(true);
-        
-      console.log(`Requesting with id: ${id} and token: ${token}`);
-      const form = new FormData();
-      form.append("token", JSON.parse(token));
-      const response = await axios.post(
+        console.log(`Requesting with id: ${id} and token: ${JSON.parse(token)}`);
+
+        const form = new FormData();
+        form.append("token", JSON.parse(token)); 
+
+        const response = await axios.post(
         `http://localhost:5000/api/v1/concert/register-for-concert/${id}`,
         form,
         {
-          headers: {
+            headers: {
             "Content-Type": "multipart/form-data",
-          },
+            },
         }
-      );
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-      toast.success("Data updated successfully");
-      console.log(response);
-    // setLoading(true);
+        );
 
+        toast.success("Data updated successfully");
+        console.log("Response data:", response.data);
+        navigate(`/register-succes/${id}`);
     } catch (error) {
-      console.log(error);
+        console.error("Error in adding details:", error.message);
+        toast.error("All ready you have registered ");
     }
-  };
+    };
 
-  // payment integration
-  const makePayment = async () => {
-    try {
-      const stripe = await loadStripe(
-        "pk_test_51QJ5RTAI8xVNoO7TqaukjHHfkOi5Nj0OPYYTToUwQkjukxrZ3RH0QZ92gH1bvqyUlxevQAz0hIHqkSomC1FFrPtQ00CCVZnGM8"
-      );
 
-      const body = {
-        concert: concertdetails,
-      };
+//   // payment integration
+//   const makePayment = async () => {
+//     try {
+//       const stripe = await loadStripe(
+//         "pk_test_51QJ5RTAI8xVNoO7TqaukjHHfkOi5Nj0OPYYTToUwQkjukxrZ3RH0QZ92gH1bvqyUlxevQAz0hIHqkSomC1FFrPtQ00CCVZnGM8"
+//       );
 
-      const headers = {
-        "Content-Type": "application/json",
-      };
+//       const body = {
+//         concert: concertdetails,
+//       };
 
-      const response = await fetch(
-        "http://localhost:5000/api/v1/concert/create-checkout-session",
-        {
-          method: "POST",
-          headers: headers,
-          body: JSON.stringify(body),
-        }
-      );
+//       const headers = {
+//         "Content-Type": "application/json",
+//       };
 
-      if (!response.ok) {
-        throw new Error("Failed to create checkout session");
-      }
+//       const response = await fetch(
+//         "http://localhost:5000/api/v1/concert/create-checkout-session",
+//         {
+//           method: "POST",
+//           headers: headers,
+//           body: JSON.stringify(body),
+//         }
+//       );
 
-      // console.log(response) ;
-      const session = await response.json();
-      console.log("Session object:", session); // Debug: Check session data
+//       if (!response.ok) {
+//         throw new Error("Failed to create checkout session");
+//       }
 
-      if (!session.id) {
-        throw new Error("Session ID is missing in the response");
-      }
+//       // console.log(response) ;
+//       const session = await response.json();
+//       console.log("Session object:", session); // Debug: Check session data
 
-      // Redirect to Stripe Checkout
-      const result = await stripe.redirectToCheckout({
-        sessionId: session.id,
-      });
-      // console.log(result)
-      if (result.error) {
-        console.error(result.error.message);
-      }
+//       if (!session.id) {
+//         throw new Error("Session ID is missing in the response");
+//       }
 
-      // navigate(session.session_url) ;
-    } catch (error) {
-      console.error("Error:", error);
-    }
+//       // Redirect to Stripe Checkout
+//       const result = await stripe.redirectToCheckout({
+//         sessionId: session.id,
+//       });
+//       // console.log(result)
+//       if (result.error) {
+//         console.error(result.error.message);
+//       }
 
-    toast.success("Payment Success");
-  };
+//       // navigate(session.session_url) ;
+//     } catch (error) {
+//       console.error("Error:", error);
+//     }
+
+//     toast.success("Payment Success");
+//   };
 
   const commonfun = async () => {
     // makePayment() ;
-    await addingDetails();
-    toast.success("payment successfull");
-    // navigate("/");
+    if (token == null || token == undefined ) {
+        toast.error("You need to login") ;
+    }else {
+
+        await addingDetails(navigate);
+        // toast.success("Registed successfull");
+        // navigate(`/register-succes/${id}`);
+    }
   };
+
+  console.log(user) ;
 
   return (
     // <div></div>
@@ -218,7 +227,7 @@ const Concert = () => {
           <div className=" mx-auto mt-14 md:w-[30%] w-full flex justify-around md:flex-row flex-col md:items-center items-center md:gap gap-5 ">
             <button
               onClick={() => {
-                navigate("/concerts");
+                navigate("/concert");
               }}
               className=" flex gap-2 w-fit items-center p-4 bg-yellow-50 text-black  font-bold rounded-lg text-xl "
             >
@@ -228,7 +237,7 @@ const Concert = () => {
               onClick={commonfun}
               className=" flex gap-2 w-fit items-center bg-blue-300 text-white p-4 font-bold rounded-lg text-xl "
             >
-              Buy Now <FaArrowRight />
+              Register <FaArrowRight />
             </button>
           </div>
         </div>

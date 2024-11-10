@@ -95,10 +95,10 @@ export function signUp(
 
   export function logout(navigate) {
     return (dispatch) => {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
       dispatch(setToken(null))
       dispatch(setUser(null))
-      localStorage.removeItem("token")
-      localStorage.removeItem("user")
       toast.success("Logged Out")
       navigate("/")
     }

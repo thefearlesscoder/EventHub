@@ -21,6 +21,7 @@ const IncomingRequests = () => {
             },
           }
         );
+        console.log(response) ;
         setIncomingRequests(response.data.data.friends);
       } catch (err) {
         console.error(err);

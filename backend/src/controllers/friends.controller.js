@@ -68,10 +68,10 @@ const requestForFriend = asyncHandler(async (req, res) => {
 
   if (userId.toString() === friendId.toString()) {
     return res
-      .status(400)
+      .status(200)
       .json(
         new ApiResponse(
-          400,
+          200,
           null,
           "You cannot send a friend request to yourself"
         )
@@ -87,8 +87,8 @@ const requestForFriend = asyncHandler(async (req, res) => {
 
   if (existingFriendRequest) {
     return res
-      .status(400)
-      .json(new ApiResponse(400, null, "Friend request already exists"));
+      .status(200)
+      .json(new ApiResponse(200, null, "Friend request already exists"));
   }
 
   const existingFriend = await Friend.findOne({
@@ -100,9 +100,9 @@ const requestForFriend = asyncHandler(async (req, res) => {
 
   if (existingFriend) {
     return res
-      .status(400)
+      .status(200)
       .json(
-        new ApiResponse(400, null, "You are already friends with this user")
+        new ApiResponse(200, null, "You are already friends with this user")
       );
   }
 
