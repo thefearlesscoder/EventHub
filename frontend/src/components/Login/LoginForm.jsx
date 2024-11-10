@@ -52,6 +52,8 @@ function LoginForm() {
         
         dispatch(setToken(response?.data?.AccessToken));
         dispatch(setUser(response?.data?.user));
+        localStorage.removeItem("user") ;
+        localStorage.removeItem("token") ;
         localStorage.setItem("user", JSON.stringify(response?.data?.user));
         localStorage.setItem(
           "token",
