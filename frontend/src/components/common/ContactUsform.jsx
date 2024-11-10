@@ -76,7 +76,7 @@ function ContactUsForm() {
 
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-sm font-medium text-richblue-400">
+            <label className="block text-sm font-medium text-richblue-500">
               Name
             </label>
             <input
@@ -84,7 +84,7 @@ function ContactUsForm() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 w-full text-black border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Name"
               required
             />
@@ -99,7 +99,7 @@ function ContactUsForm() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 w-full border text-black border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="you@example.com"
               required
             />
@@ -114,7 +114,7 @@ function ContactUsForm() {
               name="subject"
               value={formData.subject}
               onChange={handleChange}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 w-full border text-black border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Subject"
               required
             />
@@ -128,7 +128,7 @@ function ContactUsForm() {
               name="message"
               value={formData.message}
               onChange={handleChange}
-              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="mt-1 w-full border text-black border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
               rows="5"
               placeholder="Write your message here..."
               required

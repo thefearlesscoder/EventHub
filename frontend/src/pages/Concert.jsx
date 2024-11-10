@@ -13,6 +13,7 @@ const Concert = () => {
   const { id } = useParams();
   const { token } = useSelector((state) => state.auth);
   const [concertdetails, setconcdetails] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const searchConcert = async () => {
     try {
@@ -54,16 +55,17 @@ const Concert = () => {
 
   const addingDetails = async () => {
     try {
-      // console.log(`Requesting with id: ${id} and token: ${token}`);
-      const parsedToken = JSON.parse(token); 
+    // setLoading(true);
+        
+      console.log(`Requesting with id: ${id} and token: ${token}`);
+      const form = new FormData();
+      form.append("token", JSON.parse(token));
       const response = await axios.post(
         `http://localhost:5000/api/v1/concert/register-for-concert/${id}`,
-        { token: parsedToken }, 
+        form,
         {
-          withCredentials: true,
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -72,6 +74,8 @@ const Concert = () => {
       }
       toast.success("Data updated successfully");
       console.log(response);
+    // setLoading(true);
+
     } catch (error) {
       console.log(error);
     }
