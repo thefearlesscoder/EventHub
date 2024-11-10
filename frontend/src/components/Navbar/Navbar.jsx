@@ -142,14 +142,34 @@ function Navbar() {
             </Link>
           }
           {
+
+            user && user.role == "admin" && <Link
+              to="/create-concert"
+              onClick={toggleMenu}
+              className=" text-xl mb-4 hover:scale-105 transition-all duration-200 "
+            >
+              Create Concert 
+            </Link>
+            }
+          {
             user && 
             <Link
-              to="/find-concerts"
+              to="/profile"
               onClick={toggleMenu}
               className=" text-xl mb-4 hover:scale-105 transition-all duration-200"
             >
-              Find Concerts
+              Profile
             </Link>
+          }
+          {
+
+          user && <Link
+            to="/"
+            onClick={handleclick}
+            className=" text-xl mb-4 hover:scale-105 transition-all duration-200 "
+          >
+            logout
+          </Link>
           }
           {/* {
 

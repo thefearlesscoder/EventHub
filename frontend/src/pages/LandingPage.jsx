@@ -135,7 +135,7 @@ const LandingPage = () => {
                 <div className="mt-2 text-gray-300">
                   <span className="font-bold">Venue:</span> Delhi
                 </div>
-                <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition duration-300">
+                <button onClick={ () => {navigate('/concert')}} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition duration-300">
                   View More
                 </button>
               </div>

@@ -6,7 +6,8 @@ import {
   myAttendedConcerts,
   concertDetails,
   myUpcomingConcerts,
-  filterConcerts
+  filterConcerts,
+  getRegisteredPeople
 } from "../controllers/concert.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
 import { verifyJwt } from "../middleware/auth.middleware.js";
@@ -35,7 +36,7 @@ router.route("/my-upcoming-concerts").post(verifyJwt, myUpcomingConcerts);
 router.route("/filterConcerts").post(verifyJwt, filterConcerts)
 router.get("/my-attended-concerts", verifyJwt, myAttendedConcerts);
 router.route("/concert/:Id").post(concertDetails);
-
+router.route("/get-friends/:id").post(verifyJwt,getRegisteredPeople)
 router.post("/create-checkout-session", async (req, res) => {
   const product = req.body;
   console.log(product);

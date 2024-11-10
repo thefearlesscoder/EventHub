@@ -136,6 +136,25 @@ const updateConcert = asyncHandler(async (req, res) => {
   });
 });
 
+
+
+const getRegisteredPeople = asyncHandler(async (req,res) => {
+  
+    const {id} = req.params;
+    const concert = await Concert.findById(id).populate("peoples");
+
+    if (!concert) {
+      throw new Error("Concert not found");
+    }
+    console.log("Registered People:", concert.peoples);
+    return res.status(200).json(
+      new ApiResponse(200, concert.peoples, "registerd peoples")
+    )
+  }    
+)
+
+
+
 const allUpcomingConcerts = asyncHandler(async (req, res) => {
   try {
     const currentDate = new Date();
@@ -362,5 +381,6 @@ export {
   myAttendedConcerts,
   concertDetails,
   myUpcomingConcerts,
-  filterConcerts
+  filterConcerts,
+  getRegisteredPeople
 };
