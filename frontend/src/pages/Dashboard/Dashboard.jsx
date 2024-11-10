@@ -3,6 +3,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import MyFriends from "./MyFriends";
 import AttendedConcerts from "./AttendedConcerts";
+import Expenditure from "./Expenditure";
+
 
 const Dashboard = () => {
   const [upcomingConcerts, setUpcomingConcerts] = useState([]);
@@ -126,7 +128,7 @@ const Dashboard = () => {
               className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center space-y-4 transition transform hover:scale-105 hover:shadow-lg"
             >
               <img
-                src={friend.image?.url || "https://via.placeholder.com/150"}
+                src={friend.image || "https://via.placeholder.com/150"}
                 alt={friend.name}
                 className="w-20 h-20 rounded-full object-cover"
               />
@@ -153,6 +155,7 @@ const Dashboard = () => {
       <AttendedConcerts />
 
       <MyFriends/>
+      <Expenditure/>
     </div>
   );
 };

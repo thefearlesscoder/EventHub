@@ -29,13 +29,13 @@ const IncomingRequests = () => {
     fetchIncomingRequests();
   }, [token]);
 
-  const statusHandler = (e, friendId) => {
-    if (e.target.value === "Accept") {
-      setStatus("accepted");
-    } else {
-      setStatus("rejected");
-    }
-    setCurrentFriendId(friendId); 
+  const acceptRequest = (id) => {
+    setStatus("accepted");
+    setCurrentFriendId = id;
+  };
+  const rejectRequest = (id) => {
+    setStatus("Rejected");
+    setCurrentFriendId = id;  
   };
 
   const requestResponse = async () => {
@@ -84,20 +84,22 @@ const IncomingRequests = () => {
                 alt={friend.name}
                 className="w-20 h-20 rounded-full object-cover"
               />
-              <h3 className="text-xl font-semibold text-center">{friend.name}</h3>
+              <h3 className="text-xl font-semibold text-center">
+                {friend.name}
+              </h3>
 
               <div className="flex space-x-4 w-full justify-center">
                 <button
                   className="bg-caribbeangreen-600 text-white px-4 py-2 rounded-md hover:bg-caribbeangreen-400 transition"
                   value="Accept"
-                  onClick={(e) => statusHandler(e, friend.senderId)} 
+                  onClick={(e) => acceptRequest(friend.senderId)}
                 >
                   Accept
                 </button>
                 <button
                   className="bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-400 transition"
                   value="Reject"
-                  onClick={(e) => statusHandler(e, friend.senderId)} 
+                  onClick={(e) => rejectRequest(friend.senderId)}
                 >
                   Reject
                 </button>

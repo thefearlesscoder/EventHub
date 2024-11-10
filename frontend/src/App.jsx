@@ -23,6 +23,7 @@ import Concert from './pages/Concert';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Slider from './components/homepage/Slider';
 import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
+import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
 
 
 
@@ -44,11 +45,16 @@ function App() {
         <Route path="/update-profile" element={<Updatedetail />}></Route>
         <Route path="/testpage" element={<TestPage />} />
         <Route path="/testpage2" element={<TestPage2 />} />
-        <Route path='/forgot-password' element={<ForgetPassword/>}></Route>
-        <Route path='/reset-password/:token' element={<ResetPasswordPage/>}></Route>
-        <Route path='/create-concert' element={<CreateConcert/>}></Route>
-        <Route path='/concert/:id' element={<Concert/>}></Route>
-        
+        <Route path="/forgot-password" element={<ForgetPassword />}></Route>
+        <Route
+          path="/reset-password/:token"
+          element={<ResetPasswordPage />}
+        ></Route>
+        <Route path="/create-concert" element={<CreateConcert />}></Route>
+        <Route path="/concert/:id" element={<Concert />}></Route>
+        {/* <Route path="/test1" element={<RequestPeople />}></Route> */}
+        <Route path="/concert" element={<UpcomingConcerts />}></Route>
+        <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>

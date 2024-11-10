@@ -29,7 +29,7 @@ const getAllMyFriends = asyncHandler(async (req, res) => {
     return {
       friendId: friendUser._id,
       name: `${friendUser.firstName} ${friendUser.lastName}`,
-      image: friendUser.image?.url,
+      image: friendUser.image?.url || null,
       status: friend.status,
     };
   });

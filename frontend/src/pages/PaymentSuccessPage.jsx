@@ -16,9 +16,17 @@ function PaymentSuccessPage() {
             Thank you for your payment. Your transaction has been completed
             successfully.
           </p>
-          <button className="mt-4 px-6 py-2 bg-green-500 text-black font-semibold rounded-full shadow-md hover:bg-green-600 focus:outline-none transition-colors duration-300">
-            Go to Dashboard
-          </button>
+          <Link to={"/dashboard"}>
+            <button className="mt-4 px-6 py-2 bg-green-500 text-black font-semibold rounded-full shadow-md hover:bg-green-600 focus:outline-none transition-colors duration-300">
+              Go to Dashboard
+            </button>
+          </Link>
+
+          <Link to={`/concert/${concertId}/people`}>
+            <button className="mt-4 px-6 py-2 bg-green-500 text-black font-semibold rounded-full shadow-md hover:bg-green-600 focus:outline-none transition-colors duration-300">
+              Find More People
+            </button>
+          </Link>
         </div>
       </div>
     </div>
