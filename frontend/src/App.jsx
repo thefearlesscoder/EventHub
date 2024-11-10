@@ -24,6 +24,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Slider from './components/homepage/Slider';
 import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
 import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
+import PaymentSuccessPage from './pages/PaymentSuccessPage';
 
 
 
@@ -52,7 +53,8 @@ function App() {
         ></Route>
         <Route path="/create-concert" element={<CreateConcert />}></Route>
         <Route path="/concert/:id" element={<Concert />}></Route>
-        <Route path="/test1" element={<RequestPeople />}></Route>
+        {/* <Route path="/test1" element={<RequestPeople />}></Route> */}
+        <Route path='/register-succes/:id' element={<PaymentSuccessPage/>}/>
         <Route path="/concert" element={<UpcomingConcerts />}></Route>
         <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
       </Routes>

@@ -126,7 +126,8 @@ const Concert = () => {
 
         const commonfun = async() => {
             // makePayment() ;
-            await addingDetails() ;
+            // addingDetails() ;
+            navigate(`/register-succes/${id}`)
             toast.success("payment successfull")
         }
 
@@ -207,7 +208,7 @@ const Concert = () => {
                                 Explore More <FaArrowRight />
                             </button>
                             <button onClick={commonfun} className=' flex gap-2 w-fit items-center bg-blue-300 text-white p-4 font-bold rounded-lg text-xl '>
-                                Buy Now <FaArrowRight />
+                                Register <FaArrowRight />
                             </button>
                         </div>
 
