@@ -40,7 +40,18 @@ function Navbar() {
           </div>
 
           <div className="flex items-center space-x-4">
-                       
+          {
+
+            user && user.role == "admin" && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
+              <a
+                href="/create-concert"
+                className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
+                transition-all duration-200"
+              >
+                Create Concert
+              </a>
+            </div>
+            }        
             {
 
               user && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
