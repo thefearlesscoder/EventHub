@@ -1,6 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { json } from "react-router-dom";
 
-function ContactUsform() {
+function ContactUsForm() {
+  const { token } = useSelector((state) => state.auth);
+  console.log(token);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+    setResponseMessage("");
+
+    const form = new FormData();
+    form.append("name", formData.name);
+    form.append("email", formData.email);
+    form.append("subject", formData.subject);
+    form.append("message", formData.message);
+    form.append("token", JSON.parse(token)); 
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/users/contact-us",
+        form,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", 
+          },
+        }
+      );
+
+      if (response.data.success) {
+        setResponseMessage("Your message has been sent successfully.");
+      } else {
+        setResponseMessage("Failed to send your message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setResponseMessage("Error sending message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-6">
       <div className="max-w-3xl w-full bg-richblue-25 rounded-lg shadow-lg p-8">
@@ -13,14 +74,17 @@ function ContactUsform() {
           form below, and our team will get back to you as soon as possible.
         </p>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-sm font-medium text-richblue-400">
+            <label className="block text-sm font-medium text-richblue-500">
               Name
             </label>
             <input
               type="text"
-              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="mt-1 w-full text-black border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Your Name"
               required
             />
@@ -32,7 +96,10 @@ function ContactUsform() {
             </label>
             <input
               type="email"
-              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="mt-1 w-full border text-black border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="you@example.com"
               required
             />
@@ -44,7 +111,10 @@ function ContactUsform() {
             </label>
             <input
               type="text"
-              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              className="mt-1 w-full border text-black border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Subject"
               required
             />
@@ -55,7 +125,10 @@ function ContactUsform() {
               Message
             </label>
             <textarea
-              className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              className="mt-1 w-full border text-black border-gray-300 rounded-lg px-4 py-2 focus:ring-indigo-500 focus:border-indigo-500"
               rows="5"
               placeholder="Write your message here..."
               required
@@ -66,14 +139,21 @@ function ContactUsform() {
             <button
               type="submit"
               className="bg-richblue-500 text-richblue-50 font-semibold px-6 py-2 rounded-lg hover:bg-richblue-300 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-transform transform hover:scale-105"
+              disabled={loading} // Disable button while loading
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
           </div>
         </form>
+
+        {responseMessage && (
+          <p className="mt-4 text-center text-lg text-gray-500">
+            {responseMessage}
+          </p>
+        )}
       </div>
     </div>
   );
 }
 
-export default ContactUsform;
+export default ContactUsForm;

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.jpg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../services/operations/auth";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user } = useSelector( (state) => ( state.auth ))
+  let { user } = useSelector( (state) => ( state.auth ))
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -21,6 +21,9 @@ function Navbar() {
     handleclick();
     toggleMenu();
   }
+
+  user = JSON.parse(user) ;
+  console.log(user)
 
   return (
     <div className="bg-richblack-5 rounded-sm">
@@ -38,12 +41,11 @@ function Navbar() {
           </div>
         </div>
 
-        {/* Desktop Links (hidden on small screens) */}
         <div className="hidden sm:flex items-center space-x-4">
           <div className="flex space-x-4 items-center"></div>
 
-          {/* Search and Profile */}
           <div className="flex items-center space-x-4">
+            
             <div className="relative">
               <input
                 type="text"
@@ -56,17 +58,42 @@ function Navbar() {
             </div>
             {
               // bg-gray problem
-              user && (
-                <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
-                  <a
-                    href="/profile"
-                    className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
+              user && user.role == 'admin' && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
+                <a
+                  href="/create-concert"
+                  className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
+                  transition-all duration-200"
+                >
+                  Create Concert
+                </a>
+              </div>
+            }
+            
+            {
+
+              user && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
+                <a
+                  href="/profile"
+                  className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
+                  transition-all duration-200"
+                >
+                  Create Concert
+                </a>
+              </div>
+            }
+            
+            {
+
+              user && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
+                <a
+                  href="/profile"
+                  className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
                   transition-all duration-200"
                   >
                     Profile
                   </a>
                 </div>
-              )
+              
             }
 
             {user && (
@@ -95,27 +122,20 @@ function Navbar() {
               </Link>
             )}
             {
-              // bg-gray problem
-              user && (
-                <button
-                  className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105"
-                  onClick={handleclick}
-                >
-                  <p
-                    className="bg-gray-700 px-4 rounded-lg font-bold hover:bg-gray-600  
-                  transition-all duration-200"
-                  >
+
+              user && <button className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105" onClick={handleclick}>
+              <p className="bg-gray-700 px-4 rounded-lg font-bold hover:bg-gray-600  
+                  transition-all duration-200">
                     Logout
                   </p>
                 </button>
-              )
             }
           </div>
         </div>
 
-        {/* Menu Button (visible on small screens) */}
+
         {!isMenuOpen && (
-          <div className="sm:hidden flex items-center">
+          <div className="sm:hidden flex items-center ">
             <button
               onClick={toggleMenu}
               className="text-white font-extrabold text-xl p-2 border-2 rounded-md border-blue-700 
@@ -127,7 +147,7 @@ function Navbar() {
         )}
       </nav>
 
-      {/* Side Menu for Mobile */}
+
       {isMenuOpen && (
         <div
           className="sm:hidden fixed inset-0 bg-gray-900
