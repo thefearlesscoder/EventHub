@@ -138,7 +138,7 @@ const UpcomingConcerts = () => {
 
   return (
     <div className="p-10 w-11/12">
-      <div className="p-10 font-bold text-2xl ml-[10%] flex justify-between items-center md:flex-row flex-col space-y-3  pr-5 mr-20">
+      <div className=" font-bold text-2xl ml-[10%] flex justify-between items-center md:flex-row flex-col space-y-3  pr-5 mr-20">
         <p>Home / Explore-Concert</p>
         <FilterComponent
           options={genres}
