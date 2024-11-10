@@ -234,23 +234,3 @@ const Concert = () => {
 };
 
 export default Concert;
-
-
-                        <div className=' mx-auto mt-14 md:w-[30%] w-full flex justify-around md:flex-row flex-col md:items-center items-center md:gap gap-5 '>
-                        <button onClick={() => { navigate('/concerts') }}
-        className=' flex gap-2 w-fit items-center p-4 bg-yellow-50 text-black  font-bold rounded-lg text-xl '>
-                                Explore More <FaArrowRight />
-                            </button>
-                            <button onClick={commonfun} className=' flex gap-2 w-fit items-center bg-blue-300 text-white p-4 font-bold rounded-lg text-xl '>
-                                Buy Now <FaArrowRight />
-                            </button>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        )
-    }
-
-    export default Concert
