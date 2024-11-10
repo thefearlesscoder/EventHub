@@ -17,11 +17,6 @@ function Navbar() {
     dispatch(logout(navigate)) ;
   }
 
-  const click = () => {
-    handleclick();
-    toggleMenu();
-  }
-
   user = JSON.parse(user) ;
   console.log(user)
 
@@ -32,31 +27,21 @@ function Navbar() {
         <div className="flex items-center space-x-6">
           <div className="text-blue-500 font-bold text-lg hover:scale-125 transition-all duration-200 cursor-pointer">
             <Link to="/">
-              <img
-                src={logo}
-                alt="Logo"
-                className=" md:w-[4rem] w-[2rem] rounded-full"
-              />
+              <img src={logo} alt="Logo" className=" md:w-[4rem] w-[2rem] rounded-full" />
+              
             </Link>
           </div>
         </div>
 
         <div className="hidden sm:flex items-center space-x-4">
-          <div className="flex space-x-4 items-center"></div>
+          <div className="flex space-x-4 items-center">
+            
+            
+          </div>
 
           <div className="flex items-center space-x-4">
             
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search"
-                className="bg-gray-800 text-sm px-4 py-2 rounded-lg focus:outline-none placeholder-gray-500"
-              />
-              <span className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-500">
-                🔍
-              </span>
-            </div>
-            {
+          {
               // bg-gray problem
               user && user.role == 'admin' && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
                 <a
@@ -77,7 +62,7 @@ function Navbar() {
                   className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
                   transition-all duration-200"
                 >
-                  Create Concert
+                  Profile
                 </a>
               </div>
             }
@@ -86,19 +71,6 @@ function Navbar() {
 
               user && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
                 <a
-                  href="/profile"
-                  className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
-                  transition-all duration-200"
-                  >
-                    Profile
-                  </a>
-                </div>
-              
-            }
-
-            {user && (
-              <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
-                <a
                   href="/dashboard"
                   className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
                   transition-all duration-200"
@@ -106,30 +78,33 @@ function Navbar() {
                   Dashboard
                 </a>
               </div>
-            )}
-            {!user && (
-              <Link to="/login">
+            }
+            {
+
+              !user && <Link to="/login">
                 <button className="flex items-center justify-center w-[5rem] h-[2rem] py-1 px-3 bg-richblue-500 hover:bg-richblue-300 rounded-md text-gray-400 hover:text-white font-bold">
                   Login
                 </button>
               </Link>
-            )}
-            {!user && (
-              <Link to="/signup">
+            }
+            {
+
+              !user && <Link to="/signup">
                 <button className="flex items-center justify-center w-[5rem] h-[2rem] py-1 px-3 bg-richblue-500 hover:bg-richblue-300 rounded-md text-gray-400 hover:text-white font-bold">
                   Sign Up
                 </button>
               </Link>
-            )}
+            }
             {
 
               user && <button className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105" onClick={handleclick}>
               <p className="bg-gray-700 px-4 rounded-lg font-bold hover:bg-gray-600  
                   transition-all duration-200">
                     Logout
-                  </p>
-                </button>
+                </p>
+            </button>
             }
+
           </div>
         </div>
 
@@ -149,27 +124,27 @@ function Navbar() {
 
 
       {isMenuOpen && (
-        <div
-          className="sm:hidden fixed inset-0 bg-gray-900
-           bg-opacity-50 z-50 flex flex-col items-center justify-center"
-        >
+        <div className="sm:hidden fixed inset-0 bg-gray-900
+           bg-opacity-0 z-50 flex flex-col items-center justify-center">
           <button
             onClick={toggleMenu}
             className="absolute top-4 right-4 text-3xl"
           >
             ✕
           </button>
+          
+          {
 
-          {user && (
-            <Link
+            user && <Link
               to="/"
               onClick={toggleMenu}
               className=" text-xl mb-4 hover:scale-105 transition-all duration-200 "
             >
               Dashboard
             </Link>
-          )}
-          {user && (
+          }
+          {
+            user && 
             <Link
               to="/find-concerts"
               onClick={toggleMenu}
@@ -177,7 +152,7 @@ function Navbar() {
             >
               Find Concerts
             </Link>
-          )}
+          }
           {/* {
 
           user && <Link
@@ -188,33 +163,26 @@ function Navbar() {
             Find Places
           </Link>
           } */}
-          {!user && (
-            <Link
+          {
+
+            !user && <Link
               to="/login"
               onClick={toggleMenu}
               className=" text-xl mb-4 hover:scale-105 transition-all duration-200"
             >
               Login
             </Link>
-          )}
-          {!user && (
-            <Link
-              to="/signup"
-              onClick={toggleMenu}
-              className=" text-xl mb-4 hover:scale-105 transition-all duration-200"
-            >
-              Sign Up
-            </Link>
-          )}
-          {user && (
-            <Link
-              to="/"
-              onClick={click}
-              className=" text-xl mb-4 hover:scale-105 transition-all duration-200 "
-            >
-              Logout
-            </Link>
-          )}
+          }
+          {
+
+          !user && <Link
+            to="/signup"
+            onClick={toggleMenu}
+            className=" text-xl mb-4 hover:scale-105 transition-all duration-200"
+          >
+            Sign Up
+          </Link>
+          }
         </div>
       )}
     </div>
