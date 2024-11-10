@@ -52,8 +52,9 @@ function App() {
         ></Route>
         <Route path="/create-concert" element={<CreateConcert />}></Route>
         <Route path="/concert/:id" element={<Concert />}></Route>
-        <Route path="/test1" element={<RequestPeople />}></Route>
+        {/* <Route path="/test1" element={<RequestPeople />}></Route> */}
         <Route path="/concert" element={<UpcomingConcerts />}></Route>
+        <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>
