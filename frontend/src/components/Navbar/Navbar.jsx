@@ -45,30 +45,7 @@ function Navbar() {
           <div className="flex space-x-4 items-center"></div>
 
           <div className="flex items-center space-x-4">
-            
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search"
-                className="bg-gray-800 text-sm px-4 py-2 rounded-lg focus:outline-none placeholder-gray-500"
-              />
-              <span className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-500">
-                🔍
-              </span>
-            </div>
-            {
-              // bg-gray problem
-              user && user.role == 'admin' && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
-                <a
-                  href="/create-concert"
-                  className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
-                  transition-all duration-200"
-                >
-                  Create Concert
-                </a>
-              </div>
-            }
-            
+                       
             {
 
               user && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
