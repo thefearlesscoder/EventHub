@@ -10,7 +10,7 @@ const FilterComponent = ({ options, onFilterChange }) => {
   };
 
   return (
-    <div className="w-fit pr-5">
+    <div className="w-fit pr-10">
       <select
         value={selected}
         onChange={handleSelect}
