@@ -13,10 +13,10 @@ function PaymentSuccessPage() {
         <div className="flex flex-col items-center text-center">
           <CheckCircleIcon className="h-20 w-20 text-green-500 mb-6 text-caribbeangreen-600" />
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
-            Payment Successful!
+            Registration Successful!
           </h2>
           <p className="text-gray-600 mb-6">
-            Thank you for your payment. Your transaction has been completed
+            Thank you for your registration . Your request has been completed
             successfully.
           </p>
           <Link to={"/dashboard"}>

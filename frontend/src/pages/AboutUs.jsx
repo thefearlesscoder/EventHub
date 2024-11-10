@@ -1,8 +1,7 @@
 import React from "react";
 import Logo from "../../src/assets/logo.jpg";
-import vivek from "../../src/assets/Images/vivek.jpeg"
-import kunal from "../../src/assets/Images/kunal.jpeg"
-// import varun from "../../src/assets/Images/vivek.jpeg"
+import vivek from "../../src/assets/Images/vivek.jpeg";
+import kunal from "../../src/assets/Images/kunal.jpeg";
 import varun from "../../src/assets/Images/varun.png";
 
 import { FiGithub } from "react-icons/fi";
@@ -11,7 +10,7 @@ import { CiLinkedin } from "react-icons/ci";
 const AboutUs = () => {
   return (
     <div className="w-[11/12] flex flex-col justify-center items-center">
-      <div className="w-full flex md:flex-row flex-col items-center  min-h-[600px] py-3 px-10 gap-4">
+      <div className="w-full flex md:flex-row flex-col items-center min-h-[600px] py-3 px-10 gap-4">
         <div className="md:w-[50%] w-full px-5 flex justify-center">
           <img src={Logo} className="w-[40%] rounded-full" alt="LOGO" />
         </div>
@@ -20,40 +19,35 @@ const AboutUs = () => {
             Music Mate
           </h1>
           <div className="bg-richblack-300 h-2 w-[20%] mx-auto my-4 rounded-md"></div>
-          <p className="text-richblack-900 text-2xl">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum
-            dicta qui quasi aspernatur maiores labore hic tempora, dolorem fugit
-            debitis, quam explicabo iure exercitationem amet, similique ab
-            officiis rerum eius.
+          <p className="text-richblack-900 text-2xl md:text text-center">
+            MusicMate is a platform designed for music lovers to connect with
+            others who share similar musical interests before attending
+            concerts. By helping users find like-minded individuals, MusicMate
+            makes concert experiences more social and enjoyable, allowing fans
+            to meet up and bond over their favorite artists and genres.
           </p>
         </div>
-        <div></div>
       </div>
 
-      <div className="">
+      <div className=" w-full md:mt mt-5">
         <div className="pb-5 flex flex-col gap-3 items-center">
           <h1 className="text-black font-bold leading-10 text-5xl">Our Team</h1>
           <div className="bg-richblack-300 h-2 w-[20%] mx-auto my-4 rounded-md"></div>
         </div>
-        <div className="grid md:grid-cols-3 mx-auto px-3 gap-10 grid-row-3 mb-4">
-          <div>
-            <div>
-              <img
-                src={vivek}
-                className=" w-[1/3]  rounded-full "
-                alt="Vivek"
-              />
-            </div>
-            <div className="flex flex-col justify-center items-center space-y-1 leading-5 text-sm font-semibold
-              text-richblack-600 mt-2">
+        <div className="grid md:grid-cols-3 mx-auto px-1 gap-10 grid-row-3 mb-4 ">
+          <div className="flex flex-col items-center w-full">
+            <img
+              src={kunal}
+              className="h-36 rounded-full object-cover"
+              alt="Kunal"
+            />
+            <div className="flex flex-col justify-center items-center space-y-1 leading-5 text-sm font-semibold text-richblack-600 mt-2">
               <span className="hover:text-black transition-all duration-200">
-                Vivek Kumar
+                Kunal
               </span>
-              <br />
               <span className="hover:text-black transition-all duration-200">
                 CSE
               </span>
-              <br />
               <div className="flex space-x-3">
                 <FiGithub className="w-[20px] h-[20px] hover:text-black transition-all duration-200 cursor-pointer" />
                 <CiLinkedin className="w-[25px] h-[25px] hover:text-black transition-all duration-200 cursor-pointer" />
@@ -61,40 +55,39 @@ const AboutUs = () => {
             </div>
           </div>
 
-          <div>
-            <div className="">
-              <img src={vivek} className=" w-[1/3] rounded-full " alt="" />
-            </div>
-            <div className="flex flex-col justify-center items-center space-y-1 leading-5 text-sm font-semibold
-             text-richblack-600 mt-2">
+          <div className="flex flex-col items-center">
+            <img
+              src={varun}
+              className="w-32 h-32 rounded-full object-cover"
+              alt="Varun"
+            />
+            <div className="flex flex-col justify-center items-center space-y-1 leading-5 text-sm font-semibold text-richblack-600 mt-2">
               <span className="hover:text-black transition-all duration-200">
-                Vivek Kumar
+                Varun Kumar Sahu
               </span>
-              <br />
               <span className="hover:text-black transition-all duration-200">
                 CSE
               </span>
-              <br />
               <div className="flex space-x-3">
                 <FiGithub className="w-[20px] h-[20px] hover:text-black transition-all duration-200 cursor-pointer" />
                 <CiLinkedin className="w-[25px] h-[25px] hover:text-black transition-all duration-200 cursor-pointer" />
               </div>
             </div>
           </div>
-          <div>
-            <div>
-              <img src={vivek} className=" w-[1/3] rounded-full " alt="" />
-            </div>
-            <div className="flex flex-col justify-center items-center space-y-1 leading-5 text-sm font-semibold
-             text-richblack-600 mt-2">
+
+          <div className="flex flex-col items-center">
+            <img
+              src={vivek}
+              className="w-32 h-32 rounded-full object-cover"
+              alt="Vivek"
+            />
+            <div className="flex flex-col justify-center items-center space-y-1 leading-5 text-sm font-semibold text-richblack-600 mt-2">
               <span className="hover:text-black transition-all duration-200">
                 Vivek Kumar
               </span>
-              <br />
               <span className="hover:text-black transition-all duration-200">
                 CSE
               </span>
-              <br />
               <div className="flex space-x-3">
                 <FiGithub className="w-[20px] h-[20px] hover:text-black transition-all duration-200 cursor-pointer" />
                 <CiLinkedin className="w-[25px] h-[25px] hover:text-black transition-all duration-200 cursor-pointer" />
