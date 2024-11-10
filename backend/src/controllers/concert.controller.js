@@ -181,7 +181,7 @@ const allUpcomingConcerts = asyncHandler(async (req, res) => {
 const registerForConcert = asyncHandler(async (req, res) => {
   const { Id } = req.params;
   const userId = req.user._id;
-
+  
   console.log("Concert ID: ", Id);
   console.log("User ID: ", userId);
 
