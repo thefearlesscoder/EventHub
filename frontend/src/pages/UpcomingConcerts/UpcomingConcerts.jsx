@@ -1,37 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ConcertCard from "./ConcertCard";
+import axios from "axios";
 
 const UpcomingConcerts = () => {
-  const events = [
-    {
-      artist: "Anoop Kumar",
-      location: "Katni, Madhya Pradesh, India",
-      date: "2024-11-08T00:00:00.000Z",
-    },
-    {
-      artist: "Arijit Singh",
-      location: "Stadium XYZ",
-      date: "2024-10-30T19:00:00.000Z",
-    },
-  ];
+    const [allConcerts, setAllConcerts] = useState([]);
+
+    const fetchAllConcerts = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/v1/concert/upcoming-concert"
+        );
+        console.log("All concerts:", response.data.data);
+        setAllConcerts(response.data.data);
+      } catch (error) {
+        console.error("Error fetching concerts:", error);
+      }
+    };
+
+    useEffect(() => {
+      fetchAllConcerts();
+    }, []);
 
     return (
       <div className=" p-10">
-            <div className=" font-bold text-2xl ml-[10%]">
-                Home / Explore-Concert
-            </div>
-            <div className="min-h-screen bg-gray-100 flex flex-col items-center md:w-[80%] mx-auto w-full">
-            {events.map((event, index) => (
-                <ConcertCard
-                key={index}
-                artist={event.artist}
-                location={event.location}
-                date={event.date}
-                />
-            ))}
-            </div>
+        <div className=" font-bold text-2xl ml-[10%]">
+          Home / Explore-Concert
+        </div>
+        <div className="min-h-screen bg-gray-100 flex flex-col items-center md:w-[80%] mx-auto w-full">
+          {allConcerts.map((event, index) => (
+            <ConcertCard
+              key={event.id}
+              artist={event.artist}
+              location={event.place}
+                  date={event.date}
+                  id={event.id}
+            />
+          ))}
+        </div>
       </div>
-  );
+    );
 };
 
 export default UpcomingConcerts;
