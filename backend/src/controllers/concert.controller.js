@@ -159,7 +159,8 @@ const allUpcomingConcerts = asyncHandler(async (req, res) => {
   try {
     const currentDate = new Date();
     const upcomingConcerts = await Concert.find({ date: { $gt: currentDate } });
-
+    console.log("all upcoming here");
+    
     const concertArray = upcomingConcerts
       .map(({ 
         _id, artist, place, description, pincode, date, peoples, 
@@ -171,7 +172,7 @@ const allUpcomingConcerts = asyncHandler(async (req, res) => {
         description,
         pincode,
         date,
-        peoples: peoples.length, // assuming `peoples` is an array
+        peoples: peoples.length,
         addedBy,
         ticketPrice,
         seatingCapacity,
