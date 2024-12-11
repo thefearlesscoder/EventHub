@@ -61,8 +61,8 @@ router.post("/create-checkout-session", async (req, res) => {
       payment_method_types :["card"] ,
       line_items: line_items,
       mode: 'payment',
-      success_url: 'https://7ad3-2409-40e3-2000-2254-799c-d3f9-ab9a-336b.ngrok-free.app/profile',
-      cancel_url: 'https://7ad3-2409-40e3-2000-2254-799c-d3f9-ab9a-336b.ngrok-free.app/profile',
+      success_url: `http://localhost:5173/register-succes/`,
+      cancel_url: 'http://localhost:5173',
     });
     
     // console.log(session)
