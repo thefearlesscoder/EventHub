@@ -81,7 +81,7 @@ export function signUp(
             localStorage.setItem('user' , JSON.stringify(response?.data?.user)) ;
             localStorage.setItem('token' , JSON.stringify(response?.data?.AccessToken)) ;
             toast.success("Login Successful")
-            navigate("/aboutus")
+            navigate("/dashboard")
         }
       } catch (error) {
         console.log("LOGIN API ERROR............", error)
@@ -94,7 +94,7 @@ export function signUp(
   }
 
   export function logout(navigate) {
-    return (dispatch) => {
+    return async (dispatch) => {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       dispatch(setToken(null))

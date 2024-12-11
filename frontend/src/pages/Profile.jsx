@@ -17,11 +17,11 @@ const dummydata = {
 
 
 const Profile = () => {
+
     const user = useSelector( (state) => state.auth.user ) ;  
     const { loading } = useSelector ( (state) => state.auth) ;  
     const dummydata = JSON.parse(user) ;
     console.log(dummydata)
-
 
 
     const navigate = useNavigate() ;

@@ -56,31 +56,31 @@ const Concert = () => {
 
   const navigate = useNavigate();
 
-    // const addingDetails = async () => {
-    // try {
-    //     console.log(`Requesting with id: ${id} and token: ${JSON.parse(token)}`);
+    const addingDetails = async () => {
+    try {
+        console.log(`Requesting with id: ${id} and token: ${JSON.parse(token)}`);
 
-    //     const form = new FormData();
-    //     form.append("token", JSON.parse(token)); 
+        const form = new FormData();
+        form.append("token", JSON.parse(token)); 
 
-    //     const response = await axios.post(
-    //     `http://localhost:5000/api/v1/concert/register-for-concert/${id}`,
-    //     form,
-    //     {
-    //         headers: {
-    //         "Content-Type": "multipart/form-data",
-    //         },
-    //     }
-    //     );
+        const response = await axios.post(
+        `http://localhost:5000/api/v1/concert/register-for-concert/${id}`,
+        form,
+        {
+            headers: {
+            "Content-Type": "multipart/form-data",
+            },
+        }
+        );
 
-    //     toast.success("Data updated successfully");
-    //     console.log("Response data:", response.data);
-    //     navigate(`/register-succes/${id}`);
-    // } catch (error) {
-    //     console.error("Error in adding details:", error.message);
-    //     toast.error("All ready you have registered ");
-    // }
-    // };
+        // toast.success("Data updated successfully");
+        console.log("Response data:", response.data);
+        // navigate(`/register-succes/${id}`);
+    } catch (error) {
+        console.error("Error in adding details:", error.message);
+        toast.error("All ready you have registered ");
+    }
+    };
 
 
   // payment integration
@@ -128,13 +128,14 @@ const Concert = () => {
       if (result.error) {
         console.error(result.error.message);
       }
-
+      
+      // addingDetails() ;
       // navigate(session.session_url) ;
     } catch (error) {
       console.error("Error:", error);
     }
 
-    toast.success("Payment Success");
+    // toast.success("Payment Success");
   };
 
   const commonfun = async () => {
@@ -143,8 +144,8 @@ const Concert = () => {
         toast.error("You need to login") ;
     }else {
 
-        // await addingDetails(navigate);
-        await makePayment() ;
+      await addingDetails();
+      await makePayment() ;
         // navigate(`/register-succes/${id}`);
         // toast.success("Registed successfull");
     }

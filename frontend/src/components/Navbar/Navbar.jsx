@@ -6,19 +6,21 @@ import { logout } from "../../services/operations/auth";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  let { user } = useSelector( (state) => ( state.auth ))
+  let user  = useSelector( (state) => ( state.auth.user ))
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   const dispatch = useDispatch () ;
   const navigate = useNavigate() ;
-  function handleclick (){
+  const handleclick = () => {
     console.log("click") ;
     dispatch(logout(navigate)) ;
   }
 
-  user = JSON.parse(user) ;
-  console.log(user)
+  if ( typeof user == 'string' && user != undefined && user != null )
+    user = JSON.parse(user) ;
+
+  console.log( "USER:" , user) ;
 
   return (
     <div className="bg-richblack-5 rounded-sm">
@@ -42,7 +44,7 @@ function Navbar() {
           <div className="flex items-center space-x-4">
           {
 
-            user && user.role == "admin" && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
+            user && user.role == 'admin' && <div className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105">
               <a
                 href="/create-concert"
                 className="bg-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-600  
@@ -95,7 +97,8 @@ function Navbar() {
             }
             {
 
-              user && <button className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105" onClick={handleclick}>
+              user && <button className="bg-richblue-500 py-2 rounded-md hover:bg-richblue-300 hover:scale-105" 
+              onClick={handleclick} >
               <p className="bg-gray-700 px-4 rounded-lg font-bold hover:bg-gray-600  
                   transition-all duration-200">
                     Logout

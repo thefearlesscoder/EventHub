@@ -73,15 +73,17 @@ export function updateImage(formData, token, navigate) {
         },
       });
       console.log("UPDATEIMAGE API RESPONSE:", response.data.user);
-      // dispatch(setToken(response?.data?.user?.AccessToken));
-        dispatch(setUser(response?.data?.user));
-         localStorage.removeItem('user')
-        localStorage.setItem("user", JSON.stringify(response?.data?.user));
+        setToken(response?.data?.user?.AccessToken);
+        setUser(response?.data?.user) 
+        localStorage.removeItem('user')
+        localStorage.setItem('user', JSON.stringify(response?.data?.user));
         toast.success("Image updated suceesfully")
         // navigate('/dashboard')
     } catch (error) {
       console.error("Error in update-image request:", error);
     }
+
+    dispatch(setLoading(false));
   };
 }
 

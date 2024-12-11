@@ -11,8 +11,11 @@ import { Link } from "react-router-dom";
 const Dashboard = () => {
   const [upcomingConcerts, setUpcomingConcerts] = useState([]);
   const [incomingRequests, setIncomingRequests] = useState([]);
-  let { token } = useSelector((state) => state.auth);
-  token = JSON.parse(token);
+  let token = useSelector((state) => state.auth.token);
+  if ( token != null ){
+    token = JSON.parse(token);
+    console.log("tpken : " , token)
+  }
 
   const [error, setError] = useState(null);
   const sliderRef = useRef(null);

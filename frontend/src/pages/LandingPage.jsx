@@ -51,7 +51,7 @@ const LandingPage = () => {
             Music<span className=" font-extrabold">Mate</span>
           </h1>
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Experience the Concert Like Never Before</h1>
-          <p className="text-lg md:text-xl mb-6">Discover the best concerts happening near you.</p>
+          <p className="text-xl md:text-2xl mb-6 font-bold ">Discover the best concerts happening near you.</p>
           <button onClick={() => { navigate('/concert') }} className="px-6 md:px-8 py-2 md:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full transition duration-300">
             Explore Concerts
           </button>
@@ -68,7 +68,7 @@ const LandingPage = () => {
         <div className="relative z-10 text-center text-white px-6 py-8">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Feel the Beat Live</h1>
           <p className="text-lg md:text-xl mb-6">Join us for unforgettable concerts and events.</p>
-          <button onClick={() => { navigate('/signup') }} class="px-8 py-3 bg-pink-400 hover:bg-pink-600 rounded-full text-white font-semibold transition duration-300">
+          <button onClick={() => { navigate('/signup') }} className="px-8 py-3 bg-pink-400 hover:bg-pink-600 rounded-full text-white font-semibold transition duration-300">
             SignUp
           </button>
         </div>
