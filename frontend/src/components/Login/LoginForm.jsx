@@ -16,6 +16,8 @@ function LoginForm() {
   const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  const [user, setUser] = useState(null);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -32,6 +34,8 @@ function LoginForm() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const token = await result.user.getIdToken();
+      const user = result.user;
+      setUser(user); // to make redirect to the logged in page.
       
       //sending the data to the back end
       
