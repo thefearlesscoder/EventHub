@@ -12,10 +12,12 @@ const Dashboard = () => {
   const [upcomingConcerts, setUpcomingConcerts] = useState([]);
   const [incomingRequests, setIncomingRequests] = useState([]);
   let token = useSelector((state) => state.auth.token);
-  if ( token != null ){
-    token = JSON.parse(token);
+  console.log("token : " ,token , " " , typeof(token))
+  if ( token != null && typeof(token) != "string"){
+    // token = JSON.parse(token);
     console.log("tpken : " , token)
   }
+  console.log("token : " ,token)
 
   const [error, setError] = useState(null);
   const sliderRef = useRef(null);

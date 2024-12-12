@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 const MyFriends = () => {
   const [myFriends, setMyFriends] = useState([]);
     let { token } = useSelector((state) => state.auth);
-  token = JSON.parse(token);
+  // token = JSON.parse(token);
   
 
   const fetchMyFriends = async () => {

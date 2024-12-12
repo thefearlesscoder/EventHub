@@ -6,7 +6,7 @@ const AttendedConcerts = () => {
   const [attendedConcerts, setAttendedConcerts] = useState([]);
   const sliderRef = useRef(null);
   let { token } = useSelector((state) => state.auth);
-  token = JSON.parse(token);
+  // token = JSON.parse(token);
 
   const fetchAttendedConcerts = async () => {
     const response = await axios.post(
