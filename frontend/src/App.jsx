@@ -25,6 +25,8 @@ import Slider from './components/homepage/Slider';
 import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
 import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
+import MapWithGeocoder from "./pages/LeafletTestPage"
+import CalculateMidPoint from "./pages/MidpointCalculator"
 
 
 
@@ -54,9 +56,11 @@ function App() {
         <Route path="/create-concert" element={<CreateConcert />}></Route>
         <Route path="/concert/:id" element={<Concert />}></Route>
         {/* <Route path="/test1" element={<RequestPeople />}></Route> */}
-        <Route path='/register-succes/:id' element={<PaymentSuccessPage/>}/>
+        <Route path="/register-succes/:id" element={<PaymentSuccessPage />} />
         <Route path="/concert" element={<UpcomingConcerts />}></Route>
         <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
+        <Route path="/leaflettest" element={<MapWithGeocoder />}></Route>
+        <Route path="/midpoint-calculator" element={<CalculateMidPoint />}></Route>
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>

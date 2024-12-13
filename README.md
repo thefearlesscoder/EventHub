@@ -1,8 +1,13 @@
 # MusicMate-Webster
+
 A web site to provide ideal meeting place to music lovers before any concert.
 
+npm install leaflet-control-geocoder
 
-# Collaborators 
+to get lat and log of the place selected.
 
-@vks-07 
+// Fetch coordinates using the Nominatim API
 
+# Collaborators
+
+@vks-07
