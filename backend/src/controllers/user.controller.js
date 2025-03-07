@@ -26,7 +26,7 @@ const generateAccessAndRefreshToken = async (userId) => {
     const RefreshToken = await user.generateRefreshToken();
     user.refreshToken = RefreshToken;
 
-    await user.save({ validateBeforeSave: true }); // check why we use -> validateBeforeSave
+    await user.save({ validateBeforeSave: true }); 
 
     return { AccessToken, RefreshToken };
   } catch (error) {
