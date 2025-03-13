@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from './pages/LandingPage'
@@ -10,8 +7,6 @@ import AboutUs from './pages/AboutUs';
 import Feedback from './pages/Feedback';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar/Navbar';
-import TestPage from './pages/TestPage.jsx';
-import TestPage2 from './pages/TestPage2.jsx';
 import Updatedetail from './pages/Updatedetail';
 import Profile from './pages/Profile';
 import ForgetPassword from './pages/ForgetPassword';
@@ -21,12 +16,9 @@ import { ResetPasswordPage } from './pages/ResetPassword';
 import CreateConcert from './pages/CreateConcert';
 import Concert from './pages/Concert';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Slider from './components/homepage/Slider';
 import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
 import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
-import MapWithGeocoder from "./pages/LeafletTestPage"
-import CalculateMidPoint from "./pages/MidpointCalculator"
 
 
 
@@ -46,8 +38,6 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/update-profile" element={<Updatedetail />}></Route>
-        <Route path="/testpage" element={<TestPage />} />
-        <Route path="/testpage2" element={<TestPage2 />} />
         <Route path="/forgot-password" element={<ForgetPassword />}></Route>
         <Route
           path="/reset-password/:token"

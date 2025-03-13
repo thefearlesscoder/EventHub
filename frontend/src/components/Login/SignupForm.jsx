@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { signUp } from "../../services/operations/auth"
 import { FcGoogle } from "react-icons/fc"
 import { FaFacebook } from "react-icons/fa";
+import { GoogleLogin } from "@react-oauth/google"
 
 function SignupForm() {
   const navigate = useNavigate()
@@ -50,6 +51,35 @@ function SignupForm() {
         setrole("user")
       }
       console.log(role) ;
+  }
+
+  const handleLoginWithGoogle = async (credentialResponse) => {
+    if (credentialResponse?.credential) {
+      console.log("Google Login Success:", credentialResponse);
+
+      // Extract token
+      const token = credentialResponse.credential;
+
+      console.log(token);
+      
+      // Send token to backend for verification
+      try {
+        const res = await axios.post("http://localhost:5000/api/auth/google", {
+          token,
+        }, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await res.json();
+        console.log("Backend Response:", data);
+        // Handle user authentication (e.g., save user data to state/context)
+
+      } catch (error) {
+        console.error("Error sending token to backend:", error);
+      }
+    }
   }
   
   const { loading } = useSelector( (state) => (state.auth))
@@ -176,7 +206,9 @@ function SignupForm() {
               </Link>
             </div>
             <div className=" flex gap-5 md:text-4xl text-2xl font-bold p-4 justify-center">
-                  <FcGoogle  className="cursor-pointer"/>
+            <GoogleLogin
+            onSuccess={handleLoginWithGoogle}
+            onError={() => { return toast.error("Google SignIn Failed")}}/>
                     <FaFacebook className="text-blue-400"/>
               </div>
           </form>

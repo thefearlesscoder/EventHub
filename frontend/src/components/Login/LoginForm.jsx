@@ -6,8 +6,8 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { setUser,setToken, setLoading } from "../../slices/authSlice";
-// import { login } from "../../../services/operations/authAPI"
+import { GoogleLogin } from "@react-oauth/google";
+
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -20,6 +20,35 @@ function LoginForm() {
   const [password, setPassword] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleLoginWithGoogle = async (credentialResponse) => {
+    if (credentialResponse?.credential) {
+      console.log("Google Login Success:", credentialResponse);
+
+      // Extract token
+      const token = credentialResponse.credential;
+
+      console.log(token);
+      
+      // Send token to backend for verification
+      try {
+        const res = await axios.post("http://localhost:5000/api/auth/google", {
+          token,
+        }, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await res.json();
+        console.log("Backend Response:", data);
+        // Handle user authentication (e.g., save user data to state/context)
+
+      } catch (error) {
+        console.error("Error sending token to backend:", error);
+      }
+    }
+  }
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -86,8 +115,10 @@ function LoginForm() {
             </Link>
           </div>
           <div className=" flex gap-5 md:text-4xl text-2xl font-bold p-4 justify-center">
-            <FcGoogle onClick={handleGoogleSignIn} className="cursor-pointer" />
-            <FaFacebook className="text-blue-400" />
+            <GoogleLogin 
+            onSuccess={handleLoginWithGoogle}
+            onError={() => { return toast.error("Google SignIn Failed")}}/>
+            {/* <FaFacebook className="text-blue-400" /> */}
           </div>
         </form>
       </div>

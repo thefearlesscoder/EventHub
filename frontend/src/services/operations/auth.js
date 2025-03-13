@@ -7,6 +7,7 @@ import { toast } from "react-hot-toast";
 // import { Toast } from "react-hot-toast";
 // import { toast } from "react-toastif";
 import { setToken } from "../../slices/authSlice";
+import axios from "axios";
 
 const { SIGNUP_API , LOGIN_API  , LOGOUT_API } = authApi  ;
 
