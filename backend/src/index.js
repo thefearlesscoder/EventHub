@@ -3,7 +3,7 @@ import  connectDB  from "./Database/connectDB.js";
 import { app } from "./app.js";
 import admin from "firebase-admin";
 
-import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
+// import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
 
 dotenv.config({ path: "./.env" });
 
@@ -16,9 +16,9 @@ cloudinary.v2.config({
 
 })
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
 
 
 connectDB()

@@ -59,8 +59,6 @@ function App() {
         <Route path="/register-succes/:id" element={<PaymentSuccessPage />} />
         <Route path="/concert" element={<UpcomingConcerts />}></Route>
         <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
-        <Route path="/leaflettest" element={<MapWithGeocoder />}></Route>
-        <Route path="/midpoint-calculator" element={<CalculateMidPoint />}></Route>
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>

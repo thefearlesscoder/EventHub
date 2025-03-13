@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
-import { signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "../../firebase.js";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { setUser,setToken, setLoading } from "../../slices/authSlice";
@@ -28,49 +26,6 @@ function LoginForm() {
     dispatch(login(email, password, navigate));
   };
 
-  //google signIN
-  const handleGoogleSignIn = async () => {
-    dispatch(setLoading(true)) ;
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const token = await result.user.getIdToken();
-      const user = result.user;
-      setUser(user); // to make redirect to the logged in page.
-      
-      //sending the data to the back end
-      
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/users/googlesignin",
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-        }
-        );
-        
-        console.log("fetch response: ", response.data.AccessToken);
-        // toast.success(response.data.message);
-        if (response.data.success) {
-          console.log("here");
-          
-          dispatch(setToken(response?.data?.AccessToken));
-          dispatch(setUser(response?.data?.user));
-          localStorage.setItem("user", JSON.stringify(response?.data?.user));
-          localStorage.setItem(
-            "token",
-            JSON.stringify(response?.data?.AccessToken)
-            );
-            
-            navigate("/");
-            toast.success("Login Successful");
-          }
-        } catch (error) {
-          console.error("Error during Google login", error);
-        }
-        dispatch(setLoading(false)) ;
-      };
 
   return (
     <section className="flex items-center justify-center h-screen bg-gray-100">
