@@ -10,8 +10,6 @@ import { Friend } from "../Models/Friend.model.js";
 import mongoose from "mongoose";
 import crypto from "crypto";
 
-
-
 const options = {
   httpOnly: false,
   secure: false, // here i changed
@@ -154,6 +152,60 @@ const loginUser = asyncHandler(async (req, res) => {
       )
     );
 });
+
+// const googleLogin = asyncHandler(async (req, res) => {
+//   const { email, firstName, lastName, role, username } = req.body;
+  
+//   if (!email) {
+//     return res.status(500).json({
+//       success: false,
+//       message: "EMAIL not found Login Failed",
+//     });
+//   }
+
+//   const user = await User.findOne({ $or: [{ email }] });
+//   if (!user) {
+//      // create the user
+//      const user = await User.create({
+//       uid: uuidv4(),
+//       role,
+//       firstName,
+//       lastName,
+//       email,
+//       username,
+//     });
+
+//     const createdUser = await User.findById(user._id).select(
+//       "-refreshToken"
+//     );
+//   }
+
+  
+//   console.log("before login");
+
+//   const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(
+//     user._id
+//   );
+//   const loggedinUser = await User.findById(user._id).select(
+//     "-refreshToken"
+//   );
+
+//   return res
+//     .status(200)
+//     .cookie("AccessToken", AccessToken, options)
+//     .cookie("RefreshToken", RefreshToken, options)
+//     .json(
+//       new ApiResponse(
+//         200,
+//         {
+//           user: loggedinUser,
+//           AccessToken,
+//           RefreshToken,
+//         },
+//         "User LoggedIn successfully "
+//       )
+//     );
+// });
 
 const logOutUser = asyncHandler(async (req, res) => {
   const userId = req.user._id;

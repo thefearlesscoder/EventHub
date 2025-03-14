@@ -7,6 +7,7 @@ export const authApi = {
     FORGET_API : `${BASE_URL}/users/forgot-password`,
     RESET_PASSWORD : `${BASE_URL}/users/reset-password`,
     LOGOUT_API : `${BASE_URL}/users/logout`,
+    LOGIN_WITH_GOOGLE_API: `${BASE_URL}/users/google-login`
 }
 
 export const updateApi = {
