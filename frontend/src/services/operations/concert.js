@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { apiconnector } from "../apiconnector";
 import { concertApi } from "../apis";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const { ADDCONCERT_API } = concertApi  ;
 
@@ -15,7 +16,6 @@ export function createConcert (
     seatingCapacity  ,
     genre , 
     place , 
-    token ,
     navigate 
   ) {
 
@@ -35,7 +35,7 @@ export function createConcert (
 
         
         
-        const response = await apiconnector("POST", ADDCONCERT_API , {
+        let response = await axios.post( ADDCONCERT_API , {
             artist ,
             description  ,
             pincode ,
@@ -44,12 +44,11 @@ export function createConcert (
             seatingCapacity  ,
             genre , 
             place ,
-            token 
             
-        })
+        }, { withCredentials : true  } ) ;
   
         console.log("UPLOAD CONCERT API RESPONSE............", response)
-  
+        response = response?.data 
         if (!response?.success) {
             toast.error(response?.message)
           throw new Error(response?.message)
@@ -58,7 +57,9 @@ export function createConcert (
             navigate('/dashboard')
         }
       } catch (error) {
-        console.log("UPLOAD CONCERT API ERROR............", error)
+        console.log("UPLOAD CONCERT API ERROR............", error?.data?.message)
+        // navigate
+        toast.error(error?.data?.message)
       }
     }
   }

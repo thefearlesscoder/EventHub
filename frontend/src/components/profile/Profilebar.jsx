@@ -11,7 +11,7 @@ const Profilebar = ( { item1 , item2 }) => {
                 focus:outline-none cursor-default text-2xl rounded-lg
                  placeholder:text-richblack-900 p-2 mt-2 
                 w-full  '
-            placeholder={ ` ${ item2 ? item2 : "" }`}
+            placeholder={ ` ${ item2 != null ? item2 : "" }`}
             readOnly
         >
         </input>

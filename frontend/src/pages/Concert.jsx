@@ -8,6 +8,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { BASE_URL } from "../services/apis";
 
 const Concert = () => {
   const { id } = useParams();
@@ -20,23 +21,27 @@ const Concert = () => {
     
   const searchConcert = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/v1/concert/concert/${id}`,
+      let response = await axios.post(
+        `${BASE_URL}/concert/concert/${id}`,{},
         {
-          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials:true ,
         }
       );
-
-      if (!response.ok) {
+      
+      console.log("concert responce -> " ,response)
+      response = response?.data ;
+      
+      if (!response.success ) {
         throw new Error(`Error: ${response.statusText}`);
       }
+      
+      console.log("concert responce -> " ,response)
 
-      const data = await response.json();
-      setconcdetails(data.data);
-      console.log("Concert data:", data.data);
+      setconcdetails(response.data);
+      console.log("Concert data:", response.data);
       console.log(concertdetails);
     } catch (error) {
       console.error("Error fetching concert:", error);
@@ -58,23 +63,25 @@ const Concert = () => {
 
     const addingDetails = async () => {
     try {
-        console.log(`Requesting with id: ${id} and token: ${JSON.parse(token)}`);
+        console.log(`Requesting with id: ${id} and token: ${token}}`);
 
-        const form = new FormData();
-        form.append("token", JSON.parse(token)); 
+      
 
         const response = await axios.post(
-        `http://localhost:5000/api/v1/concert/register-for-concert/${id}`,
-        form,
+        `${BASE_URL}/concert/register-for-concert/${id}`,
+          {},
         {
-            headers: {
-            "Content-Type": "multipart/form-data",
-            },
+            withCredentials:true ,
         }
         );
 
+        
+        console.log("heeloooooo") ;
         // toast.success("Data updated successfully");
-        console.log("Response data:", response.data);
+        console.log("Response data buy  concert: - >> ", response.data);
+        
+        if ( response?.data?.success )
+            await makePayment() ;
         // navigate(`/register-succes/${id}`);
     } catch (error) {
         console.error("Error in adding details:", error.message);
@@ -100,11 +107,12 @@ const Concert = () => {
       };
 
       const response = await fetch(
-        "http://localhost:5000/api/v1/concert/create-checkout-session",
+        `${BASE_URL}/concert/create-checkout-session`,
         {
           method: "POST",
           headers: headers,
           body: JSON.stringify(body),
+          credentials: "include" 
         }
       );
 
@@ -144,8 +152,9 @@ const Concert = () => {
         toast.error("You need to login") ;
     }else {
 
-      await addingDetails();
-      await makePayment() ;
+      const res = await addingDetails();
+      
+        // await makePayment() ;
         // navigate(`/register-succes/${id}`);
         // toast.success("Registed successfull");
     }

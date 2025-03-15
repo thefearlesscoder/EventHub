@@ -4,33 +4,34 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
+import { BASE_URL } from "../..//services/apis";
 
 function UsersPage() {
 
   const { id } = useParams() ;  
-  let {token} = useSelector( (state) => state.auth) ;
+  let {token , user } = useSelector( (state) => state.auth) ;
   console.log(id) ;
   const [ users , setuser ] = useState([]) ;
-  console.log(`http://localhost:5000/api/v1/concert/get-friends/${id}`) ;
-  token = JSON.parse(token)
+  // console.log(`http://localhost:5000/api/v1/concert/get-friends/${id}`) ;
   const requestResponse = async () => {
   
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/v1/concert/get-friends/${id}`, 
+        `${BASE_URL}/concert/get-friends/${id}`, 
         { 
-          token ,
         },
         {
           headers: {
             Authorization: token,
           },
+          withCredentials:true ,
         }
       );
       console.log("Response:", response.data.data);
-      console.log( response.data.data._id) ;
+      console.log( response.data.data) ;
       setuser( response.data.data) ;
       toast.success(response.data.message) ;
+
     } catch (error) {
       console.error(error);
     }
@@ -38,18 +39,18 @@ function UsersPage() {
 
   useEffect( () => {
     requestResponse() ;
-  }, [])
+  }, [id])
 
   return (
     <div className="flex flex-wrap justify-center bg-gray-100 min-h-screen p-4">
-      {users.map((user, index) => (
-        <UserCard
+      {users.map(( reguser , index) => (
+        reguser._id !== user._id ? <UserCard
           key={index}
-          id = { user._id}
-          name={`${user.firstName} ${user.lastName}`}
-          username={user.username}
-          address={user.address}
-        />
+          id = { reguser._id}
+          name={`${reguser.firstName} ${reguser.lastName}`}
+          username={reguser.username}
+          address={reguser.address}
+        /> : <div></div>
       ))}
     </div>
   );

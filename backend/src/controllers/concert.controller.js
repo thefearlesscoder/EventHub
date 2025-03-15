@@ -182,7 +182,8 @@ const allUpcomingConcerts = asyncHandler(async (req, res) => {
           videos: media.videos,
         },
       }))
-      .sort((a, b) => a.date - b.date);
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+
 
     return res.status(200).json({
       success: true,
@@ -219,6 +220,8 @@ const registerForConcert = asyncHandler(async (req, res) => {
       message: "User not found",
     });
   }
+
+  console.log(user) ;
 
   if (!concert.peoples.includes(userId)) {
     concert.peoples.push(userId);

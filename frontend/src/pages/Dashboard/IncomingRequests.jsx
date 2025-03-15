@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from 'axios';
+import { BASE_URL } from "../../services/apis";
 
 const IncomingRequests = () => {
   const [incomingRequests, setIncomingRequests] = useState([]);
   const [status, setStatus] = useState('pending');
   const [currentFriendId, setCurrentFriendId] = useState(null); // To store the current friend's ID when accepting/rejecting
   let { token } = useSelector((state) => state.auth);
-  token = JSON.parse(token);
 
   useEffect(() => {
     const fetchIncomingRequests = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/v1/friends/users-requesting-me",
-          { token },
+          `${BASE_URL}/friends/users-requesting-me`,
+          { status},
           {
-            headers: {
-              Authorization: token, // Sending token in the header
-            },
+            withCredentials : true 
           }
         );
         console.log(response) ;
@@ -28,7 +26,7 @@ const IncomingRequests = () => {
       }
     };
     fetchIncomingRequests();
-  }, [token]);
+  }, [token , status]);
 
   const acceptRequest = (id) => {
     setStatus("accepted");
@@ -44,15 +42,12 @@ const IncomingRequests = () => {
   
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/v1/friends/response-request/${currentFriendId}`, 
+        `${BASE_URL}/friends/response-request/${currentFriendId}`, 
         { 
-          token,
           status,
         },
         {
-          headers: {
-            Authorization: token,
-          },
+          withCredentials : true ,
         }
       );
       console.log("Response:", response.data);

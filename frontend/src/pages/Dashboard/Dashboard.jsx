@@ -6,12 +6,13 @@ import AttendedConcerts from "./AttendedConcerts";
 import Expenditure from "./Expenditure";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
-
+import { BASE_URL } from "../../services/apis";
 
 const Dashboard = () => {
   const [upcomingConcerts, setUpcomingConcerts] = useState([]);
   const [incomingRequests, setIncomingRequests] = useState([]);
   let token = useSelector((state) => state.auth.token);
+
   console.log("token : " ,token , " " , typeof(token))
   if ( token != null && typeof(token) != "string"){
     // token = JSON.parse(token);
@@ -25,8 +26,8 @@ const Dashboard = () => {
   const fetchConcerts = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/concert/my-upcoming-concerts",
-        { token }
+        `${BASE_URL}/concert/my-upcoming-concerts`,
+        {  },{withCredentials:true }
         );
       setUpcomingConcerts(response.data.data);
       console.log(response.data.data);
@@ -39,14 +40,12 @@ const Dashboard = () => {
   const fetchIncomingRequests = async () => {
     try {
       console.log("sdhvhjckdsjcbhjdvs");
-
+      console.log(BASE_URL)
       const response = await axios.post(
-        "http://localhost:5000/api/v1/friends/users-requesting-me",
-        { token },
+        `${BASE_URL}/friends/users-requesting-me`,
+        { },
         {
-          headers: {
-            Authorization: token, // Sending token in the header
-          },
+          withCredentials:true ,
         }
       );
       console.log(response);
@@ -59,7 +58,7 @@ const Dashboard = () => {
     fetchIncomingRequests();
     // console.log("hellooooooo")
     // console.log(upcomingConcerts) ;
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     const interval = setInterval(() => {

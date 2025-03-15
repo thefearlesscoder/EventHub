@@ -19,8 +19,8 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
 import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
-import Navigate from './pages/Navigate';
-import Map from './pages/Map';
+// import Navigate from './pages/Navigate';
+// import Map from './pages/Map';
 
 
 
@@ -53,8 +53,8 @@ function App() {
         <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
 
 
-        <Route path="/displaymap" element={<Map />} />
-        <Route path="/navigate" element={<Navigate />} />
+        {/* <Route path="/displaymap" element={<Map />} /> */}
+        {/* <Route path="/navigate" element={<Navigate />} /> */}
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>

@@ -65,7 +65,7 @@ const { SIGNUP_API , LOGIN_API  , LOGOUT_API } = authApi  ;
       
       dispatch(setLoading(true))
       try {
-        const response = await apiconnector("POST", SIGNUP_API, {
+        let response = await axios.post( SIGNUP_API, {
           firstName,
           lastName,
           email,
@@ -73,10 +73,11 @@ const { SIGNUP_API , LOGIN_API  , LOGOUT_API } = authApi  ;
           confirmPassword,
           role ,
             username
-        })
+        }, { withCredentials : true }) ;
   
         console.log("SIGNUP API RESPONSE............", response)
-  
+        response = response?.data 
+        console.log("SIGNUP API RESPONSE............", response)
         if (!response?.success) {
             toast.error(response?.message)
           throw new Error(response?.message)
@@ -85,7 +86,9 @@ const { SIGNUP_API , LOGIN_API  , LOGOUT_API } = authApi  ;
             navigate("/login")
         }
       } catch (error) {
-        console.log("SIGNUP API ERROR............", error)
+        // let message = error.response?.data ;
+        console.log("SIGNUP API ERROR............", error.response?.data)
+        toast.error (error.response?.data.message) ;
         navigate("/signup")
       }
       dispatch(setLoading(false))
@@ -103,13 +106,17 @@ const { SIGNUP_API , LOGIN_API  , LOGOUT_API } = authApi  ;
       
       dispatch(setLoading(true))
       try {
-        const response = await apiconnector("POST", LOGIN_API , {
+        let response = await axios.post(LOGIN_API , {
           email,
           password,
+        },{
+          withCredentials : true 
         })
   
-        console.log("LOGIN API RESPONSE............", response)
-  
+        console.log("LOGIN API RESPONSE...¸č.........", response)
+        response = response?.data 
+        console.log("LOGIN API RESPONSE...¸č.........", response)
+
         if (!response?.success) {
             toast(response?.message)
           throw new Error(response?.message)
@@ -137,6 +144,9 @@ const { SIGNUP_API , LOGIN_API  , LOGOUT_API } = authApi  ;
       localStorage.removeItem('user')
       dispatch(setToken(null))
       dispatch(setUser(null))
+
+      const response = await axios.post ( LOGOUT_API , {} , {withCredentials : true }) ;
+
       toast.success("Logged Out")
       navigate("/")
     }

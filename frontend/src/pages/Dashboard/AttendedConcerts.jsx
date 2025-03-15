@@ -1,6 +1,8 @@
+import { BASE_URL } from "../../services/apis";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+// import  from "../../services/apis"
 
 const AttendedConcerts = () => {
   const [attendedConcerts, setAttendedConcerts] = useState([]);
@@ -10,12 +12,10 @@ const AttendedConcerts = () => {
 
   const fetchAttendedConcerts = async () => {
     const response = await axios.post(
-      "http://localhost:5000/api/v1/concert/my-attended-concerts",
-      { token },
+      `${BASE_URL}/concert/my-attended-concerts`,
+      { },
       {
-        headers: {
-          Authorization: token, // Sending token in the header
-        },
+        withCredentials : true ,
       }
     );
     console.log("attende concerts:", response.data.data);

@@ -21,7 +21,7 @@ const NearbyPlaces = ({ midpoint, onSelectPlace }) => {
     };
 
     if (midpoint) fetchNearbyPlaces();
-  }, [midpoint]);
+  }, []);
 
   return (
     <div>

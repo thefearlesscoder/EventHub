@@ -1,3 +1,4 @@
+import { BASE_URL } from '../..//services/apis';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
@@ -11,12 +12,10 @@ const MyFriends = () => {
   const fetchMyFriends = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/friends/my-friends",
-        { token },
+          `${BASE_URL}/friends/my-friends`,
+        {},
         {
-          headers: {
-            Authorization: token, // Sending token in the header
-          },
+          withCredentials : true ,
         }
       );
       console.log("xyz:", response.data.data); 

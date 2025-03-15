@@ -1,3 +1,4 @@
+import { BASE_URL } from "../..//services/apis";
 import axios from "axios";
 import React from "react";
 import { toast } from "react-hot-toast";
@@ -7,13 +8,13 @@ import { useSelector } from "react-redux";
 function UserCard({ name, username, address , id }) {
 
   let { token  } = useSelector( (state) => state.auth )  ;
-  token = JSON.parse(token) ;
+
 
   const addfriend = async ( id ) => {
     console.log(id) ;
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/v1/friends/request-friend/${id}`,
+        `${BASE_URL}/friends/request-friend/${id}`,
         { token },
         {
           headers: {
@@ -25,7 +26,7 @@ function UserCard({ name, username, address , id }) {
       toast.success( response.data.message) ;
     } catch (error) {
       console.error(error); 
-      toast.error(error) ;
+      toast.error(error.data.message) ;
     }
   } 
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ConcertCard from "./ConcertCard";
 import axios from "axios";
 import FilterComponent from "../FilterComponent";
+import { BASE_URL } from "../../services/apis";
 
 const genres = [
   "Pop",
@@ -27,7 +28,9 @@ const UpcomingConcerts = () => {
   const fetchAllConcerts = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/concert/upcoming-concert"
+        `${BASE_URL}/concert/upcoming-concert`,{},{
+          withCredentials:true ,
+        }
       );
       console.log("All concerts:", response.data.data);
       setAllConcerts(response.data.data);
@@ -38,7 +41,7 @@ const UpcomingConcerts = () => {
 
   useEffect(() => {
     fetchAllConcerts();
-  }, []);
+  }, [genres]);
 
   useEffect(() => {
     console.log("Filtering concerts by genre:", selectedGenre); // Debug: Check filter condition

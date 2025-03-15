@@ -1,6 +1,6 @@
 
 import { apiconnector } from "../apiconnector";
-import { updateApi } from "../apis";
+import { BASE_URL, updateApi } from "../apis";
 import { setLoading, setUser, setToken } from "../../slices/authSlice";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -8,44 +8,44 @@ import axios from "axios";
 
 const { UPDATEPROFILE_API, UPDATE_IMAGE } = updateApi;
 
-export function updateprofile(
+export function updateprofile (
   firstName,
   lastName,
   username,
   address,
   phone,
-  navigate, token
+  navigate
 ) {
   //   const navigate = useNavigate() ;
   return async (dispatch) => {
     // console.log("kunal here")
     // const { token } = useSelector( (state) => state.auth.token ) ;
-    console.log("token -> ", token);
+    // console.log("token -> ", token);
 
     dispatch(setLoading(true))
     try {
 
-      const response = await apiconnector("POST", UPDATEPROFILE_API, {
+      let response = await axios.post( UPDATEPROFILE_API, {
         firstName,
         lastName,
         username,
         address,
-        phone,
-        token
-      })
+        phone
+      },{ withCredentials : true })
 
       console.log("UPDATEPROFILE API RESPONSE............", response)
-
+      response = response?.data ;
       if (!response?.success) {
         toast.error(response?.message)
         throw new Error(response?.message)
       } else {
         toast.success(response?.message)
-        setUser(response?.data);
+        // setUser(response?.data?.data) ;
         localStorage.removeItem('user')
         localStorage.setItem('user', JSON.stringify(response?.data))
         // navigate("/ab")
-        navigate('/dashboard')
+        setUser(response?.data);
+        navigate('/')
       }
     } catch (error) {
       console.log("profile API ERROR............", error)
@@ -57,7 +57,7 @@ export function updateprofile(
 }
 
 
-export function updateImage(formData, token, navigate) {
+export function updateImage(formData, formData1 , navigate) {
   return async (dispatch) => {
     dispatch(setLoading(true));
 
@@ -65,11 +65,10 @@ export function updateImage(formData, token, navigate) {
       console.log("bmncbskd");
       console.log("FormData content:", [...formData.entries()]);
 
-      const response = await axios.post("http://localhost:5000/api/v1/users/update-image", formData, {
+      let response = await axios.post(`${BASE_URL}/users/update-image`, formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
         },
       });
       console.log("UPDATEIMAGE API RESPONSE:", response.data.user);
@@ -79,6 +78,19 @@ export function updateImage(formData, token, navigate) {
         localStorage.setItem('user', JSON.stringify(response?.data?.user));
         toast.success("Image updated suceesfully")
         // navigate('/dashboard')
+
+        dispatch(
+              updateprofile(
+                formData1.firstName,
+                formData1.lastName,
+                formData1.username,
+                formData1.address,
+                formData1.phone,
+                navigate
+              )
+            );
+        
+      
     } catch (error) {
       console.error("Error in update-image request:", error);
     }

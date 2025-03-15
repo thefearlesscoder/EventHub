@@ -11,10 +11,12 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 
 const options = {
-  httpOnly: false,
-  secure: false, // here i changed
-  sameSite: "None",
+  httpOnly: false,       // JS can access (not recommended for auth cookies)
+  secure: false,         // true if you're on HTTPS
+  sameSite: "Lax",       // use "None" only if needed and with secure: true
+  maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
 };
+
 const generateAccessAndRefreshToken = async (userId) => {
   try {
     const user = await User.findById(userId);
@@ -99,7 +101,7 @@ const registerUser = asyncHandler(async (req, res) => {
   // Return a success response
   return res
     .status(201)
-    .json(new ApiResponse(201, createdUser, "User registered successfully"));
+    .json(new ApiResponse(200, createdUser, "User registered successfully"));
 });
 
 const loginUser = asyncHandler(async (req, res) => {

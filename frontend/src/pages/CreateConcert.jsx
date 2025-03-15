@@ -19,6 +19,7 @@ const CreateConcert = () => {
       ticketPrice : 0 ,
       seatingCapacity : 0  ,
       genre : "Genz" ,
+      place : "" ,
     }   
   )
   const [ loading , setloading ] = useState(false) ;
@@ -37,18 +38,14 @@ const CreateConcert = () => {
     e.preventDefault();
     setloading(true);
   
-    const updatedFormData = {
-      ...formData,
-      place: location,
-    };
 
   
     try {
-      console.log(updatedFormData);
+      // console.log(updatedFormData);
       dispatch(createConcert(formData.artist ,
          formData.description , formData.date , formData.pincode ,
           formData.ticketPrice , formData.seatingCapacity , 
-          formData.genre , location , JSON.parse(token) , navigate ));
+          formData.genre , formData.place , navigate ));
       // navigate('/dashboard')
     } catch (error) {
       console.error("Error creating concert:", error);
@@ -149,7 +146,13 @@ const CreateConcert = () => {
                   </div>
                   <div className='flex gap-3  flex-col md:w-[40%]' >
                       <h2 className='text-2xl '>Enter your location</h2>
-                      <PickLocation setlocation={setlocation}/>
+                    <input type='text' 
+                    name='place'
+                    value={formData.place}
+                    onChange={handleOnChange}
+                    className='flex-1 p-2 focus:outline-none border border-black rounded-md text-richblack-900 '></input>
+                  {/* </div> */}
+                      {/* <PickLocation setlocation={setlocation}/> */}
                   </div>
                   
 

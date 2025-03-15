@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { BASE_URL } from "../services/apis.js";
 
 
 
@@ -18,7 +19,9 @@ const LandingPage = () => {
   const fetchAllConcerts = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/concert/upcoming-concert"
+        `${BASE_URL}/concert/upcoming-concert`,{},{
+          withCredentials :true ,
+        }
       );
       console.log("All concerts:", response.data.data);
       setAllConcerts(response.data.data);
