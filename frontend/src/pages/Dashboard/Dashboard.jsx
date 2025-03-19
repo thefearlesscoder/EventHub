@@ -53,27 +53,6 @@ const Dashboard = () => {
     } catch (err) {}
   };
 
-  useEffect(() => {
-    fetchConcerts();
-    fetchIncomingRequests();
-    // console.log("hellooooooo")
-    // console.log(upcomingConcerts) ;
-  }, [token]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (sliderRef.current) {
-        sliderRef.current.scrollLeft -= sliderRef.current.offsetWidth;
-        if (sliderRef.current.scrollLeft <= 0) {
-          sliderRef.current.scrollLeft = sliderRef.current.scrollWidth;
-        }
-      }
-    }, 3000); // Adjust the interval to control the speed
-
-    return () => clearInterval(interval); // Clean up interval on component unmount
-  }, [upcomingConcerts]);
-
-
   const [status, setStatus] = useState('pending');
   const [currentFriendId, setCurrentFriendId] = useState(''); 
 
@@ -94,18 +73,16 @@ const Dashboard = () => {
   
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/v1/friends/response-request/${currentFriendId}`, 
+        `${BASE_URL}/friends/response-request/${currentFriendId}`, 
         { 
-          token,
+          // token,
           status,
         },
         {
-          headers: {
-            Authorization: token,
-          },
+          withCredentials:true ,
         }
       );
-      console.log("Response:", response.data);
+      console.log("Response frined :", response.data);
       setIncomingRequests((prevRequests) =>
         prevRequests.filter((friend) => friend.senderId !== currentFriendId)
       );
@@ -114,6 +91,27 @@ const Dashboard = () => {
       console.error(error);
     }
   };
+  useEffect(() => {
+    fetchConcerts();
+    fetchIncomingRequests();
+    // console.log("hellooooooo")
+    // console.log(upcomingConcerts) ;
+  }, [token , status  ]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (sliderRef.current) {
+        sliderRef.current.scrollLeft -= sliderRef.current.offsetWidth;
+        if (sliderRef.current.scrollLeft <= 0) {
+          sliderRef.current.scrollLeft = sliderRef.current.scrollWidth;
+        }
+      }
+    }, 3000); // Adjust the interval to control the speed
+
+    return () => clearInterval(interval); // Clean up interval on component unmount
+  }, [upcomingConcerts]);
+
+
 
   return (
     <div className="flex flex-col">

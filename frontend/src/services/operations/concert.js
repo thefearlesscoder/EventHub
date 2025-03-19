@@ -57,7 +57,7 @@ export function createConcert (
             navigate('/dashboard')
         }
       } catch (error) {
-        console.log("UPLOAD CONCERT API ERROR............", error?.data?.message)
+        console.log("UPLOAD CONCERT API ERROR............", error)
         // navigate
         toast.error(error?.data?.message)
       }
