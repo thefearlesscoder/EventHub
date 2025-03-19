@@ -7,7 +7,7 @@ import { FaFacebook } from "react-icons/fa";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { GoogleLogin } from "@react-oauth/google";
-
+import { jwtDecode } from "jwt-decode";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -26,13 +26,15 @@ function LoginForm() {
       console.log("Google Login Success:", credentialResponse);
 
       // Extract token
-      const token = credentialResponse.credential;
+      let token = credentialResponse.credential;
 
+      console.log(token);
+      token = jwtDecode(token);
       console.log(token);
       
       // Send token to backend for verification
       try {
-        const res = await axios.post("http://localhost:5000/api/auth/google", {
+        const res = await axios.post("http://localhost:4000/api/auth/google", {
           token,
         }, {
           headers: {
