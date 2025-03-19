@@ -9,6 +9,9 @@ import toast from "react-hot-toast";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 
+
+import { jwtDecode } from "jwt-decode";
+
 function LoginForm() {
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state.auth);
@@ -27,15 +30,25 @@ function LoginForm() {
 
       // Extract token
       let token = credentialResponse.credential;
+      console.log(token);
+     
 
+      token = jwtDecode(token)
       console.log(token);
       token = jwtDecode(token);
       console.log(token);
+
+     const email = token.email;
+     const given_name = token.given_name;
+     const family_name = token.family_name;
+     const image = token.picture
+      
       
       // Send token to backend for verification
       try {
         const res = await axios.post("http://localhost:4000/api/auth/google", {
-          token,
+          email, given_name, family_name, image,
+      
         }, {
           headers: {
             "Content-Type": "application/json",
