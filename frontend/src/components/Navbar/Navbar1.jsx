@@ -56,7 +56,17 @@ const Navbar = () => {
 
           {/* Auth Links on Desktop */}
           <div className="hidden md:flex space-x-4 items-center">
-            <Link
+              { user ?
+               (<div
+                
+             
+              className="bg-black text-white font-bold hover:bg-black/90 px-4 py-2 h-9 text-sm rounded-md shadow transition-colors"
+            >
+              LogOut
+            </div>
+
+              ) : (<div>
+                <Link
               to="/login"
               className="hover:bg-accent hover:text-accent-foreground px-4 py-2 h-9 text-sm font-bold rounded-md transition-colors"
             >
@@ -68,6 +78,11 @@ const Navbar = () => {
             >
               Register
             </Link>
+              </div>)}
+            
+          
+            
+            
           </div>
 
           {/* Hamburger Button */}
@@ -102,16 +117,49 @@ const Navbar = () => {
               </button>
             </div>
 
-            {[...mainLinks, ...userLinks ,...authLinks].map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                onClick={() => setIsOpen(false)}
-                className="block text-base font-medium text-muted-foreground hover:text-primary"
-              >
-                {link.name}
-              </Link>
-            ))}
+            { 
+                user ? (
+                  
+                  <div>
+                    {
+                      [...mainLinks, ...userLinks ].map((link) => (
+                      <Link
+                        key={link.name}
+                        to={link.path}
+                        onClick={() => setIsOpen(false)}
+                        className="block text-base font-medium text-muted-foreground hover:text-primary"
+                      >
+                        {link.name}
+                      </Link>
+                    ))
+
+                  }
+
+<div
+                       
+                        onClick={() => setIsOpen(false)}
+                        className="block text-base font-medium text-muted-foreground hover:text-primary"
+                      >
+                        Logout
+                      </div>
+                  
+                    
+
+                  </div>
+
+              
+              
+              )  : ([...mainLinks, ...userLinks ,...authLinks].map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    onClick={() => setIsOpen(false)}
+                    className="block text-base font-medium text-muted-foreground hover:text-primary"
+                  >
+                    {link.name}
+                  </Link>
+                ))) 
+            }
           </motion.div>
         )}
       </AnimatePresence>
