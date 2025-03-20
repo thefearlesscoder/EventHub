@@ -1,94 +1,193 @@
 import React from 'react'
 import Logo from '../../assets/logo.jpg'
-import { FaFacebook } from "react-icons/fa";
+import { FaFacebook, FaTwitter } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { IoLogoInstagram } from "react-icons/io";
 
 const Footer = () => {
   return (
-    // <div className='  w-full min-h-[150px]  text-center bg-black md:text-auto  text-richblack-25 md-gap gap-8 flex md:flex-row flex-col  md:justify-around 
-    // p-5 items-center  '>
-    //     <div className='flex flex-col  gap-5 md:max-w-[25%] w-full ' >
-    //             <Link to={'/'}>
-    //         <div className=' w-full flex items-center text-xl font-bold text-richblack-25 gap-3 justify-center'>
-    //                 <img src={Logo} className='md:w-[20%] w-[10%] rounded-full '></img>
-    //                 Musicmate
-    //         </div>
-    //             </Link>
-    //         <div className='font-semibold'>
-    //             <p>
-    //                 Created By Team codebase | 2024
-    //             </p>
-    //             <p>TeamId : 759 </p>
-    //         </div>
-    //     </div>
-    //     <div className=' md:w-[20%] w-full flex gap-4 items-center  font-bold justify-center md:text-xl text-lg md:flex-row flex-col  '>
-    //         <Link to={'/aboutus'} className={` hover:text-yellow-200`}>
-    //             About Us
-    //         </Link>
-    //         <Link to={'/contactus'} className=' hover:text-yellow-200'>
-    //             ContactUs
-    //         </Link>
-    //     </div>
-    //     <div className='md:w-[20%] w-full font-bold md:text-xl text-lg flex flex-col gap-4 justify-center'>
-    //         <div className=' '>
-    //             Follow other Social handle 
-    //         </div>
-
-    //         <div className='flex  md:text-4xl text-xl items-center gap-3 justify-center'>
-    //             <IoLogoInstagram className=' transition-all duration-500  rounded-lg bg-cover  hover:bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] '/>
-    //             <FaFacebook className={` transition-all duration-200 hover:text-blue-200 `}></FaFacebook>
-    //         </div>
-    //     </div>
-    // </div>
-    <div className="bg-richblack-700 text-gray-300 rounded-lg shadow-sm m-4">
-      <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <a
-            href="https://flowbite.com/"
-            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
-          >
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
-            />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
-              EventHub
-            </span>
-          </a>
-          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-pure-greys-200 sm:mb-0">
-            <li>
-              <a href="#" className="hover:underline hover:text-white hover:scale-105 transition-all me-4 md:me-6">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline hover:text-white hover:scale-105 transition-all me-4 md:me-6">
-                Privacy Policy
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline hover:text-white hover:scale-105 transition-all me-4 md:me-6">
-                Licensing
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:underline hover:text-white hover:scale-105 transition-all">
-                Contact
-              </a>
-            </li>
-          </ul>
+    <div className="bg-blue-900 text-gray-400 py-10 px-6">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-evenly gap-8">
+        {/* Left Section - Logo & Social Links */}
+        <div className="space-y-4">
+          <h2 className="text-3xl font-semibold text-pure-greys-200">My Academy</h2>
+          <p className="text-pure-greys-200">
+            Wits seamlessly connects your members with community & resources.
+          </p>
+          <div className="flex space-x-4">
+            <a
+              href="#"
+              className="p-2 bg-white rounded-md hover:bg-blue-700 transition-transform transform hover:scale-110"
+            >
+              <FaFacebook/>
+            </a>
+            <a
+              href="#"
+              className="p-2 bg-white rounded-md hover:bg-blue-700 transition-transform transform hover:scale-110"
+            >
+              <FaInstagram/>
+            </a>
+            <a
+              href="#"
+              className="p-2 bg-white rounded-md hover:bg-blue-700 transition-transform transform hover:scale-110"
+            >
+              <FaTwitter/>
+            </a>
+          </div>
         </div>
-        <hr className="my-6 border-pure-greys-25 sm:mx-auto lg:my-8" />
-        <span className="block text-sm text-pure-greys-200 sm:text-center">
-          © 2025{" "}
-          <a href="https://flowbite.com/" className="hover:underline hover:text-white">
-            EventHub™
-          </a>
-          . All Rights Reserved.
-        </span>
+
+        {/* Center Section - Links */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-pure-greys-200">
+          <div>
+            <h3 className="text-xl font-semibold text-gray-200 mb-3">Platform</h3>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  How it Works
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  Checkout
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  Fraud
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  Protection
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  Payments
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  Accounts
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-gray-200 mb-3">Learn</h3>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  Resources
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  FAQs
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  ThinkShop
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold text-gray-200 mb-3">About</h3>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  Careers
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  Team
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  Partners
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-gray-200 transition-transform transform hover:scale-105"
+                >
+                  News & Press
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Right Section - Contact */}
+        <div className="text-center text-pure-greys-200 md:text-left">
+          <h2 className="text-2xl font-semibold text-gray-200">Contact Us</h2>
+          <button className="mt-4 bg-red-600 hover:bg-red-700 text-gray-200 px-5 py-2 rounded-lg transition-transform transform hover:scale-110">
+            Get in Touch
+          </button>
+        </div>
+      </div>
+
+      {/* Copyright Section */}
+      <div className="border-t border-white mt-8 pt-6 text-center text-pure-greys-200">
+        &copy; 2024 My Academy. All rights reserved.
       </div>
     </div>
   )
