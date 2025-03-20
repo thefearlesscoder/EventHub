@@ -29,7 +29,7 @@ function Navbar() {
         <div className="flex items-center space-x-6">
           <div className="text-blue-500 font-bold text-lg hover:scale-125 transition-all duration-200 cursor-pointer">
             <Link to="/">
-              <img src={logo} alt="Logo" className=" md:w-[4rem] w-[2rem] rounded-full" />
+              <img src="https://flowbite.com/docs/images/logo.svg" alt="Logo" className=" md:w-[4rem] w-[2rem] rounded-full" />
               
             </Link>
           </div>

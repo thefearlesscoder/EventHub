@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import  connectDB  from "./Database/connectDB.js";
 import { app } from "./app.js";
-import admin from "firebase-admin";
+
 
 // import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
 

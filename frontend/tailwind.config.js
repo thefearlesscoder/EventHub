@@ -1,9 +1,12 @@
+
+
 module.exports = {
   darkMode: ["class"],
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
     "./node_modules/shadcn/**/*.js",
+    
   ],
   theme: {
     fontFamily: {
@@ -146,5 +149,6 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [ 
+  ],
 };

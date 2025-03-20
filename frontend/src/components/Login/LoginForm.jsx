@@ -8,6 +8,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import { BASE_URL } from "../../services/apis";
+import { setToken , setUser } from "../../slices/authSlice";
 
 
 function LoginForm() {
@@ -28,9 +30,10 @@ function LoginForm() {
 
       // Extract token
       let token = credentialResponse.credential;
-
       console.log(token);
-      token = jwtDecode(token);
+     
+
+      token = jwtDecode(token)
       console.log(token);
 
       const email = token.email;

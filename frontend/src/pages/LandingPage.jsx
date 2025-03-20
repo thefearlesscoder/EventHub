@@ -172,9 +172,9 @@ const LandingPage = () => {
       </section>
 
 
-      <footer className="py-8 bg-gray-800 text-center">
+      {/* <footer className="py-8 bg-gray-800 text-center">
         <p className="text-gray-400 text-sm md:text-md">© 2024 MusicMate. All rights reserved</p>
-      </footer>
+      </footer> */}
     </div>
   );
 };
