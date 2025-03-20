@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { BASE_URL } from "../services/apis.js";
-
+import cardlogo from "../assets/cardlogo.jpg";
 
 
 const LandingPage = () => {
@@ -126,22 +126,46 @@ const LandingPage = () => {
           <h2 className="text-4xl md:text-6xl font-semibold text-center text-bla mb-8 md:mb-10">Featured Concerts</h2>
           <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3 md:text text-center md:p-10 p-10 pb-0">
             {[1 , 2 , 3 ].map((concert) => (
-              <div
-                key={concert}
-                className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300"
-              >
-                <h3 className="text-lg md:text-xl font-semibold text-black">Arjit singh</h3>
-                <p className="text-sm md:text-md mt-2 text-gray-400">come and sing with us</p>
-                <div className="mt-4 text-gray-300">
-                  <span className="font-bold">Date:</span> 12/10/2035
-                </div>
-                <div className="mt-2 text-gray-300">
-                  <span className="font-bold">Venue:</span> Delhi
-                </div>
-                <button onClick={ () => {navigate('/concert')}} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition duration-300">
-                  View More
-                </button>
-              </div>
+             <div className="max-w-sm bg-white  rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+             <a href="#">
+               <img
+                 className="rounded-t-lg w-full h-48 object-cover"
+                 src={cardlogo}// Replace with your actual path or import
+                 alt="Blog cover"
+               />
+             </a>
+             <div className="p-5">
+               <a href="#">
+                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                   Noteworthy technology acquisitions 2021
+                 </h5>
+               </a>
+               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+               </p>
+               <a
+                 href="#"
+                 className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+               >
+                 Read more
+                 <svg
+                   className="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+                   aria-hidden="true"
+                   xmlns="http://www.w3.org/2000/svg"
+                   fill="none"
+                   viewBox="0 0 14 10"
+                 >
+                   <path
+                     stroke="currentColor"
+                     strokeLinecap="round"
+                     strokeLinejoin="round"
+                     strokeWidth="2"
+                     d="M1 5h12m0 0L9 1m4 4L9 9"
+                   />
+                 </svg>
+               </a>
+             </div>
+           </div>
             ))}
           </div>
         </div>
