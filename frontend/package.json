@@ -28,6 +28,8 @@
     "embla-carousel-autoplay": "^8.3.1",
     "embla-carousel-react": "^8.3.1",
     "firebase": "^11.0.1",
+    "flowbite": "^3.1.2",
+    "flowbite-react": "^0.10.2",
     "google": "^2.1.0",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
