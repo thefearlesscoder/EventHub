@@ -1,4 +1,4 @@
-import { login } from "../../services/operations/auth";
+import { googleLogin, login } from "../../services/operations/auth";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -31,24 +32,16 @@ function LoginForm() {
       console.log(token);
       token = jwtDecode(token);
       console.log(token);
+
+      const email = token.email;
+      const name = token.name;
+      const image = token.picture;
+      const family_name = token.family_name;
+      const given_name = token.given_name;
+      const googleId = token.sub; // Google ID
       
       // Send token to backend for verification
-      try {
-        const res = await axios.post("http://localhost:4000/api/auth/google", {
-          token,
-        }, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const data = await res.json();
-        console.log("Backend Response:", data);
-        // Handle user authentication (e.g., save user data to state/context)
-
-      } catch (error) {
-        console.error("Error sending token to backend:", error);
-      }
+      dispatch( googleLogin(email, family_name, given_name, image, navigate) );
     }
   }
 

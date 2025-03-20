@@ -19,6 +19,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
 import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
+import Navbar1 from './components/Navbar/Navbar1';
 
 // import Navigate from './pages/Navigate';
 // import Map from './pages/Map';
@@ -29,7 +30,7 @@ function App() {
 
   return (
     <div className="bg-richblack-5 ">
-      <Navbar></Navbar>
+      <Navbar1/>
       {/* <Router> */}
 
       <Routes>

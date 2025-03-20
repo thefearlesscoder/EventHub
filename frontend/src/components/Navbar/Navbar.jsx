@@ -17,8 +17,8 @@ function Navbar() {
     dispatch(logout(navigate)) ;
   }
 
-  if ( typeof user == 'string' && user != undefined && user != null )
-    user = JSON.parse(user) ;
+
+
 
   console.log( "USER:" , user) ;
 

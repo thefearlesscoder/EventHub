@@ -21,8 +21,8 @@ const Profile = () => {
 
     const user = useSelector( (state) => state.auth.user ) ;  
     const { loading } = useSelector ( (state) => state.auth ) ;  
-
-    dummydata = user ;
+    if ( user !== undefined && user !== null )
+        dummydata = user ;
     const navigate = useNavigate() ;
 
   
