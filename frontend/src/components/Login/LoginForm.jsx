@@ -8,9 +8,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-
-
-import { jwtDecode } from "jwt-decode";
+import { BASE_URL } from "../../services/apis";
+import { setToken , setUser } from "../../slices/authSlice";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -35,8 +34,6 @@ function LoginForm() {
 
       token = jwtDecode(token)
       console.log(token);
-      token = jwtDecode(token);
-      console.log(token);
 
      const email = token.email;
      const given_name = token.given_name;
@@ -46,19 +43,32 @@ function LoginForm() {
       
       // Send token to backend for verification
       try {
-        const res = await axios.post("http://localhost:4000/api/auth/google", {
-          email, given_name, family_name, image,
+        let res = await axios.post(`${BASE_URL}/users/signinviagoogle`, {
+          email, given_name, family_name,
       
         }, {
           headers: {
             "Content-Type": "application/json",
-          },
+          },withCredentials: true,
         });
 
-        const data = await res.json();
-        console.log("Backend Response:", data);
-        // Handle user authentication (e.g., save user data to state/context)
+        // const data = await res;
+        console.log("Backend Response:", res);
+        res= res?.data 
+        console.log(res) ;  
 
+        if ( !res.success ) {
+          toast.error(res.message)
+          throw new Error(res.message)
+        } else {
+        // Handle user authentication (e.g., save user data to state/context)
+        dispatch(setToken(res?.data?.AccessToken ))
+            dispatch(setUser(res?.data?.user )) ;
+            localStorage.setItem('user' , JSON.stringify(res?.data?.user)) ;
+            localStorage.setItem('token' , JSON.stringify(res?.data?.AccessToken)) ;
+            toast.success("Login Successful")
+            navigate("/dashboard")
+        }
       } catch (error) {
         console.error("Error sending token to backend:", error);
       }
