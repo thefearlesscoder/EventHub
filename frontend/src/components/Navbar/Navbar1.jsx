@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../services/operations/auth";  
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,12 +18,22 @@ const Navbar = () => {
     { name: "Register", path: "/register" },
   ];
 
-  
+
 
   const userLinks = [
-    { name: "Dashboard", path: "/dashboard" },  ]   ;
+    { name: "Dashboard", path: "/dashboard" },];
 
   const { user } = useSelector((state) => state.auth);
+
+  console.log(user);
+
+  const dispatch = useDispatch () ;
+  const navigate = useNavigate() ;
+  const handleclick = () => {
+    console.log("click") ;
+    setIsOpen(false)
+    dispatch(logout(navigate)) ;
+  }
 
   return (
     <nav className="border-b bg-gray-900  dark:bg-gray-900 z-50">
@@ -40,49 +51,50 @@ const Navbar = () => {
                 >
                   {link.name}
                 </Link>
-              ))} 
+              ))}
 
               {
-              user ? ( <Link
-                  
+                user ? (<Link
+
                   to={"/dashboard"}
                   className="text-muted-foreground hover:text-primary font-medium"
                 >
                   Dashboard
-                </Link>) : ( <div/>) 
+                </Link>) : (<div />)
               }
             </div>
           </div>
 
           {/* Auth Links on Desktop */}
           <div className="hidden md:flex space-x-4 items-center">
-              { user ?
-               (<div
-                
-             
-              className="bg-black text-white font-bold hover:bg-black/90 px-4 py-2 h-9 text-sm rounded-md shadow transition-colors"
-            >
-              LogOut
-            </div>
+            {user ?
+              (<div
+
+                onClick={handleclick}
+
+                className="bg-black text-white font-bold hover:bg-black/90 px-4 py-2 h-9 text-sm cursor-pointer rounded-md shadow transition-colors"
+              >
+                LogOut
+              </div>
 
               ) : (<div>
                 <Link
-              to="/login"
-              className="hover:bg-accent hover:text-accent-foreground px-4 py-2 h-9 text-sm font-bold rounded-md transition-colors"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="bg-black text-white font-bold hover:bg-black/90 px-4 py-2 h-9 text-sm rounded-md shadow transition-colors"
-            >
-              Register
-            </Link>
+                  to="/login"
+                  className="hover:bg-accent hover:text-accent-foreground px-4 py-2 h-9 text-sm font-bold rounded-md transition-colors"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-black text-white font-bold hover:bg-black/90 px-4 py-2 h-9 text-sm rounded-md shadow transition-colors"
+                >
+                  Register
+                </Link>
               </div>)}
-            
-          
-            
-            
+
+
+
+
           </div>
 
           {/* Hamburger Button */}
@@ -99,70 +111,63 @@ const Navbar = () => {
 
       {/* Mobile Drawer - Slide from Right */}
       <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-            className="fixed top-0 right-0 w-3/4 h-full bg-white dark:bg-gray-900 z-50 shadow-lg px-6 py-8 space-y-4"
+  {isOpen && (
+    <motion.div
+      initial={{ opacity: 0, x: "100%" }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: "100%" }}
+      transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+      className="fixed top-0 right-0 w-3/4 h-full bg-white dark:bg-gray-900 z-50 shadow-lg px-6 py-8"
+    >
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-bold text-primary">Menu</h2>
+        <button
+          onClick={() => setIsOpen(false)}
+          className="text-muted-foreground hover:text-primary"
+        >
+          <X size={24} />
+        </button>
+      </div>
+
+      {user ? (
+        <div className="space-y-4">
+          {[...mainLinks, ...userLinks].map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              onClick={() => setIsOpen(false)}
+              className="block text-base font-medium text-muted-foreground hover:text-primary"
+            >
+              {link.name}
+            </Link>
+          ))}
+
+          <div
+            onClick={handleclick}
+            className="block text-base font-medium text-muted-foreground hover:text-primary"
           >
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold text-primary">Menu</h2>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="text-muted-foreground hover:text-primary"
-              >
-                <X size={24} />
-              </button>
-            </div>
+            Logout
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {[...mainLinks, ...userLinks, ...authLinks].map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              onClick={() => setIsOpen(false)}
+              className="block text-base font-medium text-muted-foreground hover:text-primary"
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      )}
+    </motion.div>
+  )}
+</AnimatePresence>
 
-            { 
-                user ? (
-                  
-                  <div>
-                    {
-                      [...mainLinks, ...userLinks ].map((link) => (
-                      <Link
-                        key={link.name}
-                        to={link.path}
-                        onClick={() => setIsOpen(false)}
-                        className="block text-base font-medium text-muted-foreground hover:text-primary"
-                      >
-                        {link.name}
-                      </Link>
-                    ))
 
-                  }
-
-<div
-                       
-                        onClick={() => setIsOpen(false)}
-                        className="block text-base font-medium text-muted-foreground hover:text-primary"
-                      >
-                        Logout
-                      </div>
-                  
-                    
-
-                  </div>
-
-              
-              
-              )  : ([...mainLinks, ...userLinks ,...authLinks].map((link) => (
-                  <Link
-                    key={link.name}
-                    to={link.path}
-                    onClick={() => setIsOpen(false)}
-                    className="block text-base font-medium text-muted-foreground hover:text-primary"
-                  >
-                    {link.name}
-                  </Link>
-                ))) 
-            }
-          </motion.div>
-        )}
-      </AnimatePresence>
     </nav>
   );
 };
