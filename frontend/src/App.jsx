@@ -20,6 +20,7 @@ import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
 import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import Navbar1 from './components/Navbar/Navbar1';
+import Dashboard1 from './components/Dashboard/DashBoard';
 
 // import Navigate from './pages/Navigate';
 // import Map from './pages/Map';
@@ -39,7 +40,7 @@ function App() {
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<Feedback />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard1 />} />
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/update-profile" element={<Updatedetail />}></Route>
         <Route path="/forgot-password" element={<ForgetPassword />}></Route>
