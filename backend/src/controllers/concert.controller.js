@@ -4,6 +4,9 @@ import { User } from "../Models/User.model.js";
 import { Concert } from "../Models/Concert.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 const addConcert = asyncHandler(async (req, res) => {
+  // log("well here sdmbdkj")
+  const userId = req.user._id;
+
   const {
     artist,
     place,
@@ -43,6 +46,7 @@ const addConcert = asyncHandler(async (req, res) => {
   const adminId = req.user._id;
 
   const concert = await Concert.create({
+    adminId: userId,
     artist,
     place,
     description,
@@ -136,54 +140,59 @@ const updateConcert = asyncHandler(async (req, res) => {
   });
 });
 
+const getRegisteredPeople = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const concert = await Concert.findById(id).populate("peoples");
 
-
-const getRegisteredPeople = asyncHandler(async (req,res) => {
-  
-    const {id} = req.params;
-    const concert = await Concert.findById(id).populate("peoples");
-
-    if (!concert) {
-      throw new Error("Concert not found");
-    }
-    console.log("Registered People:", concert.peoples);
-    return res.status(200).json(
-      new ApiResponse(200, concert.peoples, "registerd peoples")
-    )
-  }    
-)
-
-
+  if (!concert) {
+    throw new Error("Concert not found");
+  }
+  console.log("Registered People:", concert.peoples);
+  return res
+    .status(200)
+    .json(new ApiResponse(200, concert.peoples, "registerd peoples"));
+});
 
 const allUpcomingConcerts = asyncHandler(async (req, res) => {
   try {
     const currentDate = new Date();
     const upcomingConcerts = await Concert.find({ date: { $gt: currentDate } });
     console.log("all upcoming here");
-    
-    const concertArray = upcomingConcerts
-      .map(({ 
-        _id, artist, place, description, pincode, date, peoples, 
-        addedBy, ticketPrice, seatingCapacity, genre, media 
-      }) => ({
-        id: _id,
-        artist,
-        place,
-        description,
-        pincode,
-        date,
-        peoples: peoples.length,
-        addedBy,
-        ticketPrice,
-        seatingCapacity,
-        genre,
-        media: {
-          images: media.images,
-          videos: media.videos,
-        },
-      }))
-      .sort((a, b) => new Date(a.date) - new Date(b.date));
 
+    const concertArray = upcomingConcerts
+      .map(
+        ({
+          _id,
+          artist,
+          place,
+          description,
+          pincode,
+          date,
+          peoples,
+          addedBy,
+          ticketPrice,
+          seatingCapacity,
+          genre,
+          media,
+        }) => ({
+          id: _id,
+          artist,
+          place,
+          description,
+          pincode,
+          date,
+          peoples: peoples.length,
+          addedBy,
+          ticketPrice,
+          seatingCapacity,
+          genre,
+          media: {
+            images: media.images,
+            videos: media.videos,
+          },
+        })
+      )
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
 
     return res.status(200).json({
       success: true,
@@ -198,11 +207,10 @@ const allUpcomingConcerts = asyncHandler(async (req, res) => {
   }
 });
 
-
 const registerForConcert = asyncHandler(async (req, res) => {
   const { Id } = req.params;
   const userId = req.user._id;
-  
+
   console.log("Concert ID: ", Id);
   console.log("User ID: ", userId);
 
@@ -221,7 +229,7 @@ const registerForConcert = asyncHandler(async (req, res) => {
     });
   }
 
-  console.log(user) ;
+  console.log(user);
 
   if (!concert.peoples.includes(userId)) {
     concert.peoples.push(userId);
@@ -247,7 +255,7 @@ const registerForConcert = asyncHandler(async (req, res) => {
 
 const concertDetails = asyncHandler(async (req, res) => {
   const { Id } = req.params;
-  const concert = await Concert.findById(Id).populate('addedBy'); 
+  const concert = await Concert.findById(Id).populate("addedBy");
 
   if (!concert) {
     return res.status(404).json({
@@ -259,8 +267,7 @@ const concertDetails = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, concert, 
-        "Data of concert fetched successfully")
+      new ApiResponse(200, concert, "Data of concert fetched successfully")
     );
 });
 
@@ -298,11 +305,11 @@ const myAttendedConcerts = asyncHandler(async (req, res) => {
 
   const user = await User.findById(userId).populate({
     path: "upcoming_attendconcert",
-    match: { date: { $lt: Date.now() } }, 
+    match: { date: { $lt: Date.now() } },
     select: "artist place date ticketPrice genre",
   });
   console.log("xbvkjcj: ", user);
-  
+
   if (!user) {
     return res.status(404).json({
       success: false,
@@ -311,15 +318,14 @@ const myAttendedConcerts = asyncHandler(async (req, res) => {
   }
 
   const attendedConcerts = user.upcoming_attendconcert
-  .map(concert => ({
-    artist: concert.artist,
-    place: concert.place,
-    date: concert.date,
-    ticketPrice: concert.ticketPrice,
-    genre: concert.genre,
-  }))
-  .sort((a, b) => b.date - a.date); 
-
+    .map((concert) => ({
+      artist: concert.artist,
+      place: concert.place,
+      date: concert.date,
+      ticketPrice: concert.ticketPrice,
+      genre: concert.genre,
+    }))
+    .sort((a, b) => b.date - a.date);
 
   return res.status(200).json({
     success: true,
@@ -341,26 +347,38 @@ const filterConcerts = asyncHandler(async (req, res) => {
     const filteredConcerts = await Concert.find(filter);
 
     const concertArray = filteredConcerts
-      .map(({ 
-        _id, artist, place, description, pincode, date, peoples, 
-        addedBy, ticketPrice, seatingCapacity, genre, media 
-      }) => ({
-        id: _id,
-        artist,
-        place,
-        description,
-        pincode,
-        date,
-        peoples: peoples.length,
-        addedBy,
-        ticketPrice,
-        seatingCapacity,
-        genre,
-        media: {
-          images: media.images,
-          videos: media.videos,
-        },
-      }))
+      .map(
+        ({
+          _id,
+          artist,
+          place,
+          description,
+          pincode,
+          date,
+          peoples,
+          addedBy,
+          ticketPrice,
+          seatingCapacity,
+          genre,
+          media,
+        }) => ({
+          id: _id,
+          artist,
+          place,
+          description,
+          pincode,
+          date,
+          peoples: peoples.length,
+          addedBy,
+          ticketPrice,
+          seatingCapacity,
+          genre,
+          media: {
+            images: media.images,
+            videos: media.videos,
+          },
+        })
+      )
       .sort((a, b) => a.date - b.date);
 
     return res.status(200).json({
@@ -376,7 +394,48 @@ const filterConcerts = asyncHandler(async (req, res) => {
   }
 });
 
+const getMyAddedConcerts = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const list = await Concert.find({ adminId: userId });
+  return res.status(200).json({
+    success: true,
+    data: list,
+    message: "My added concerts retrieved successfully",
+  });
+});
 
+const getMyAllRegisteredConcerts = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+  const user = await User.findById(userId).populate({
+    path: "upcoming_attendconcert",
+    select: "artist place date ticketPrice genre",
+  });
+
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+
+  
+  const attendedConcerts = user.upcoming_attendconcert
+    .map((concert) => ({
+      artist: concert.artist,
+      place: concert.place,
+      date: new Date(concert.date), 
+      ticketPrice: concert.ticketPrice,
+      genre: concert.genre,
+    }))
+    .sort((a, b) => b.date - a.date);
+
+  return res.status(200).json({
+    success: true,
+    data: attendedConcerts,
+    message: "User's attended concerts retrieved successfully",
+  });
+});
 
 export {
   addConcert,
@@ -386,5 +445,7 @@ export {
   concertDetails,
   myUpcomingConcerts,
   filterConcerts,
-  getRegisteredPeople
+  getRegisteredPeople,
+  getMyAddedConcerts,
+  getMyAllRegisteredConcerts,
 };
