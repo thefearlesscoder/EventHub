@@ -255,7 +255,7 @@ const registerForConcert = asyncHandler(async (req, res) => {
 
 const concertDetails = asyncHandler(async (req, res) => {
   const { Id } = req.params;
-  const concert = await Concert.findById(Id).populate("addedBy");
+  const concert = await Concert.findById(Id).populate("addedBy").populate("peoples");
 
   if (!concert) {
     return res.status(404).json({
