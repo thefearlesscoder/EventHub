@@ -64,8 +64,8 @@ router.post("/create-checkout-session", async (req, res) => {
       payment_method_types: ["card"],
       line_items: line_items,
       mode: "payment",
-      success_url: `http://localhost:5173/register-succes/${product.concert._id}`,
-      cancel_url: "http://localhost:5173",
+      success_url: `http://localhost:5173/dashboard`,
+      cancel_url: "http://localhost:5173/home",
     });
 
     // console.log(session)

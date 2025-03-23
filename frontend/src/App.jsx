@@ -49,10 +49,10 @@ function App() {
           element={<ResetPasswordPage />}
         ></Route>
         <Route path="/create-concert" element={<CreateConcert />}></Route>
-        <Route path="/concert/:id" element={<Concert />}></Route>
+        <Route path="/event/:id" element={<Concert />}></Route>
         {/* <Route path="/test1" element={<RequestPeople />}></Route> */}
         <Route path="/register-succes/:id" element={<PaymentSuccessPage />} />
-        <Route path="/concert" element={<UpcomingConcerts />}></Route>
+        <Route path="/events" element={<UpcomingConcerts />}></Route>
         <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
 
 

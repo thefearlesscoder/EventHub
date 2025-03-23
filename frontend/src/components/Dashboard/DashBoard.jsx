@@ -21,7 +21,8 @@ const data = [
 const Dashboard1 = () => {
     const [ num , setnum ] = useState(1);
 
-    const { loading } = useSelector((state) => state.auth);
+    const { loading , user } = useSelector((state) => state.auth);
+    console.log(user) ;
     
     const handleclick = (val) => {  
         setnum(val) ;
@@ -44,10 +45,18 @@ const Dashboard1 = () => {
             <DollarSign size={20} />
             <span>Expenditure</span>
           </div>
+
+          <div>
+              {
+                user != null  &&  user.role != "admin" ? ( <div></div> ) : (
           <div className="flex items-center space-x-2 text-gray-600 cursor-pointer" onClick={() => handleclick(4)}>
             <PlusCircle size={20} />
             <span>Create Event</span>
+          </div>)
+              }
+
           </div>
+          
         </nav>
       </div>
 

@@ -153,6 +153,12 @@ const EventsPage = () => {
       }, []);
 
 
+      let AdddedEvents = [] ;
+      if ( user.myAddedConcerts != null ) {
+        AdddedEvents = user.myAddedConcerts ;
+      }
+
+
 
 
       const renderEventCard = (event, idx) => (
@@ -256,6 +262,19 @@ const EventsPage = () => {
                   </div>
                 )}
               </section>
+
+              <section className="mb-10">
+                <h2 className="text-2xl font-semibold mb-4">My Added Events</h2>
+                {AdddedEvents.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {AdddedEvents.map((event, idx) => renderEventCard(event, idx))}
+                  </div>
+                ) : (
+                  <div className="text-center font-bold text-gray-600 dark:text-gray-300">
+                    No attended events
+                  </div>
+                )}
+              </section> 
 
             </div>
 
