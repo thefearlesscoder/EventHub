@@ -20,6 +20,8 @@ import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
 import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import Navbar1 from './components/Navbar/Navbar1';
+import ShowLocation from './pages/Maps/ShowLocation';
+import NavigateLocation from './pages/Maps/NavigateLocation';
 
 // import Navigate from './pages/Navigate';
 // import Map from './pages/Map';
@@ -53,8 +55,8 @@ function App() {
         <Route path="/register-succes/:id" element={<PaymentSuccessPage />} />
         <Route path="/concert" element={<UpcomingConcerts />}></Route>
         <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
-
-
+        <Route path="/showlocation" element={<ShowLocation />} />
+        <Route path="/navigate" element={<NavigateLocation />} />
         {/* <Route path="/displaymap" element={<Map />} /> */}
         {/* <Route path="/navigate" element={<Navigate />} /> */}
       </Routes>
