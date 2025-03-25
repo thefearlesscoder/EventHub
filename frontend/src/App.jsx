@@ -20,6 +20,7 @@ import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
 import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import Navbar1 from './components/Navbar/Navbar1';
+import Dashboard1 from './components/Dashboard/DashBoard';
 import ShowLocation from './pages/Maps/ShowLocation';
 import NavigateLocation from './pages/Maps/NavigateLocation';
 
@@ -41,7 +42,7 @@ function App() {
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<Feedback />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard1 />} />
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/update-profile" element={<Updatedetail />}></Route>
         <Route path="/forgot-password" element={<ForgetPassword />}></Route>
@@ -50,10 +51,10 @@ function App() {
           element={<ResetPasswordPage />}
         ></Route>
         <Route path="/create-concert" element={<CreateConcert />}></Route>
-        <Route path="/concert/:id" element={<Concert />}></Route>
+        <Route path="/event/:id" element={<Concert />}></Route>
         {/* <Route path="/test1" element={<RequestPeople />}></Route> */}
         <Route path="/register-succes/:id" element={<PaymentSuccessPage />} />
-        <Route path="/concert" element={<UpcomingConcerts />}></Route>
+        <Route path="/events" element={<UpcomingConcerts />}></Route>
         <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
         <Route path="/showlocation" element={<ShowLocation />} />
         <Route path="/navigate" element={<NavigateLocation />} />

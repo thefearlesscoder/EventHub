@@ -54,8 +54,8 @@ const UpcomingConcerts = () => {
 
   return (
     <div className="p-10 w-full">
-      <div className="font-bold text-2xl ml-[10%] flex md:flex-row flex-col justify-between pr-5 mr-20">
-        <p>Home / Explore-Concert</p>
+      <div className="font-bold md:text-2xl text-lg ml-[10%] flex md:flex-row flex-col justify-between pr-5 mr-20">
+        <p className="md:mb-0 mb-2">Home / Explore-Events</p>
         <FilterComponent
           options={genres}
           onFilterChange={handleFilterChange}
@@ -159,7 +159,7 @@ const UpcomingConcerts = () => {
                 <div className="flex justify-center">
                   <a
                     className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 border border-blue-500 bg-blue-500 text-white shadow-sm hover:bg-blue-600 h-9 px-4 py-2"
-                    href={`/concert/${event.id}`}
+                    href={`/event/${event.id}`}
                   >
                     View Details
                   </a>

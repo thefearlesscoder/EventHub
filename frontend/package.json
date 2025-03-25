@@ -48,6 +48,7 @@
     "react-router-dom": "^6.30.0",
     "react-scroll-parallax": "^3.4.5",
     "react-toastify": "^10.0.6",
+    "recharts": "^2.15.1",
     "smoothscroll-polyfill": "^0.4.4",
     "tailwindcss-animated": "^1.1.2",
     "toastify": "^2.0.1",

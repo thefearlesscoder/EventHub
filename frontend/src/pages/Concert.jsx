@@ -9,6 +9,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { BASE_URL } from "../services/apis";
+import logo from "../assets/event.jpg";
+
 
 const Concert = () => {
   const { id } = useParams();
@@ -20,6 +22,8 @@ const Concert = () => {
 
     
   const searchConcert = async () => {
+
+    setLoading(true);
     try {
       let response = await axios.post(
         `${BASE_URL}/concert/concert/${id}`,{},
@@ -46,11 +50,12 @@ const Concert = () => {
     } catch (error) {
       console.error("Error fetching concert:", error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
     searchConcert();
-  }, [id]);
+  }, [] );
 
   const date = new Date(concertdetails.date);
 
@@ -160,101 +165,139 @@ const Concert = () => {
     }
   };
 
+  console.log("Concert details:", concertdetails);
   console.log(user) ;
 
   return (
     // <div></div>
-    <div className="min-h-screen">
-      <div className=" p-10 ">
-        <div className=" font-bold md:text-2xl text-xl ml-[10%] ">
-          Home / Concert-Details
-        </div>
-
-        <div className=" relative rounded-md p-10  min-h-screen ">
-          <div className=" relative ">
-            <img
-              src={bg2}
-              className=" w-full md:h-[400px] rounded-xl object-fill"
-            ></img>
-            <img
-              src={centreicon}
-              className=" w-[30%]  rounded-full absolute aspect-square 
-                        object-cover md:bottom-[-120px] bottom-[-40px] left-[35%]"
-            ></img>
-          </div>
-
-          <div
-            className=" md:pt-[200px] pt-[60px] flex gap-10 items-center justify-between 
-                    md:flex-row flex-col md:text-auto text-center"
-          >
-            <div className=" flex flex-col font-bold md:text-4xl text-2xl gap-4">
-              <div className=" md:text-8xl text-4xl ">
-                {concertdetails.artist}
+    
+        loading ? <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-black"></div>
+      </div>:
+        <div> 
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="space-y-8">
+              {/* Event Banner */}
+              <div className="relative h-64 sm:h-80 md:h-[400px] rounded-lg overflow-hidden">
+                <img
+                  src={logo}
+                  alt="Conference at EFLU"
+                  className="object-cover w-full h-full"
+                />
+                <div className="absolute top-4 right-4 bg-white text-black text-sm sm:text-base font-semibold px-3 py-1 rounded-md shadow">
+                  Upcoming
+                </div>
               </div>
-              <div>{formattedDate}</div>
-            </div>
-            <div className=" flex flex-col  text-2xl ">
-              <div className="font-bold text-4xl">Place And Organizer</div>
-              <div className=" pt-2">Jabalpur</div>
-              <div className=" flex gap-2 justify-center flex-col">
-                <div>kunal sonkar</div>
-                <div>9755763762</div>
-              </div>
-            </div>
-          </div>
+      
+              {/* Title & Organizer */}
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                <div>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">
+                  Event at {concertdetails.place}
+                </h1>
 
-          <div className=" flex flex-col font-bold md:text-4xl text-4xl mt-14 mx-auto text-center ">
-            Description
-            <div className=" font-medium text-2xl w-[90%] mx-auto mt-5">
-              {concertdetails.description}
-            </div>
-          </div>
+                {concertdetails.addedBy ? (
+                  <p className="text-gray-500 text-sm sm:text-base">
+                    Organized by {concertdetails.addedBy.firstName}
+                  </p>
+                ) : (
+                  <p className="text-gray-400 text-sm sm:text-base">
+                    Organizer info not available
+                  </p>
+                )}
 
-          <div className=" flex justify-around mt-14 w-full md:flex-row flex-col gap-5 items-center ">
-            <div className=" font-bold text-4xl flex justify-center flex-col items-center md:text-auto text-center">
-              <div>
-                AvailableSeat -{" "}
-                <span className="font-normal">
-                  {concertdetails.seatingCapacity}
-                </span>
+                </div>
               </div>
-              <div className="font-bold flex gap-2 items-center md:text-auto text-center">
-                Price{" "}
-                <div className="font-normal flex gap-2">
-                  {" "}
-                  - <FaRupeeSign /> {concertdetails.ticketPrice}
+      
+              {/* Content Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Left Section */}
+                <div className="md:col-span-2 space-y-6">
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2">About this event</h3>
+                    <p className="text-gray-700 text-sm sm:text-base">
+                      {concertdetails.description}
+                    </p>
+                  </div>
+      
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-4">Attendees</h3>
+                    <div className="flex flex-wrap gap-4">
+                      {["Hamza", "User2"].map((name, idx) => (
+                        <div key={idx} className="flex items-center gap-2">
+                          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 font-bold">
+                            {name[0]}
+                          </span>
+                          <span>{name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+      
+                {/* Right Section */}
+                <div className="space-y-6">
+                  <div className="border rounded-lg p-6 space-y-5">
+                    <div className="inline-flex items-center rounded-md bg-black text-white text-xs font-semibold px-3 py-1">
+                      Other
+                    </div>
+      
+                    <div className="flex items-center gap-2 text-gray-700 text-sm">
+                      <svg
+                        className="w-5 h-5 text-black"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8 2v4M16 2v4M3 10h18M3 4h18v16H3z" />
+                      </svg>
+                      <span>{formattedDate}</span>
+                    </div>
+      
+                    <div className="flex items-center gap-2 text-gray-700 text-sm">
+                      <svg
+                        className="w-5 h-5 text-black"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 2a8 8 0 0 1 8 8c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 8-8z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                      <span>{concertdetails.place}</span>
+                    </div>
+      
+                    <div className="flex items-center gap-2 text-gray-700 text-sm">
+                      <svg
+                        className="w-5 h-5 text-black"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                      </svg>
+                      <span>{concertdetails?.peoples?.length || 0}
+                      / 100 attendees</span>
+                    </div>
+      
+                    <button onClick={commonfun} className="w-full h-10 bg-black text-white text-sm font-medium rounded-md hover:bg-zinc-900 transition">
+                      Attend Event
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-            <div
-              className={` w-[40px] h-[40px] 
-                    rounded-full aspect-auto ${
-                      concertdetails.seatingCapacity > 0
-                        ? "bg-caribbeangreen-600"
-                        : "bg-pink-400"
-                    } `}
-            ></div>
-          </div>
-
-          <div className=" mx-auto mt-14 md:w-[30%] w-full flex justify-around md:flex-row flex-col md:items-center items-center md:gap gap-5 ">
-            <button
-              onClick={() => {
-                navigate("/concert");
-              }}
-              className=" flex gap-2 w-fit items-center p-4 bg-yellow-50 text-black  font-bold rounded-lg text-xl "
-            >
-              Explore More <FaArrowRight />
-            </button>
-            <button
-              onClick={commonfun}
-              className=" flex gap-2 w-fit items-center bg-blue-300 text-white p-4 font-bold rounded-lg text-xl "
-            >
-              Register <FaArrowRight />
-            </button>
-          </div>
+          </main>
         </div>
-      </div>
-    </div>
+    
+
+
   );
 };
 

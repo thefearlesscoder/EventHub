@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const mainLinks = [
     { name: "Home", path: "/" },
-    { name: "Events", path: "/concert" },
+    { name: "Events", path: "/events" },
   ];
 
   const authLinks = [
