@@ -1,179 +1,213 @@
-
-import React, { useEffect, useState } from 'react'
-import PickLocation from '../components/PlaceFinder/PickLocation';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { createConcert } from '../services/operations/concert';
-// https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Katni,%20Madhya%20Pradesh,%20India&inputtype=textquery&fields=geometry&key=AIzaSyDNiOqUpj6xCRs4S-emUa_QOUjneanBqFs
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createConcert } from "../services/operations/concert";
+import axios from "axios";
 
 const CreateConcert = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const dispatch = useDispatch() ;
-  const navigate = useNavigate() ;
+  const [formData, setFormData] = useState({
+    artist: "",
+    description: "",
+    pincode: "",
+    date: "",
+    ticketPrice: "",
+    seatingCapacity: "",
+    genre: "Genz",
+    place: "",
+  });
 
-  const [ formData , setFormData ] = useState( {
-      artist : "" ,
-      description : "" ,
-      pincode : "" ,
-      date : "" ,
-      ticketPrice : 0 ,
-      seatingCapacity : 0  ,
-      genre : "Genz" ,
-      place : "" ,
-    }   
-  )
-  const [ loading , setloading ] = useState(false) ;
-  
-  const handleOnChange = (e) => {
+  const [loading, setLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [debounceTimeout, setDebounceTimeout] = useState(null);
+
+  const OPENCAGE_API_KEY = "d2e0ab0fa6ad4c1ea25ffa5077e27d0b"; // Replace with your OpenCage API key
+
+  // Handle input changes
+  const handleOnChange = async (e) => {
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [e.target.name]: e.target.value,
-    }))
-    console.log(formData) 
-  }
+      [name]: value,
+    }));
   
-  const [ location , setlocation ] = useState("") ;
-  const {token} = useSelector((state) => state.auth)
-  const handleOnSubmit = async (e) => {
-    e.preventDefault();
-    setloading(true);
+    if (name === "place" && value.trim().length > 2) {
+      if (debounceTimeout) clearTimeout(debounceTimeout);
   
-
+      const timeout = setTimeout(async () => {
+        try {
+          const response = await axios.get(
+            `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(value)}&key=${OPENCAGE_API_KEY}&limit=5`
+          );
   
-    try {
-      // console.log(updatedFormData);
-      dispatch(createConcert(formData.artist ,
-         formData.description , formData.date , formData.pincode ,
-          formData.ticketPrice , formData.seatingCapacity , 
-          formData.genre , formData.place , navigate ));
-      // navigate('/dashboard')
-    } catch (error) {
-      console.error("Error creating concert:", error);
-
-    } finally {
-      setloading(false);
+          if (response.data.results && response.data.results.length > 0) {
+            const locationSuggestions = response.data.results.map((result) => ({
+              description: result.formatted,
+              coordinates: result.geometry,
+            }));
+            setSuggestions(locationSuggestions);
+          } else {
+            setSuggestions([]);
+          }
+        } catch (error) {
+          console.error("Error fetching location suggestions:", error);
+        }
+      }, 100); // Added debounce time of 500ms
+  
+      setDebounceTimeout(timeout);
+    } else {
+      setSuggestions([]);
     }
   };
   
-  
 
- 
+  const handleSuggestionClick = (suggestion) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      place: suggestion.description,
+    }));
+    setSuggestions([]);
+  };
+
+  // Handle form submission
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      dispatch(createConcert(formData, navigate));
+    } catch (error) {
+      console.error("Error creating concert:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className='min-h-screen'>
-        <div className=' p-10 '>
-            <div className='font-bold text-2xl ml-[10%] '>
-                Home / Create-Concert
-            </div>
-            <div className=' mx-auto  p-10 flex flex-col gap-3 '>
-
-                <div className=' flex justify-around gap-3 w-full md:flex-row flex-col'>
-                  <div className=' flex gap-3  flex-col md:w-[40%]'>
-                    <label className='text-2xl'>Artist</label>
-                    <input type='text' 
-                      
-                      name='artist'
-                      value={formData.artist}
-                      onChange={handleOnChange}
-                    className='flex-1 p-2 focus:outline-none border border-black rounded-md text-richblack-900 ' ></input>
-                  </div>
-                  <div className='  flex gap-3  flex-col md:w-[40%] '>
-                    <label className='text-2xl'>Pincode</label>
-                    <input type='number' 
-                      name='pincode'
-                      value={formData.pincode}
-                      onChange={handleOnChange}
-                      className='flex-1 p-2 focus:outline-none 
-                      border border-blackrounded-md text-richblack-900'></input>
-                  </div>
-                </div>
-
-
-                <div className=' flex justify-around gap-3 w-full md:flex-row flex-col' >
-                    <div className=' flex gap-3  flex-col md:w-[40%]' >
-                      <label className='text-2xl'>Date</label>
-                      <input type='date' 
-                        name='date'
-                        value={formData.date}
-                        onChange={handleOnChange}
-                      className='flex-1 p-2 focus:outline-none  rounded-md text-richblack-900
-                        border border-black ' ></input>
-                    </div>
-                    <div className=' flex gap-3  flex-col md:w-[40%]' >
-                      <label className='text-2xl'>Ticketprice</label>
-                      <input type='number' 
-                        name='ticketPrice'
-                        value={formData.ticketPrice}
-                        onChange={handleOnChange}
-                      className='flex-1 p-2 focus:outline-none 
-                      border border-blackrounded-md text-richblack-900'></input>
-                    </div>
-                </div>
-
-                <div className=' flex justify-around gap-3 md:flex-row flex-col '>
-                  <div className=' flex gap-3  flex-col md:w-[40%]'>
-                    <label className='text-2xl'>Genre</label>
-                    <select type='number'
-                    name='genre'
-                    value={formData.genre}
-                    onChange={handleOnChange}
-                     className='flex-1 p-2 focus:outline-none border
-                     border-black rounded-md text-richblack-900 '>
-                       <option className=''>Genz</option>
-                       <option>Old school</option>
-                       <option>International</option>
-                       <option>other</option>
-                     </select>
-                  </div>
-                  <div className='flex gap-3  flex-col md:w-[40%]'>
-                    <label className='text-2xl'>SeatingCapacity</label>
-                    <input type='number' 
-                    name='seatingCapacity'
-                    value={formData.seatingCapacity}
-                    onChange={handleOnChange}
-                    className='flex-1 p-2 focus:outline-none border border-black rounded-md text-richblack-900 '></input>
-                  </div>
-                </div>
-                
-                <div className='flex justify-around gap-3  md:flex-row flex-col '>
-                  <div className='flex gap-3  flex-col md:w-[40%]'>
-
-                    <label className='text-2xl' >Description</label>
-                    <textarea 
-                    name='description'
-                    value={formData.description}
-                    onChange={handleOnChange}
-                    className='flex-1 p-2 focus:outline-none border border-black rounded-md text-richblack-900 ' />
-                  </div>
-                  <div className='flex gap-3  flex-col md:w-[40%]' >
-                      <h2 className='text-2xl '>Enter your location</h2>
-                    <input type='text' 
-                    name='place'
-                    value={formData.place}
-                    onChange={handleOnChange}
-                    className='flex-1 p-2 focus:outline-none border border-black rounded-md text-richblack-900 '></input>
-                  {/* </div> */}
-                      {/* <PickLocation setlocation={setlocation}/> */}
-                  </div>
-                  
-
-                </div>
-
-                  <button
-                    type="submit"
-                    onClick={handleOnSubmit}
-                    className={`md:w-[20%] mx-auto mt-10 w-full py-2 rounded-md transition duration-300 ${
-                      loading
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-blue-500 text-white hover:bg-blue-600"
-                    }`}
-                  >
-                    {loading ? "Loading..." : "Create Concert"}
-                  </button>
-                
-            </div>
+    <div className="min-h-screen p-10">
+      <div className="font-bold text-2xl ml-[10%]">Home / Create-Concert</div>
+      <div className="mx-auto p-10 flex flex-col gap-3 border-black">
+        <div className="flex justify-around gap-3 w-full md:flex-row flex-col">
+          <div className="flex gap-3 flex-col md:w-[40%]">
+            <label className="text-2xl">Artist</label>
+            <input
+              type="text"
+              name="artist"
+              value={formData.artist}
+              onChange={handleOnChange}
+              className="p-2 border border-black rounded-md"
+            />
+          </div>
+          <div className="flex gap-3 flex-col md:w-[40%]">
+            <label className="text-2xl">Pincode</label>
+            <input
+              type="text"
+              name="pincode"
+              value={formData.pincode}
+              onChange={handleOnChange}
+              className="p-2 border border-black rounded-md"
+            />
+          </div>
         </div>
-    </div>
-  )
-}
 
-export default CreateConcert
+        <div className="flex justify-around gap-3 w-full md:flex-row flex-col">
+          <div className="flex gap-3 flex-col md:w-[40%]">
+            <label className="text-2xl">Date</label>
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleOnChange}
+              className="p-2 border border-black rounded-md"
+            />
+          </div>
+          <div className="flex gap-3 flex-col md:w-[40%]">
+            <label className="text-2xl">Ticket Price</label>
+            <input
+              type="number"
+              name="ticketPrice"
+              value={formData.ticketPrice}
+              onChange={handleOnChange}
+              className="p-2 border border-black rounded-md"
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-around gap-3 md:flex-row flex-col">
+          <div className="flex gap-3 flex-col md:w-[40%]">
+            <label className="text-2xl">Genre</label>
+            <select
+              name="genre"
+              value={formData.genre}
+              onChange={handleOnChange}
+              className="p-2 border border-black rounded-md"
+            >
+              <option>Genz</option>
+              <option>Old school</option>
+              <option>International</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div className="flex gap-3 flex-col md:w-[40%]">
+            <label className="text-2xl">Seating Capacity</label>
+            <input
+              type="number"
+              name="seatingCapacity"
+              value={formData.seatingCapacity}
+              onChange={handleOnChange}
+              className="p-2 border border-black rounded-md"
+            />
+          </div>
+        </div>
+
+        <div className="flex gap-3 flex-col">
+          <label className="text-2xl">Description</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleOnChange}
+            className="p-2 border border-black rounded-md"
+          />
+        </div>
+
+        <div className="relative flex flex-col md:w-[40%]">
+          <label className="text-2xl mb-2">Enter your location</label>
+          <input
+            type="text"
+            name="place"
+            value={formData.place}
+            onChange={handleOnChange}
+            className="p-2 border border-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Type a location"
+          />
+          {suggestions.length > 0 && (
+            <ul className="absolute z-10 top-full left-0 w-full border bg-white shadow-lg max-h-40 overflow-y-auto rounded-md mt-1">
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="p-2 cursor-pointer hover:bg-gray-100"
+                >
+                  {suggestion.description}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          onClick={handleOnSubmit}
+          className={`w-[20%] mx-auto mt-10 py-2 rounded-md ${
+            loading ? "bg-gray-400" : "bg-blue-500 text-white hover:bg-blue-600"
+          }`}
+        >
+          {loading ? "Loading..." : "Create Concert"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default CreateConcert;
