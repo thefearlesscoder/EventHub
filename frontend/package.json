@@ -52,7 +52,8 @@
     "smoothscroll-polyfill": "^0.4.4",
     "tailwindcss-animated": "^1.1.2",
     "toastify": "^2.0.1",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
@@ -60,6 +61,7 @@
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
+    "daisyui": "^5.0.9",
     "eslint": "^9.13.0",
     "eslint-plugin-react": "^7.37.1",
     "eslint-plugin-react-hooks": "^5.0.0",

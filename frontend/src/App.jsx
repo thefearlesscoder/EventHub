@@ -30,7 +30,7 @@ import Dashboard1 from './components/Dashboard/DashBoard';
 function App() {
 
   return (
-    <div className="bg-richblack-5 ">
+    <div className="bg-richblack-5 " data-theme="dark">
       <Navbar1/>
       {/* <Router> */}
 
