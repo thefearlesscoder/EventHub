@@ -23,6 +23,7 @@ import Navbar1 from './components/Navbar/Navbar1';
 import Dashboard1 from './components/Dashboard/DashBoard';
 import ShowLocation from './pages/Maps/ShowLocation';
 import NavigateLocation from './pages/Maps/NavigateLocation';
+import ChatPage from './pages/Chat';
 
 // import Navigate from './pages/Navigate';
 // import Map from './pages/Map';
@@ -60,6 +61,7 @@ function App() {
         <Route path="/navigate" element={<NavigateLocation />} />
         {/* <Route path="/displaymap" element={<Map />} /> */}
         {/* <Route path="/navigate" element={<Navigate />} /> */}
+        <Route path='/chat' element={ <ChatPage/> } />
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>
