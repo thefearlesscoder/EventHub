@@ -54,8 +54,18 @@ const ChatPage = () => {
     dispatch(setLoading(false));
   };
 
+  const messagesEndRef = useRef(null);
+
+useEffect(() => {
+  // Scroll to the bottom whenever messages change
+  if (messagesEndRef.current) {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+}, [messages]);
+
   // Initialize socket connection
   console.log("user ->> " ,user)
+  
   useEffect(() => {
     handleUserClick(selectedUser);
     socket = io(ENPOINT);
@@ -71,7 +81,18 @@ const ChatPage = () => {
   
       if (newchat?._id !== gotmessage.chat._id) return;
   
-      setMessages((prevMessages) => [...prevMessages, gotmessage]);
+      setMessages((prevMessages) => {
+        // Check if the received message already exists in the previous messages
+        const isDuplicate = prevMessages.some((msg) => msg._id === gotmessage._id);
+      
+        if (!isDuplicate) {
+          return [...prevMessages, gotmessage]; // Add only if not duplicate
+        }
+        
+        return prevMessages; // Otherwise, return the previous state unchanged
+      });
+      
+      
     };
   
     socket.on("messagerecieve", messageListener);
@@ -210,33 +231,35 @@ const ChatPage = () => {
 
         {/* Messages */}
         <div className="flex-1 p-4 overflow-y-auto flex flex-col">
-          {selectedUser ? (
-            messages.length > 0 ? (
-              messages.map((msg, index) => (
-                <div
-                  key={index}
-           
-                  className={classNames(
-                    "p-3 rounded-lg max-w-xs mb-2",
-                    msg.sender._id === user._id
-                      ? "ml-auto bg-[#007bff] text-white"
-                      : "bg-[#d9d9d9] text-[#333]"
-                  )}
-                >
-                  {msg?.content}
-                </div>
-              ))
-            ) : (
-              <div className="text-gray-500 animate-pulse text-center text-lg mt-10">
-                No messages, start a conversation!
-              </div>
-            )
-          ) : (
-            <div className="text-gray-500 animate-pulse text-center text-lg mt-10">
-              No chat selected. Pick a user to start a conversation!
-            </div>
-          )}
+    {user && selectedUser ? (
+      messages.length > 0 ? (
+        messages.map((msg, index) => (
+          <div
+            key={index}
+            className={classNames(
+              "p-3 rounded-lg max-w-xs mb-2",
+              msg.sender._id === user._id
+                ? "ml-auto bg-[#007bff] text-white"
+                : "bg-[#d9d9d9] text-[#333]"
+            )}
+          >
+            {msg?.content}
+          </div>
+        ))
+      ) : (
+        <div className="text-gray-500 animate-pulse text-center text-lg mt-10">
+          No messages, start a conversation!
         </div>
+      )
+    ) : (
+      <div className="text-gray-500 animate-pulse text-center text-lg mt-10">
+        No chat selected. Pick a user to start a conversation!
+      </div>
+    )}
+    
+    {/* Invisible div to keep scroll position at the bottom */}
+    <div ref={messagesEndRef}></div>
+  </div>
 
         {/* Input Box */}
         {selectedUser && (
