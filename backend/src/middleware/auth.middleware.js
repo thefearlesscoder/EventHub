@@ -45,7 +45,7 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
     }
 
     req.user = user;
-    console.log("user : ", user);
+    // console.log("user : ", user);
     
     next();
   } catch (error) {

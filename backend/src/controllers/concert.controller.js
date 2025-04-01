@@ -147,7 +147,7 @@ const getRegisteredPeople = asyncHandler(async (req, res) => {
   if (!concert) {
     throw new Error("Concert not found");
   }
-  console.log("Registered People:", concert.peoples);
+  // console.log("Registered People:", concert.peoples);
   return res
     .status(200)
     .json(new ApiResponse(200, concert.peoples, "registerd peoples"));
@@ -229,7 +229,7 @@ const registerForConcert = asyncHandler(async (req, res) => {
     });
   }
 
-  console.log(user);
+  // console.log(user);
 
   if (!concert.peoples.includes(userId)) {
     concert.peoples.push(userId);
@@ -301,14 +301,14 @@ const myUpcomingConcerts = asyncHandler(async (req, res) => {
 const myAttendedConcerts = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
-  console.log("User ID: ", userId);
+  // console.log("User ID: ", userId);
 
   const user = await User.findById(userId).populate({
     path: "upcoming_attendconcert",
     match: { date: { $lt: Date.now() } },
     select: "artist place date ticketPrice genre",
   });
-  console.log("xbvkjcj: ", user);
+  // console.log("xbvkjcj: ", user);
 
   if (!user) {
     return res.status(404).json({

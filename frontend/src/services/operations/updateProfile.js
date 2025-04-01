@@ -41,10 +41,11 @@ export function updateprofile (
       } else {
         toast.success(response?.message)
         // setUser(response?.data?.data) ;
-        localStorage.removeItem('user')
+        setUser(response?.data);
+        console.log("response.data", response?.data)
+        // localStorage.removeItem('user')
         localStorage.setItem('user', JSON.stringify(response?.data))
         // navigate("/ab")
-        setUser(response?.data);
         navigate('/')
       }
     } catch (error) {

@@ -55,7 +55,7 @@ const LandingPage = () => {
           </h1>
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Experience the Concert Like Never Before</h1>
           <p className="text-xl md:text-2xl mb-6 font-bold ">Discover the best concerts happening near you.</p>
-          <button onClick={() => { navigate('/concert') }} className="px-6 md:px-8 py-2 md:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full transition duration-300">
+          <button onClick={() => { navigate('/events') }} className="px-6 md:px-8 py-2 md:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full transition duration-300">
             Explore Concerts
           </button>
         </div>

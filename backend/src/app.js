@@ -30,10 +30,14 @@ app.use(fileUpload({
 import userRouter  from "./routes/user.routes.js"
 import concertRouter from "./routes/concert.routes.js"
 import friendRouter from "./routes/friends.routes.js"
+import messageRouter from "./routes/message.routes.js"
+import chatRouter from "./routes/chat.routes.js"
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/concert",concertRouter);
 app.use("/api/v1/friends", friendRouter);
+app.use("/api/v1/message" , messageRouter ) ;
+app.use("/api/v1/chat" , chatRouter ) ;
 
 
 export { app };

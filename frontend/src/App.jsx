@@ -20,6 +20,13 @@ import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
 import UpcomingConcerts from './pages/UpcomingConcerts/UpcomingConcerts';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import Navbar1 from './components/Navbar/Navbar1';
+import Dashboard1 from './components/Dashboard/DashBoard';
+import ShowLocation from './pages/Maps/ShowLocation';
+import NavigateLocation from './pages/Maps/NavigateLocation';
+import ChatPage from './pages/Chat';
+import { MapLoader } from './pages/Maps/Maploader';
+
+import MapComponent from './pages/Map';
 
 // import Navigate from './pages/Navigate';
 // import Map from './pages/Map';
@@ -29,17 +36,18 @@ import Navbar1 from './components/Navbar/Navbar1';
 function App() {
 
   return (
-    <div className="bg-richblack-5 ">
+    <div className="bg-richblack-5 " data-theme="dark">
       <Navbar1/>
       {/* <Router> */}
 
       <Routes>
+
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contactus" element={<Feedback />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard1 />} />
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/update-profile" element={<Updatedetail />}></Route>
         <Route path="/forgot-password" element={<ForgetPassword />}></Route>
@@ -48,15 +56,16 @@ function App() {
           element={<ResetPasswordPage />}
         ></Route>
         <Route path="/create-concert" element={<CreateConcert />}></Route>
-        <Route path="/concert/:id" element={<Concert />}></Route>
+        <Route path="/event/:id" element={<Concert />}></Route>
         {/* <Route path="/test1" element={<RequestPeople />}></Route> */}
         <Route path="/register-succes/:id" element={<PaymentSuccessPage />} />
-        <Route path="/concert" element={<UpcomingConcerts />}></Route>
+        <Route path="/events" element={<UpcomingConcerts />}></Route>
         <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
-
-
+        <Route path="/showlocation" element={<ShowLocation />} />
+        <Route path="/navigate" element={<NavigateLocation />} />
         {/* <Route path="/displaymap" element={<Map />} /> */}
-        {/* <Route path="/navigate" element={<Navigate />} /> */}
+        <Route path="/navigate" element={<MapComponent />} />
+        <Route path='/chat' element={ <ChatPage/> } />
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>

@@ -284,9 +284,10 @@ const loginUser = asyncHandler(async (req, res) => {
   const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(
     user._id
   );
-  const loggedinUser = await User.findById(user._id).select(
-    "-password -refreshToken"
-  );
+  const loggedinUser = await User.findById(user._id)
+  .select("-password -refreshToken")
+  .populate("friends", "-password -refreshToken"); // Exclude these fields from populated friends
+
 
   return res
     .status(200)
