@@ -33,7 +33,7 @@ export default function MapComponent() {
     }
 
     updateLocation();
-    const interval = setInterval(updateLocation, 10000); // Update every 10 sec
+    const interval = setInterval(updateLocation, 10000000000); // Update every 10 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -85,44 +85,43 @@ export default function MapComponent() {
   }
 
   return (
-    <div>
-      {/* Travel Time Display */}
-      {travelTime && (
-        <div style={{ position: "absolute", top: 10, right: 10, background: "black", color: "white", padding: "10px", borderRadius: "5px", zIndex: 1000 }}>
-          Estimated Time: {travelTime}
-        </div>
-      )}
+    <div className="p-4 md:p-10">
+      <div className="m-3 border relative h-full flex flex-col items-center">
+        {/* Travel Time Display */}
+        {travelTime && (
+          <div className="absolute bottom-12 left-4 bg-black text-white p-2 rounded-md z-50 text-sm md:text-base">
+            Estimated Time: {travelTime}
+          </div>
+        )}
 
-      {/* Destination Input Fields */}
-      <div style={{ padding: "10px" }}>
-        <h2>Enter Destination</h2>
-        <input type="number" placeholder="End Latitude" value={endLat} onChange={(e) => setEndLat(e.target.value)} />
-        <input type="number" placeholder="End Longitude" value={endLon} onChange={(e) => setEndLon(e.target.value)} />
-        <button onClick={fetchRoute}>Get Route</button>
+        {/* Map Display */}
+        <MapContainer
+          className="mx-auto w-full"
+          center={mapCenter}
+          zoom={13}
+          style={{ height: "500px", width: "100%" }}
+        >
+          <RecenterMap />
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+          {/* Start Marker (Live Location) */}
+          {startLat && startLon && (
+            <Marker position={[startLat, startLon]}>
+              <Popup>📍 Your Current Location</Popup>
+            </Marker>
+          )}
+
+          {/* Destination Marker */}
+          {endLat && endLon && (
+            <Marker position={[endLat, endLon]}>
+              <Popup>🏁 Prayag Junction</Popup>
+            </Marker>
+          )}
+
+          {/* Route Path */}
+          {route.length > 0 && <Polyline positions={route} color="blue" />}
+        </MapContainer>
       </div>
-
-      {/* Map Display */}
-      <MapContainer center={mapCenter} zoom={13} style={{ height: "500px", width: "100%" }}>
-        <RecenterMap />
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-        {/* Start Marker (Live Location) */}
-        {startLat && startLon && (
-          <Marker position={[startLat, startLon]}>
-            <Popup>📍 Your Current Location</Popup>
-          </Marker>
-        )}
-
-        {/* Destination Marker */}
-        {endLat && endLon && (
-          <Marker position={[endLat, endLon]}>
-            <Popup>🏁 Prayag Junction</Popup>
-          </Marker>
-        )}
-
-        {/* Route Path */}
-        {route.length > 0 && <Polyline positions={route} color="blue" />}
-      </MapContainer>
     </div>
   );
 }

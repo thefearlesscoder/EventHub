@@ -26,6 +26,7 @@ import NavigateLocation from './pages/Maps/NavigateLocation';
 import ChatPage from './pages/Chat';
 import { MapLoader } from './pages/Maps/Maploader';
 import MapComponent from './pages/Map';
+import SelectPlace from './pages/SelectPlace';
 
 // import Navigate from './pages/Navigate';
 // import Map from './pages/Map';
@@ -63,7 +64,7 @@ function App() {
         <Route path="/showlocation" element={<ShowLocation />} />
         <Route path="/navigate" element={<MapComponent />} />
         {/* <Route path="/location" element={<MapLoader />} /> */}
-
+        <Route path="/nearby" element={<SelectPlace />} />
         {/* <Route path="/displaymap" element={<Map />} /> */}
         {/* <Route path="/navigate" element={<Navigate />} /> */}
         <Route path='/chat' element={ <ChatPage/> } />
