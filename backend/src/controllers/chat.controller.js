@@ -7,7 +7,7 @@ import { Message } from "../Models/Message.model.js";
 
 const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
-    console.log( "here inside -> " , userId ) ;
+    // console.log( "here inside -> " , userId ) ;
   if (!userId) {
     console.log("UserId param not sent with request");
     return res.sendStatus(400);

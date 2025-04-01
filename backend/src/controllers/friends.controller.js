@@ -13,14 +13,14 @@ import crypto from "crypto";
 
 const getAllMyFriends = asyncHandler(async (req, res) => {
   const userId = req.user?._id;
-  console.log("userId: " + userId);
+  // console.log("userId: " + userId);
 
   const friends = await Friend.find({
     $or: [{ sender: userId }, { receiver: userId }],
     status: "accepted",
   }).populate("sender receiver", "firstName lastName image"); 
 
-  console.log("friends:", friends);
+  // console.log("friends:", friends);
 
   const friendsData = friends.map((friend) => {
     const isSender = friend.sender._id.equals(userId);  
@@ -34,7 +34,7 @@ const getAllMyFriends = asyncHandler(async (req, res) => {
     };
   });
 
-  console.log("friends data:", friendsData);
+  // console.log("friends data:", friendsData);
   
   return res
     .status(200)

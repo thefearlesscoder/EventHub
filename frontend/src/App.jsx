@@ -25,6 +25,7 @@ import ShowLocation from './pages/Maps/ShowLocation';
 import NavigateLocation from './pages/Maps/NavigateLocation';
 import ChatPage from './pages/Chat';
 import { MapLoader } from './pages/Maps/Maploader';
+
 import MapComponent from './pages/Map';
 import SelectPlace from './pages/SelectPlace';
 
@@ -62,11 +63,9 @@ function App() {
         <Route path="/events" element={<UpcomingConcerts />}></Route>
         <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
         <Route path="/showlocation" element={<ShowLocation />} />
-        <Route path="/navigate" element={<MapComponent />} />
-        {/* <Route path="/location" element={<MapLoader />} /> */}
-        <Route path="/nearby" element={<SelectPlace />} />
+        <Route path="/navigate" element={<NavigateLocation />} />        <Route path="/nearby" element={<SelectPlace />} />
         {/* <Route path="/displaymap" element={<Map />} /> */}
-        {/* <Route path="/navigate" element={<Navigate />} /> */}
+        <Route path="/navigate" element={<MapComponent />} />
         <Route path='/chat' element={ <ChatPage/> } />
       </Routes>
       {/* <ToastContainer /> */}

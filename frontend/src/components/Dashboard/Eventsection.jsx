@@ -154,7 +154,7 @@ const EventsPage = () => {
 
 
       let AdddedEvents = [] ;
-      if ( user.myAddedConcerts != null ) {
+      if ( user && user.myAddedConcerts != null ) {
         AdddedEvents = user.myAddedConcerts ;
       }
 
