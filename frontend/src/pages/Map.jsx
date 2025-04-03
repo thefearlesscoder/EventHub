@@ -96,7 +96,7 @@ export default function MapComponent() {
 
         {/* Map Display */}
         <MapContainer
-          className="mx-auto w-full"
+          className="mx-auto w-full z-0"
           center={mapCenter}
           zoom={13}
           style={{ height: "500px", width: "100%" }}

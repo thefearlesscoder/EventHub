@@ -63,7 +63,8 @@ function App() {
         <Route path="/events" element={<UpcomingConcerts />}></Route>
         <Route path="/concert/:id/people" element={<RequestPeople />}></Route>
         <Route path="/showlocation" element={<ShowLocation />} />
-        <Route path="/navigate" element={<NavigateLocation />} />        <Route path="/nearby" element={<SelectPlace />} />
+        {/* <Route path="/navigate" element={<NavigateLocation />} />        */}
+         <Route path="/nearby" element={<SelectPlace />} />
         {/* <Route path="/displaymap" element={<Map />} /> */}
         <Route path="/navigate" element={<MapComponent />} />
         <Route path='/chat' element={ <ChatPage/> } />
