@@ -1,5 +1,5 @@
 
-# MusicMate
+# EventHub
 
 App that helps music lovers to find the ideal meeting point between two locations. Whether it's a cafe for a quick snack, a bar for pre-drinks, or a park to relax before the show. MusicMate suggests minimal commute for both users and match their preferences.
 
