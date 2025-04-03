@@ -10,28 +10,35 @@ const SelectPlace = ({ onSelectDestination }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
 
   // Hardcoded midpoint for testing
-  const midPoint = { lat: 28.6139, lon: 77.209 }; // New Delhi
+  const midPoint = { lat: 28.6139, lon: 77.209  }; // New Delhi
 
   useEffect(() => {
     if (midPoint) {
       fetchNearbyPlaces(midPoint);
     }
-  }, [midPoint]);
+  }, []);
 
   const fetchNearbyPlaces = async (midPoint) => {
     try {
       const response = await axios.get(
-        `https://graphhopper.com/api/1/geocode?point=${midPoint.lat},${midPoint.lon}&radius=2000&key=${GRASSHOPPER_API_KEY}`
+        `https://graphhopper.com/api/1/geocode?q=${midPoint.lat},${midPoint.lon}&radius=2000&key=${GRASSHOPPER_API_KEY}`
       );
 
+      console.log("API Response:", response.data);
+
       if (response.data.hits) {
+        // Filter places based on osm_key and osm_value
         const filteredPlaces = response.data.hits.filter((place) =>
-          ["cafe", "restaurant", "bar"].includes(place.type)
+          place.osm_key &&
+          place.osm_value &&
+          ["cafe", "restaurant", "bar","parks"].some((type) => place.osm_value.includes(type))
         );
+
+        console.log("Filtered Places:", filteredPlaces);
         setPlaces(filteredPlaces);
       }
     } catch (error) {
-      console.error("Error fetching nearby places:", error);
+      console.error("Error fetching nearby places:", error.response?.data || error);
     }
   };
 
