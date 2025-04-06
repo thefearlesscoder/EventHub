@@ -46,9 +46,11 @@ connectDB()
       
       socket.on("setup" , (userData) => {
         // console.log( "user in mesage -> " , userData)
-        socket.join(userData._id) ;
-        console.log(userData._id) ;
-        socket.emit("connected")
+        if ( userData ){
+          socket.join(userData._id) ;
+          console.log(userData._id) ;
+          socket.emit("connected")
+        }
       })
 
 

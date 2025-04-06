@@ -27,6 +27,7 @@ import ChatPage from './pages/Chat';
 import { MapLoader } from './pages/Maps/Maploader';
 
 import MapComponent from './pages/Map';
+import FriendsPage from './components/Friend';
 
 // import Navigate from './pages/Navigate';
 // import Map from './pages/Map';
@@ -66,6 +67,7 @@ function App() {
         {/* <Route path="/displaymap" element={<Map />} /> */}
         <Route path="/navigate" element={<MapComponent />} />
         <Route path='/chat' element={ <ChatPage/> } />
+        <Route path='/friend' element={<FriendsPage/>}/> 
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>
