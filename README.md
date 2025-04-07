@@ -1,6 +1,16 @@
-# MusicMate-Webster
+# Event Hub
+A web application to help users find ideal meetup venues for an Event based on location and preferences.
 
-MusicMate-Webster is a web application designed to enhance the concert-going experience by connecting music lovers, providing event details, and enabling social interactions. The platform allows users to explore concerts, navigate to event locations, and interact with other attendees.
+- Built with MERN stack (MongoDB, Express.js, React.js, Node.js).
+– Secure authentication (login, signup, password recovery, Sign In with Google).
+– APIs for location-based venue recommendations, based on proximity and user-defined criteria.
+– Third-party APIs for traffic, maps, and venue ratings.
+– Optimized database for user preferences and scheduled meetups.
+– Payment integration using Stripe for secure and seamless transaction handling.
+– Responsive, user-friendly platform for better social meetups.
+– Mobile responsiveness and intuitive UI for an enhanced user experience.
+– Proper state management and a personalized platform for social event planning.
+– Integrated chat feature with group chat support for real-time user interaction.
 
 ---
 
