@@ -2,6 +2,17 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
+import L from "leaflet";
+
+// Define a custom red marker icon
+const redIcon = new L.Icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png",
+  shadowSize: [41, 41],
+});
 
 const GRASSHOPPER_API_KEY = "f239fa59-db7a-49c1-8773-afd0a3ceba7c"; // Replace with your Grasshopper API key
 
@@ -10,7 +21,7 @@ const SelectPlace = ({ onSelectDestination }) => {
   const [selectedPlace, setSelectedPlace] = useState(null);
 
   // Hardcoded midpoint for testing
-  const midPoint = { lat: 28.6139, lon: 77.209  }; // New Delhi
+  const midPoint = { lat: 26.850000, lon: 80.949997 }; // New Delhi
 
   useEffect(() => {
     if (midPoint) {
@@ -20,23 +31,37 @@ const SelectPlace = ({ onSelectDestination }) => {
 
   const fetchNearbyPlaces = async (midPoint) => {
     try {
-      const response = await axios.get(
-        `https://graphhopper.com/api/1/geocode?q=${midPoint.lat},${midPoint.lon}&radius=2000&key=${GRASSHOPPER_API_KEY}`
+      const query = `
+        [out:json];
+        (
+          node["amenity"~"cafe|restaurant|bar|park"](around:2000, ${midPoint.lat}, ${midPoint.lon});
+        );
+        out center;
+      `;
+
+      const response = await axios.post(
+        "https://overpass-api.de/api/interpreter",
+        query,
+        {
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        }
       );
 
-      console.log("API Response:", response.data);
+      const elements = response.data.elements || [];
 
-      if (response.data.hits) {
-        // Filter places based on osm_key and osm_value
-        const filteredPlaces = response.data.hits.filter((place) =>
-          place.osm_key &&
-          place.osm_value &&
-          ["cafe", "restaurant", "bar","parks"].some((type) => place.osm_value.includes(type))
-        );
+      const places = elements.map((el) => ({
+        name: el.tags?.name || "Unnamed",
+        type: el.tags?.amenity || "unknown",
+        point: {
+          lat: el.lat,
+          lng: el.lon,
+        },
+      }));
 
-        console.log("Filtered Places:", filteredPlaces);
-        setPlaces(filteredPlaces);
-      }
+      console.log("Filtered Places:", places);
+      setPlaces(places);
     } catch (error) {
       console.error("Error fetching nearby places:", error.response?.data || error);
     }
@@ -59,7 +84,8 @@ const SelectPlace = ({ onSelectDestination }) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-          <Marker position={[midPoint.lat, midPoint.lon]}>
+          {/* Midpoint Marker with Red Icon */}
+          <Marker position={[midPoint.lat, midPoint.lon]} icon={redIcon}>
             <Popup>Midpoint</Popup>
           </Marker>
           <Circle
