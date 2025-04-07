@@ -12,8 +12,6 @@ A web application to help users find ideal meetup venues for an Event based on l
 – Proper state management and a personalized platform for social event planning.
 – Integrated chat feature with group chat support for real-time user interaction.
 
----
-
 ## Table of Contents
 
 1. [Features](#features)
