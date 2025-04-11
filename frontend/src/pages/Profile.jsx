@@ -38,7 +38,7 @@ const Profile = () => {
                     <div className=' mt-10'>
                         <div className=' flex w-full justify-around md:flex-row md:gap gap-y-5 flex-col  items-center'>
                             <img src={ dummydata.image == null ? "" : dummydata.image.url} alt="" className='md:w-[20%] w-[50%] rounded-full'/>
-                            <button onClick={ () => { navigate('/update-profile')}} className=' bg-yellow-50 text-black p-2 font-bold rounded-lg text-xl'>
+                            <button onClick={ () => { navigate('/dashboard/update-profile')}} className=' bg-yellow-50 text-black p-2 font-bold rounded-lg text-xl'>
                                 Edit image
                             </button>
                         </div>
@@ -63,7 +63,7 @@ const Profile = () => {
                             </div>
     
                             <div className=' mx-auto mt-5 '>
-                                <button onClick={ () => { navigate('/update-profile')}} className=' bg-yellow-50 text-black p-2 font-bold rounded-lg text-xl '>
+                                <button onClick={ () => { navigate('/dashboard/update-profile')}} className=' bg-yellow-50 text-black p-2 font-bold rounded-lg text-xl '>
                                     Change Detail
                                 </button>
                             </div>
