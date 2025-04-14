@@ -11,9 +11,13 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-evenly gap-8">
         {/* Left Section - Logo & Social Links */}
         <div className="space-y-4">
-          <h2 className="text-3xl font-semibold text-pure-greys-200">My Academy</h2>
+          <h2 className="text-3xl font-semibold text-pure-greys-200">EventHub</h2>
           <p className="text-pure-greys-200">
-            Wits seamlessly connects your members with community & resources.
+            Your one-stop solution for all your event needs.  
+          </p>
+          <p className='text-pure-greys-200'>
+          Connect with us on
+          social media!
           </p>
           <div className="flex space-x-4">
             <a
@@ -187,7 +191,7 @@ const Footer = () => {
 
       {/* Copyright Section */}
       <div className="border-t border-white mt-8 pt-6 text-center text-pure-greys-200">
-        &copy; 2024 My Academy. All rights reserved.
+        &copy; 2025 EventHub. All rights reserved.
       </div>
     </div>
   )
