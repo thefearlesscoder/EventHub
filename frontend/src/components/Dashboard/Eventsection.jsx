@@ -6,17 +6,19 @@ import axios from "axios";
 import { BASE_URL } from "../../services/apis";
 import { useNavigate } from "react-router-dom";
 import { setLoading } from "../../slices/authSlice";
+import { FaSpinner } from "react-icons/fa";
 
 const EventsPage = () => {
-  const { loading, user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const [AttendedEvents, setAttendedConcerts] = useState([]);
   const [upcomingConcerts, setUpcomingConcerts] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const fetchAttendedConcerts = async () => {
-    // dispatch(setLoading(true));
+    setLoading(true); // Start loading
     try {
       const response = await axios.post(
         `${BASE_URL}/concert/my-attended-concerts`,
@@ -25,16 +27,15 @@ const EventsPage = () => {
           withCredentials: true,
         }
       );
-      console.log("attended concerts:", response.data.data);
       setAttendedConcerts(response.data.data);
     } catch (error) {
       console.log("Error fetching attended concerts:", error);
     }
-    // dispatch(setLoading(false));
+    setLoading(false); // End loading
   };
 
   const fetchConcerts = async () => {
-    // dispatch(setLoading(true));
+    setLoading(true); // Start loading
     try {
       const response = await axios.post(
         `${BASE_URL}/concert/my-upcoming-concerts`,
@@ -42,20 +43,16 @@ const EventsPage = () => {
         { withCredentials: true }
       );
       setUpcomingConcerts(response.data.data);
-      console.log(response.data.data);
     } catch (err) {
       console.error("Error fetching concerts:", err);
     }
-    // dispatch(setLoading(false));
+    setLoading(false); // End loading
   };
 
   useEffect(() => {
-    // if (user) {
-      fetchAttendedConcerts();
-      fetchConcerts();
-      console.log("hellonlanlknclnnk") ;
-    // }
-  }, []); 
+    fetchAttendedConcerts();
+    fetchConcerts();
+  }, []);
 
   let AdddedEvents = [];
   if (user && user.myAddedConcerts != null) {
@@ -132,7 +129,9 @@ const EventsPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 px-4 py-6 sm:px-6 lg:px-8">
       {loading ? (
-        <div className="text-center text-lg font-medium">Loading...</div>
+        <div className="flex items-center justify-center min-h-screen">
+                <FaSpinner className="text-4xl text-richblue-600 animate-spin" />
+              </div>
       ) : (
         <div>
           <section className="mb-10">

@@ -34,6 +34,7 @@ import MapComponent from './pages/Map';
 import FriendsPage from './components/Friend';
 import SelectPlace from './pages/SelectPlace';
 import Profile from './pages/Profile';
+import PaidUsersPage from './pages/Eventpeople';
 
 // import Navigate from './pages/Navigate';
 // import Map from './pages/Map';
@@ -53,13 +54,15 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
         <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/contactus" element={<Feedback />} />
+        <Route path="/concert/people/:id" element={<PaidUsersPage />} />
+        
         <Route path="/dashboard" element={<Dashboard />}>
               <Route index element={<EventsPage />} /> {/* Default when /dashboard */}
               <Route path="profile" element={<Profile />} />
               <Route path="expenditure" element={<ExpenditurePage />} />
               <Route path="create-event" element={<CreateConcert />} />
               <Route path="update-profile" element={<Updatedetail/> } />
+              <Route path="friend" element={<Feedback />} />
       </Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/update-profile" element={<Updatedetail />}></Route>

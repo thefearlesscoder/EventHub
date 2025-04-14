@@ -9,7 +9,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 const clientId = "707166702494-qgtgggn4tu96udc3eolpb3nitcfnim2i.apps.googleusercontent.com";
 
 createRoot(document.getElementById("root")).render(
-  <GoogleOAuthProvider clientId={clientId}>
+  <GoogleOAuthProvider clientId={clientId} >
     <div className='bg-richblack-900 w-full min-h-screen'>
       <Provider store={store}>
         <BrowserRouter>

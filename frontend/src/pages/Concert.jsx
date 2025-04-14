@@ -222,17 +222,33 @@ const Concert = () => {
       
                   <div>
                     <h3 className="text-lg sm:text-xl font-semibold mb-4">Attendees</h3>
-                    <div className="flex flex-wrap gap-4">
-                      {["Hamza", "User2"].map((name, idx) => (
-                        <div key={idx} className="flex items-center gap-2">
-                          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 font-bold">
-                            {name[0]}
-                          </span>
-                          <span>{name}</span>
-                        </div>
-                      ))}
+                    <div className="flex flex-wrap gap-4 items-center">
+                      {Array.isArray(concertdetails?.peoples) && concertdetails.peoples.length > 0 ? (
+                        <>
+                          {concertdetails.peoples.slice(0, 3).map((person, idx) => (
+                            <div key={idx} className="flex items-center gap-2">
+                              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 font-bold">
+                                {person?.firstName?.charAt(0).toUpperCase() || '?'}
+                              </span>
+                              <span>{person?.firstName || 'Unknown'}</span>
+                            </div>
+                          ))}
+
+                          {concertdetails.peoples.length > 0 && (
+                            <button
+                              onClick={() => navigate(`/concert/people/${concertdetails._id}`)}
+                              className="md:w-[20%] md:ml-5 sm:md-[50%] w-full h-10 bg-black text-white text-sm font-medium rounded-md hover:bg-zinc-900 transition"
+                            >
+                              Show More
+                            </button>
+                          )}
+                        </>
+                      ) : (
+                        <p className="text-sm text-gray-400">No attendees found</p>
+                      )}
                     </div>
                   </div>
+
                 </div>
       
                 {/* Right Section */}

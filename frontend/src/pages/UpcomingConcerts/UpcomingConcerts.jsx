@@ -3,7 +3,7 @@ import ConcertCard from "./ConcertCard";
 import axios from "axios";
 import FilterComponent from "../FilterComponent";
 import { BASE_URL } from "../../services/apis";
-import { FaRupeeSign } from "react-icons/fa";
+import { FaRupeeSign, FaSpinner } from "react-icons/fa";
 
 const genres = [
   "Pop",
@@ -18,39 +18,48 @@ const genres = [
 
 const UpcomingConcerts = () => {
   const [allConcerts, setAllConcerts] = useState([]);
-  const [selectedGenre, setSelectedGenre] = useState(""); // single selection
+  const [selectedGenre, setSelectedGenre] = useState("");
   const [filteredConcerts, setFilteredConcerts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleFilterChange = (genre) => {
-    console.log("Selected genre:", genre); // Debug: Check selected genre
     setSelectedGenre(genre);
   };
 
   const fetchAllConcerts = async () => {
     try {
+      setLoading(true);
       const response = await axios.post(
-        `${BASE_URL}/concert/upcoming-concert`,{},{
-          withCredentials:true ,
-        }
+        `${BASE_URL}/concert/upcoming-concert`,
+        {},
+        { withCredentials: true }
       );
-      console.log("All concerts:", response.data.data);
       setAllConcerts(response.data.data);
     } catch (error) {
       console.error("Error fetching concerts:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchAllConcerts();
-  }, [genres]);
+  }, []);
 
   useEffect(() => {
-    console.log("Filtering concerts by genre:", selectedGenre); // Debug: Check filter condition
     const filtered = selectedGenre
       ? allConcerts.filter((concert) => concert.genre === selectedGenre)
       : allConcerts;
     setFilteredConcerts(filtered);
   }, [selectedGenre, allConcerts]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen ">
+        <FaSpinner className="text-4xl text-blue-600 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="p-10 w-full">
@@ -67,28 +76,28 @@ const UpcomingConcerts = () => {
           filteredConcerts.map((event) => (
             <div
               key={event.id}
-              className="flex flex-col rounded-xl  bg-white shadow-lg text-gray-800 overflow-hidden hover:shadow-xl transition-shadow w-full md:w-[45%] lg:w-[30%] p-4"
+              className="flex flex-col rounded-xl bg-white shadow-lg text-gray-800 overflow-hidden hover:shadow-xl transition-shadow w-full md:w-[45%] lg:w-[30%] p-4"
             >
-              {/* Image Section */}
               <div className="relative h-48 w-full">
                 <img
                   alt={event.artist}
                   loading="lazy"
                   decoding="async"
                   className="object-cover w-full h-full rounded-t-xl"
-                  src={event.image || "https://cdn.pixabay.com/photo/2016/11/23/15/48/audience-1853662_1280.jpg"} // Default image if `event.image` is not available
+                  src={
+                    event.image ||
+                    "https://cdn.pixabay.com/photo/2016/11/23/15/48/audience-1853662_1280.jpg"
+                  }
                 />
                 <div className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-md">
                   Upcoming
                 </div>
               </div>
 
-              {/* Content Section */}
               <div className="flex flex-col font-bold text-xl text-blue-800 space-y-3 p-4">
-                {/* Artist and Date */}
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-bold text-lg text-gray-900 line-clamp-1  mb-2">
+                    <h3 className="font-bold text-lg text-gray-900 line-clamp-1 mb-2">
                       {event.artist}
                     </h3>
                     <div className="text-sm leading-6 text-gray-600 flex items-center gap-1">
@@ -122,14 +131,12 @@ const UpcomingConcerts = () => {
                   </div>
                 </div>
 
-                {/* Description */}
                 <div className="text-sm text-gray-600">
                   <p className="line-clamp-2">
                     {event.description || "No description available."}
                   </p>
                 </div>
 
-                {/* Location and Ticket Price */}
                 <div className="flex flex-col gap-2 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <svg
@@ -150,12 +157,11 @@ const UpcomingConcerts = () => {
                     <span>{event.place}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                  <FaRupeeSign />
+                    <FaRupeeSign />
                     <span>{event.ticketPrice}</span>
                   </div>
                 </div>
 
-                {/* Action Button */}
                 <div className="flex justify-center">
                   <a
                     className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 border border-blue-500 bg-blue-500 text-white shadow-sm hover:bg-blue-600 h-9 px-4 py-2"

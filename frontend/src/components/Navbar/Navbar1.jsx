@@ -21,7 +21,9 @@ const Navbar = () => {
 
 
   const userLinks = [
-    { name: "Dashboard", path: "/dashboard" },];
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Chat" , path: "/chat"},
+  ];
 
   const { user } = useSelector((state) => state.auth);
 
@@ -60,6 +62,15 @@ const Navbar = () => {
                   className="text-muted-foreground hover:text-primary font-medium"
                 >
                   Dashboard
+                </Link>) : (<div />)
+              }
+              {
+                user ? (<Link
+
+                  to={"/chat"}
+                  className="text-muted-foreground hover:text-primary font-medium"
+                >
+                  Chat
                 </Link>) : (<div />)
               }
             </div>

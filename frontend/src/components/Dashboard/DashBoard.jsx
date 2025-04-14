@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
-import { Calendar, UserCircle, DollarSign, PlusCircle } from "lucide-react";
+import { Calendar, UserCircle, DollarSign, PlusCircle, Users } from "lucide-react";
 import { useSelector } from "react-redux";
 
 const Dashboard = () => {
@@ -23,6 +23,10 @@ const Dashboard = () => {
             <DollarSign size={20} />
             <span>Expenditure</span>
           </Link>
+          <Link to="friend" className="flex items-center space-x-2 text-gray-600 cursor-pointer">
+            <Users size={20} />
+            <span>Friend</span>
+          </Link>
           {user?.role === "admin" && (
             <Link to="create-event" className="flex items-center space-x-2 text-gray-600 cursor-pointer">
               <PlusCircle size={20} />
@@ -33,13 +37,13 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="w-full p-6">
+      <div className="w-full p-6 flex-1 overflow-y-auto">
         {loading ? (
           <div className="flex items-center justify-center h-full">
             <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-gray-500"></div>
           </div>
         ) : (
-          <Outlet /> 
+          <Outlet />
         )}
       </div>
     </div>

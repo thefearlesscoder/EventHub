@@ -231,9 +231,10 @@ useEffect(() => {
 
         {/* Messages */}
         <div className="flex-1 p-4 overflow-y-auto flex flex-col">
-    {user && selectedUser ? (
-      messages.length > 0 ? (
-        messages.map((msg, index) => (
+  {user && selectedUser ? (
+    messages.length > 0 ? (
+      <>
+        {messages.map((msg, index) => (
           <div
             key={index}
             className={classNames(
@@ -245,21 +246,23 @@ useEffect(() => {
           >
             {msg?.content}
           </div>
-        ))
-      ) : (
-        <div className="text-gray-500 animate-pulse text-center text-lg mt-10">
-          No messages, start a conversation!
-        </div>
-      )
+        ))}
+
+        {/* Invisible div to keep scroll position at the bottom */}
+        <div ref={messagesEndRef}></div>
+      </>
     ) : (
       <div className="text-gray-500 animate-pulse text-center text-lg mt-10">
-        No chat selected. Pick a user to start a conversation!
+        No messages, start a conversation!
       </div>
-    )}
-    
-    {/* Invisible div to keep scroll position at the bottom */}
-    <div ref={messagesEndRef}></div>
-  </div>
+    )
+  ) : (
+    <div className="text-gray-500 animate-pulse text-center text-lg mt-10">
+      No chat selected. Pick a user to start a conversation!
+    </div>
+  )}
+</div>
+
 
         {/* Input Box */}
         {selectedUser && (
