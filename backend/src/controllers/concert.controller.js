@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../Models/User.model.js";
 import { Concert } from "../Models/Concert.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { Friend } from "../Models/Friend.model.js";
 const addConcert = asyncHandler(async (req, res) => {
   // log("well here sdmbdkj")
   const userId = req.user._id;
@@ -142,16 +143,63 @@ const updateConcert = asyncHandler(async (req, res) => {
 
 const getRegisteredPeople = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const concert = await Concert.findById(id).populate("peoples");
+  const userId = req.user._id;
 
+  const concert = await Concert.findById(id).populate("peoples");
   if (!concert) {
     throw new Error("Concert not found");
   }
-  // console.log("Registered People:", concert.peoples);
-  return res
-    .status(200)
-    .json(new ApiResponse(200, concert.peoples, "registerd peoples"));
+
+  const allFriendRelations = await Friend.find({
+    $or: [
+      { sender: userId },
+      { receiver: userId }
+    ]
+  });
+
+  const friends = new Set();
+  const pending = new Set();
+
+  for (let rel of allFriendRelations) {
+    const otherUser =
+      rel.sender.toString() === userId.toString()
+        ? rel.receiver.toString()
+        : rel.sender.toString();
+
+    if (rel.status === "accepted") {
+      friends.add(otherUser);
+    } else if (rel.status === "pending") {
+      pending.add(otherUser);
+    }
+  }
+
+  const myFriendList = [];
+  const requestFriendList = [];
+  const nonFriendList = [];
+
+  for (let person of concert.peoples) {
+    const personId = person._id.toString();
+
+    if (personId === userId.toString()) continue; 
+
+    if (friends.has(personId)) {
+      myFriendList.push(person);
+    } else if (pending.has(personId)) {
+      requestFriendList.push(person);
+    } else {
+      nonFriendList.push(person);
+    }
+  }
+
+  return res.status(200).json(
+    new ApiResponse(200, {
+      myFriendList,
+      requestFriendList,
+      nonFriendList
+    }, "Categorized registered people")
+  );
 });
+
 
 const allUpcomingConcerts = asyncHandler(async (req, res) => {
   try {

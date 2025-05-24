@@ -1,6 +1,7 @@
 import { BASE_URL } from '../services/apis';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { set } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { FaSpinner } from 'react-icons/fa';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -63,12 +64,60 @@ const FriendsPage = () => {
     </div>
   );
 
-  const handleAccept = (name) => {
-    console.log(`Friend request from ${name} accepted!`);
+  const handleAccept = async(friend) => {
+    setLoading(true);
+    console.log("User ID:", friend);
+    try {
+        const response = await axios.post(
+          `${BASE_URL}/friends/response-request/${friend.friendId}`,
+          { status : "accepted" },
+          { withCredentials: true }
+        );
+
+      console.log("Friend request accepted:", response);
+
+      if ( response.data.success ) {
+        toast.success("Friend request accepted successfully!");
+        setFriendRequests((prevRequests) =>
+          prevRequests.filter((req) => req.friendId !== friend.friendId)
+        );
+        // Optionally, you can also add the friend to the friends list
+        setFriends((prevFriends) => [...prevFriends, friend]);
+      }
+
+    } catch (error) {
+      console.error("Error accepting friend request:", error);
+      toast.error("Failed to accept friend request");
+    }
+    setLoading(false);
   };
 
-  const handleDecline = (name) => {
-    console.log(`Friend request from ${name} declined!`);
+  const handleDecline = async(friend) => {
+    setLoading(true);
+    console.log("User ID:", friend);
+    try {
+        const response = await axios.post(
+          `${BASE_URL}/friends/response-request/${friend.friendId}`,
+          { status : "rejected" },
+          { withCredentials: true }
+        );
+
+      console.log("Friend request rejected:", response);
+
+      if ( response.data.success ) {
+        toast.success("Friend request rejected successfully!");
+        setFriendRequests((prevRequests) =>
+          prevRequests.filter((req) => req.friendId !== friend.friendId)
+        );
+        // Optionally, you can also add the friend to the friends list
+        // setFriends((prevFriends) => [...prevFriends, friend]);
+      }
+
+    } catch (error) {
+      console.error("Error accepting friend request:", error);
+      toast.error("Failed to accept friend request");
+    }
+    setLoading(false);
   };
 
   const fetchIncomingRequests = async () => {
@@ -149,8 +198,8 @@ const FriendsPage = () => {
                   key={request.friendId}
                   name={request.name}
                   avatar={request.image}
-                  onAccept={() => handleAccept(request.name)}
-                  onDecline={() => handleDecline(request.name)}
+                  onAccept={() => handleAccept(request)}
+                  onDecline={() => handleDecline(request)}
                 />
               ))}
             </div>
