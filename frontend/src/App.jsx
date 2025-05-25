@@ -81,7 +81,7 @@ function App() {
         {/* <Route path="/navigate" element={<NavigateLocation />} />        */}
          <Route path="/nearby" element={<SelectPlace />} />
         {/* <Route path="/displaymap" element={<Map />} /> */}
-        <Route path="/navigate" element={<MapComponent />} />
+        <Route path="/navigate/:id" element={<MapComponent />} />
         <Route path='/chat' element={ <ChatPage/> } />
         <Route path='/friend' element={<FriendsPage/>}/> 
       </Routes>

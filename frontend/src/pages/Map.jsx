@@ -1,6 +1,10 @@
 import { MapContainer, TileLayer, Polyline, Marker, Popup, useMap } from "react-leaflet";
 import { useState, useEffect } from "react";
 import polyline from "polyline";
+import { useParams } from "react-router-dom";
+import { BASE_URL } from "../services/apis";
+import { use } from "react";
+import axios from "axios";
 
 const API_KEY = "f239fa59-db7a-49c1-8773-afd0a3ceba7c"; // Replace with your API key
 
@@ -12,7 +16,59 @@ export default function MapComponent() {
   const [route, setRoute] = useState([]);
   const [travelTime, setTravelTime] = useState(null);
   const [mapCenter, setMapCenter] = useState([20, 78]); // Default center (India)
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams(); 
+  const[ concertData, setConcertData ] = useState(null);
 
+
+  const searchConcert = async () => {
+    console.log("concertId -> ", id);
+    setLoading(true);
+    try {
+      let response = await axios.post(
+        `${BASE_URL}/concert/concert/${id}`,{},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials:true ,
+        }
+      );
+      
+      console.log("concert responce -> " ,response)
+      response = response?.data ;
+      
+      if (!response.success ) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      
+      console.log("concert responce -> " ,response)
+
+      setConcertData(response.data);
+      console.log("Concert data:", response.data);
+      console.log(concertData);
+      
+      let data = response.data;
+
+      const res = await axios.get(
+        `https://graphhopper.com/api/1/geocode?q=${encodeURIComponent(data?.place)}&key=${API_KEY}`
+      );
+
+      console.log("Geocode response:", res.data.hits[0].point);
+      const { lat, lng } = res.data.hits[0].point;
+      // setEndLat(lat);
+      // setEndLon(lng);
+
+    } catch (error) {
+      console.error("Error fetching concert:", error);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    searchConcert();
+  }
+  , []);
   // Fetch user's live location and update every 10 seconds
   useEffect(() => {
     function updateLocation() {
@@ -33,7 +89,7 @@ export default function MapComponent() {
     }
 
     updateLocation();
-    const interval = setInterval(updateLocation, 10000000000); // Update every 10 seconds
+    const interval = setInterval(updateLocation, 1000000000); // Update every 10 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -44,7 +100,7 @@ export default function MapComponent() {
       alert("Please enter valid coordinates.");
       return;
     }
-
+    console.log(`Fetching route from ${startLat}, ${startLon} to ${endLat}, ${endLon}`);
     try {
       const url = `https://graphhopper.com/api/1/route?point=${startLat},${startLon}&point=${endLat},${endLon}&vehicle=car&key=${API_KEY}`;
       const response = await fetch(url);
@@ -83,6 +139,12 @@ export default function MapComponent() {
     }, [mapCenter, map]);
     return null;
   }
+
+  
+
+
+  // concertData mai concert ki details hain 
+
 
   return (
     <div className="p-4 md:p-10">

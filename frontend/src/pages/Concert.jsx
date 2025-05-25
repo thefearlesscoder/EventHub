@@ -301,10 +301,21 @@ const Concert = () => {
                       <span>{concertdetails?.peoples?.length || 0}
                       / 100 attendees</span>
                     </div>
-      
-                    <button onClick={commonfun} className="w-full h-10 bg-black text-white text-sm font-medium rounded-md hover:bg-zinc-900 transition">
-                      Attend Event
-                    </button>
+                    <div>
+                      {
+                        concertdetails?.peoples?.some(p => p._id === user._id) ? (
+                          <button onClick={ () => { navigate(`/navigate/${concertdetails._id}`)}} className="w-full h-10 bg-black text-white text-sm font-medium rounded-md hover:bg-zinc-900 transition">
+                            Navigate
+                          </button>
+                        ) : (
+                          <button onClick={commonfun} className="w-full h-10 bg-black text-white text-sm font-medium rounded-md hover:bg-zinc-900 transition">
+                            Attend Event
+                          </button>
+                        )
+                      }
+                    </div>
+
+                    
                   </div>
                 </div>
               </div>
