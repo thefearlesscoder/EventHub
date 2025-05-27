@@ -103,7 +103,7 @@ export default function MapComponent() {
     }
 
     updateLocation();
-    const interval = setInterval(updateLocation, 1000000000); // Update every 10 seconds
+    const interval = setInterval(updateLocation, 10000); // Update every 10 seconds
 
     return () => clearInterval(interval);
   }, []);
