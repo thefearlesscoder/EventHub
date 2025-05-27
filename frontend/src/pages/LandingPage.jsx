@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { BASE_URL } from "../services/apis.js";
 import cardlogo from "../assets/cardlogo.jpg";
-
+import Footer from '../components/Footer/Footer.jsx';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -51,12 +51,12 @@ const LandingPage = () => {
         <div className="z-10 text-center px-4 text-black">
           <h1 className="text-5xl md:text-8xl font-bold mb-6 tracking-wide bg-clip-text 
           text-transparent bg-gradient-to-r from-blue-300 to-blue-700  animate-text-glow">
-            Music<span className=" font-extrabold">Mate</span>
+            Event<span className=" font-extrabold">Hub</span>
           </h1>
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">Experience the Concert Like Never Before</h1>
-          <p className="text-xl md:text-2xl mb-6 font-bold ">Discover the best concerts happening near you.</p>
+          <h1 className="text-3xl md:text-5xl font-bold mb-4">Experience the Event Like Never Before</h1>
+          <p className="text-xl md:text-2xl mb-6 font-bold ">Discover the best Event happening near you.</p>
           <button onClick={() => { navigate('/events') }} className="px-6 md:px-8 py-2 md:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full transition duration-300">
-            Explore Concerts
+            Explore Event
           </button>
         </div>
       </section>
@@ -69,8 +69,8 @@ const LandingPage = () => {
 
 
         <div className="relative z-10 text-center text-white px-6 py-8">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Feel the Beat Live</h1>
-          <p className="text-lg md:text-xl mb-6">Join us for unforgettable concerts and events.</p>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">Feel the joy Live</h1>
+          <p className="text-lg md:text-xl mb-6">Join us for unforgettable concerts and events</p>
           <button onClick={() => { navigate('/signup') }} className="px-8 py-3 bg-pink-400 hover:bg-pink-600 rounded-full text-white font-semibold transition duration-300">
             SignUp
           </button>
@@ -100,7 +100,7 @@ const LandingPage = () => {
 
       <section className="py-12 md:py-16 bg-black text-white">
         <div className="container mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-8">Join a Community of Music Lovers</h2>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-6 md:mb-8">Join a Community of Event Lovers</h2>
           <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-12">
             <div className="flex flex-col items-center">
               <span className="text-4xl md:text-5xl font-bold">10,000+</span>
@@ -118,12 +118,12 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <div className=" text-6xl text-center w-full font-bold p-5 ">Our Famous Concert</div>
+      <div className=" text-6xl text-center w-full font-bold p-5 ">Our Famous Event</div>
       <Slider2 />
 
       <section className="py-12 md:py-16 bg-gray-900">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-6xl font-semibold text-center text-bla mb-8 md:mb-10">Featured Concerts</h2>
+          <h2 className="text-4xl md:text-6xl font-semibold text-center text-bla mb-8 md:mb-10">Featured Events</h2>
           <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3 md:text text-center md:p-10 p-10 pb-0">
             {[1 , 2 , 3 ].map((concert) => (
              <div className="max-w-sm bg-white  rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
@@ -171,6 +171,8 @@ const LandingPage = () => {
         </div>
       </section>
 
+      <Footer />
+            
 
       {/* <footer className="py-8 bg-gray-800 text-center">
         <p className="text-gray-400 text-sm md:text-md">© 2024 MusicMate. All rights reserved</p>
