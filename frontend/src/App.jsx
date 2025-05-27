@@ -87,7 +87,7 @@ function App() {
       </Routes>
       {/* <ToastContainer /> */}
       <Toaster></Toaster>
-      <Footer />
+      {/* <Footer /> */}
 
       {/* </Router> */}
     </div>
