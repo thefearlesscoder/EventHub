@@ -67,7 +67,7 @@ export default function MapComponent() {
         setLoading(false);
         return;
       }
-      const { lat, lng } = firstIndiaEntry.point;j
+      const { lat, lng } = firstIndiaEntry.point;
       
       // const { lat, lng } = res.data.hits[0].point;
       setEndLat(lat);
@@ -103,7 +103,7 @@ export default function MapComponent() {
     }
 
     updateLocation();
-    const interval = setInterval(updateLocation, 10000); // Update every 10 seconds
+    const interval = setInterval(updateLocation, 100000000); // Update every 10 seconds
 
     return () => clearInterval(interval);
   }, []);

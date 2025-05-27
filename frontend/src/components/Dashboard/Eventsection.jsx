@@ -67,7 +67,8 @@ const EventsPage = () => {
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: idx * 0.1 }}
     >
-      <div className="max-w-sm bg-white rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 h-full flex flex-col">
+      <div className="bg-richblack-300 rounded-md">
+      <div className="max-w-sm bg-white rounded-lg shadow-sm  dark:bg-gray-800 h-full flex flex-col font-bold p-3">
         <a href="#">
           <img
             className="rounded-t-lg w-full h-48 object-cover"
@@ -82,9 +83,39 @@ const EventsPage = () => {
                 {event.artist}
               </h5>
             </a>
-            <p className="text-sm text-gray-500 mb-1">📍 {event.place}</p>
-            <p className="text-sm text-gray-500 mb-1">
-              📅{" "}
+            <p className="text-sm text-gray-500 mb-1 flex gap-2"><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-map-pin h-4 w-4"
+                    >
+                      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg> {event.place}</p>
+            <p className="text-sm text-gray-500 mb-1 flex gap-2">
+            <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-calendar h-4 w-4"
+                      >
+                        <path d="M8 2v4"></path>
+                        <path d="M16 2v4"></path>
+                        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                        <path d="M3 10h18"></path>
+                      </svg>
               {new Date(event.date).toLocaleString(undefined, {
                 weekday: "short",
                 year: "numeric",
@@ -95,14 +126,14 @@ const EventsPage = () => {
               })}
             </p>
             <p className="text-sm text-gray-500 mb-1">🎵 {event.genre}</p>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            <p className="text-sm text-gray-600 line-clamp-2">
               Join {event.artist} for an unforgettable {event.genre} night at{" "}
               {event.place}!
             </p>
           </div>
           <a
             href="#"
-            className="inline-flex items-center mt-auto px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="inline-flex items-center justify-center mt-2 px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             View Details
             <svg
@@ -123,7 +154,9 @@ const EventsPage = () => {
           </a>
         </div>
       </div>
+      </div>
     </motion.div>
+    
   );
 
   return (
