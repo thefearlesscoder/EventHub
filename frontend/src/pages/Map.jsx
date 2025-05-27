@@ -53,11 +53,25 @@ export default function MapComponent() {
       const res = await axios.get(
         `https://graphhopper.com/api/1/geocode?q=${encodeURIComponent(data?.place)}&key=${API_KEY}`
       );
+      console.log("Geocode response:", res.data);
 
-      console.log("Geocode response:", res.data.hits[0].point);
-      const { lat, lng } = res.data.hits[0].point;
-      // setEndLat(lat);
-      // setEndLon(lng);
+      const indiaEntries = res.data.hits.filter(entry => entry.country === "India");
+      console.log("Filtered India entries:", indiaEntries);
+
+      // Select the first entry
+      const firstIndiaEntry = indiaEntries.length > 0 ? indiaEntries[0] : null;
+      console.log("First India entry:", firstIndiaEntry);
+
+      if(firstIndiaEntry === null) {
+        alert("No valid location found for the concert. Please check the concert details.");
+        setLoading(false);
+        return;
+      }
+      const { lat, lng } = firstIndiaEntry.point;j
+      
+      // const { lat, lng } = res.data.hits[0].point;
+      setEndLat(lat);
+      setEndLon(lng);
 
     } catch (error) {
       console.error("Error fetching concert:", error);
