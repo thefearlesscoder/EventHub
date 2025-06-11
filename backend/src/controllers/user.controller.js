@@ -285,9 +285,21 @@ const loginUser = asyncHandler(async (req, res) => {
     user._id
   );
   const loggedinUser = await User.findById(user._id)
-  .select("-password -refreshToken")
-  .populate("friends", "-password -refreshToken"); // Exclude these fields from populated friends
+    .select("-password -refreshToken")
+    .populate({
+      path: "friends",
+      select: "-password -refreshToken",
+      populate: {
+        path: "myAddedConcerts",
+        select: "artist place date ticketPrice genre",
+      },
+    })
+      .populate({
+        path: "myAddedConcerts",
+        select: "artist place date ticketPrice genre",
+      });
 
+console.log("loggedinUser:", loggedinUser);
 
   return res
     .status(200)

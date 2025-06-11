@@ -18,7 +18,7 @@ const addConcert = asyncHandler(async (req, res) => {
     seatingCapacity,
     genre,
     media,
-  } = req.body;
+  } = req.body?.artist;
 
   console.log("Request body:", req.body);
 
@@ -444,7 +444,12 @@ const filterConcerts = asyncHandler(async (req, res) => {
 
 const getMyAddedConcerts = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  const list = await Concert.find({ adminId: userId });
+
+  const list = await Concert.find({ adminId: userId })
+    .populate({ path: "artist", select: "name" })
+    .populate({ path: "place", select: "name location" })
+    .populate({ path: "genre", select: "name" });
+
   return res.status(200).json({
     success: true,
     data: list,

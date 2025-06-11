@@ -11,6 +11,7 @@ import { FaSpinner } from "react-icons/fa";
 const EventsPage = () => {
   const { user } = useSelector((state) => state.auth);
   const [AttendedEvents, setAttendedConcerts] = useState([]);
+  const [AdddedEvents, setAddedEvents] = useState([]);
   const [upcomingConcerts, setUpcomingConcerts] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
 
@@ -34,6 +35,24 @@ const EventsPage = () => {
     setLoading(false); // End loading
   };
 
+  const fetchAddedConcerts = async () => {
+    setLoading(true); // Start loading
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/concert/my-added-concerts`,
+        {
+          withCredentials: true,
+        }
+      );
+      setAddedEvents(response.data.data);
+    } catch (error) {
+      console.log("Error fetching attended concerts:", error);
+    }
+    setLoading(false); // End loading
+  };
+
+  
+
   const fetchConcerts = async () => {
     setLoading(true); // Start loading
     try {
@@ -52,12 +71,13 @@ const EventsPage = () => {
   useEffect(() => {
     fetchAttendedConcerts();
     fetchConcerts();
+    fetchAddedConcerts() ;
   }, []);
 
-  let AdddedEvents = [];
-  if (user && user.myAddedConcerts != null) {
-    AdddedEvents = user.myAddedConcerts;
-  }
+  // let AdddedEvents = [];
+  // if (user && user.myAddedConcerts != null) {
+  //   AdddedEvents = user.myAddedConcerts;
+  // }
 
   const renderEventCard = (event, idx) => (
     <motion.div
@@ -131,8 +151,8 @@ const EventsPage = () => {
               {event.place}!
             </p>
           </div>
-          <a
-            href="#"
+          <div
+            onClick={() => navigate(`/event/${event._id}`)}
             className="inline-flex items-center justify-center mt-2 px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             View Details
@@ -151,13 +171,17 @@ const EventsPage = () => {
                 d="M1 5h12m0 0L9 1m4 4L9 9"
               />
             </svg>
-          </a>
+          </div>
         </div>
       </div>
       </div>
     </motion.div>
     
   );
+
+  console.log( "Upcoming Concerts:", upcomingConcerts);
+  console.log("Attended Concerts:", AttendedEvents);
+  console.log("Added Events:", AdddedEvents);
 
   return (
     <div className="min-h-screen bg-gray-100 px-4 py-6 sm:px-6 lg:px-8">
@@ -191,7 +215,7 @@ const EventsPage = () => {
                 )}
               </div>
             ) : (
-              <div className="text-center font-bold text-gray-600 dark:text-gray-300">
+              <div className="text-center font-bold text-gray-600 dark:text-gray-300 text-xl">
                 No attended events
               </div>
             )}
@@ -200,7 +224,7 @@ const EventsPage = () => {
           <section className="mb-10">
             <h2 className="text-2xl font-semibold mb-4">My Added Events</h2>
             {AdddedEvents.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-xl">
                 {AdddedEvents.map((event, idx) =>
                   renderEventCard(event, idx)
                 )}

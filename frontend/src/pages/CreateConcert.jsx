@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createConcert } from "../services/operations/concert";
 import axios from "axios";
+import { set } from "react-hook-form";
 
 const CreateConcert = () => {
   const dispatch = useDispatch();
@@ -76,7 +77,22 @@ const CreateConcert = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      
       dispatch(createConcert(formData, navigate));
+      setFormData({
+        artist: "",
+        description: "",  
+        pincode: "",
+        date: "",
+
+        ticketPrice: "",  
+        seatingCapacity: "",
+        genre: "",
+        place: "",
+      });
+      setSuggestions([]);
+      navigate("/");
+
     } catch (error) {
       console.error("Error creating concert:", error);
     } finally {
@@ -86,11 +102,11 @@ const CreateConcert = () => {
 
   return (
     <div className="min-h-screen p-10">
-      <div className="font-bold text-2xl ml-[10%]">Home / Create-Concert</div>
+      <div className="font-bold text-2xl ml-[10%]">Home / Create-Event</div>
       <div className="mx-auto p-10 flex flex-col gap-3 border-black">
         <div className="flex justify-around gap-3 w-full md:flex-row flex-col">
           <div className="flex gap-3 flex-col md:w-[40%]">
-            <label className="text-2xl">Artist</label>
+            <label className="text-2xl">Artist/Expert</label>
             <input
               type="text"
               name="artist"
@@ -144,8 +160,12 @@ const CreateConcert = () => {
               className="p-2 border border-black rounded-md"
             >
               <option>Genz</option>
-              <option>Old school</option>
-              <option>International</option>
+              <option>pop</option>
+              <option>Rock</option>
+              <option>Jazz</option>
+              <option>Electronic</option>
+              <option>Classical</option>
+              <option>Hip-Hop</option>
               <option>Other</option>
             </select>
           </div>
@@ -161,7 +181,10 @@ const CreateConcert = () => {
           </div>
         </div>
 
-        <div className="flex gap-3 flex-col">
+
+        <div className="flex justify-around gap-3 md:flex-row flex-col">
+
+        <div className="flex gap-3 flex-col md:w-[40%]">
           <label className="text-2xl">Description</label>
           <textarea
             name="description"
@@ -170,31 +193,32 @@ const CreateConcert = () => {
             className="p-2 border border-black rounded-md"
           />
         </div>
-
-        <div className="relative flex flex-col md:w-[40%]">
-          <label className="text-2xl mb-2">Enter your location</label>
-          <input
-            type="text"
-            name="place"
-            value={formData.place}
-            onChange={handleOnChange}
-            className="p-2 border border-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Type a location"
-          />
-          {suggestions.length > 0 && (
-            <ul className="absolute z-10 top-full left-0 w-full border bg-white shadow-lg max-h-40 overflow-y-auto rounded-md mt-1">
-              {suggestions.map((suggestion, index) => (
-                <li
-                  key={index}
-                  onClick={() => handleSuggestionClick(suggestion)}
-                  className="p-2 cursor-pointer hover:bg-gray-100"
-                >
-                  {suggestion.description}
-                </li>
-              ))}
-            </ul>
-          )}
+          <div className="relative flex flex-col md:w-[40%]">
+            <label className="text-2xl mb-2">Enter your location</label>
+            <input
+              type="text"
+              name="place"
+              value={formData.place}
+              onChange={handleOnChange}
+              className="p-2 border border-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Type a location"
+            />
+            {suggestions.length > 0 && (
+              <ul className="absolute z-10 top-full left-0 w-full border bg-white shadow-lg max-h-40 overflow-y-auto rounded-md mt-1">
+                {suggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                    className="p-2 cursor-pointer hover:bg-gray-100"
+                  >
+                    {suggestion.description}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
+
 
         <button
           type="submit"
@@ -203,7 +227,7 @@ const CreateConcert = () => {
             loading ? "bg-gray-400" : "bg-blue-500 text-white hover:bg-blue-600"
           }`}
         >
-          {loading ? "Loading..." : "Create Concert"}
+          {loading ? "Loading..." : "Create Event"}
         </button>
       </div>
     </div>

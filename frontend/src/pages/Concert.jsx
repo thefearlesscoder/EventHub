@@ -236,7 +236,7 @@ const Concert = () => {
 
                           {concertdetails.peoples.length > 0 && (
                             <button
-                              onClick={() => navigate(`/concert/people/${concertdetails._id}`)}
+                              onClick={() => navigate(`/concert/people/${concertdetails?._id}`)}
                               className="md:w-[20%] md:ml-5 sm:md-[50%] w-full h-10 bg-black text-white text-sm font-medium rounded-md hover:bg-zinc-900 transition"
                             >
                               Show More
