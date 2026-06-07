@@ -53,8 +53,8 @@ export function createConcert (
             toast.error(response?.message)
           throw new Error(response?.message)
         }else {
-            toast.success(response?.message)
-            navigate('/dashboard')
+            toast.success("Event Created Successfully")
+            // navigate('/')
         }
       } catch (error) {
         console.log("UPLOAD CONCERT API ERROR............", error)

@@ -285,9 +285,21 @@ const loginUser = asyncHandler(async (req, res) => {
     user._id
   );
   const loggedinUser = await User.findById(user._id)
-  .select("-password -refreshToken")
-  .populate("friends", "-password -refreshToken"); // Exclude these fields from populated friends
+    .select("-password -refreshToken")
+    .populate({
+      path: "friends",
+      select: "-password -refreshToken",
+      populate: {
+        path: "myAddedConcerts",
+        select: "artist place date ticketPrice genre",
+      },
+    })
+      .populate({
+        path: "myAddedConcerts",
+        select: "artist place date ticketPrice genre",
+      });
 
+console.log("loggedinUser:", loggedinUser);
 
   return res
     .status(200)
@@ -401,9 +413,9 @@ const registerUserviaGoogle = asyncHandler(async (req, res) => {
     return res
       .status(200)
       .cookie("AccessToken", AccessToken, {
-        httpOnly: true,
+        httpOnly: true, // cookie not accessible via JS
         secure: true,
-        sameSite: "Strict",
+        sameSite: "Strict", // cookies sent for same site, "Lax" -> additionally also sent over top-level navigation(defalut)
       })
       .cookie("RefreshToken", RefreshToken, {
         httpOnly: true,

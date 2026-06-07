@@ -29,7 +29,7 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
           process.env.ACCESS_TOKEN_SECRET);
   
     const user =await User.findById(decodedToken?._id).select(
-      "-password -refreshToken"
+      "-password -refreshToken" // don't include the password and refresh token the returning fields
     );
     // console.log("djkbdjk : ",user);
     
@@ -50,7 +50,6 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
     next();
   } catch (error) {
     // console.log("dvklbdkjvnidnkvlnsdrkvvcew");
-   
     return res
       .status(400)
       .json({

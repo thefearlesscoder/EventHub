@@ -1,4 +1,4 @@
-import { BASE_URL } from "../..//services/apis";
+import { BASE_URL } from "../../services/apis";
 import axios from "axios";
 import React from "react";
 import { toast } from "react-hot-toast";

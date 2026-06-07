@@ -1,8 +1,12 @@
 import { MapContainer, TileLayer, Polyline, Marker, Popup, useMap } from "react-leaflet";
 import { useState, useEffect } from "react";
 import polyline from "polyline";
+import { useParams } from "react-router-dom";
+import { BASE_URL } from "../services/apis";
+import { use } from "react";
+import axios from "axios";
 
-const API_KEY = "f239fa59-db7a-49c1-8773-afd0a3ceba7c"; // Replace with your API key
+const API_KEY = "f239fa59-db7a-49c1-8773-afd0a3ceba7c"; // 
 
 export default function MapComponent() {
   const [startLat, setStartLat] = useState(null);
@@ -12,7 +16,73 @@ export default function MapComponent() {
   const [route, setRoute] = useState([]);
   const [travelTime, setTravelTime] = useState(null);
   const [mapCenter, setMapCenter] = useState([20, 78]); // Default center (India)
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams(); 
+  const[ concertData, setConcertData ] = useState(null);
 
+
+  const searchConcert = async () => {
+    console.log("concertId -> ", id);
+    setLoading(true);
+    try {
+      let response = await axios.post(
+        `${BASE_URL}/concert/concert/${id}`,{},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials:true ,
+        }
+      );
+      
+      console.log("concert responce -> " ,response)
+      response = response?.data ;
+      
+      if (!response.success ) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      
+      console.log("concert responce -> " ,response)
+
+      setConcertData(response.data);
+      console.log("Concert data:", response.data);
+      console.log(concertData);
+      
+      let data = response.data;
+
+      const res = await axios.get(
+        `https://graphhopper.com/api/1/geocode?q=${encodeURIComponent(data?.place)}&key=${API_KEY}`
+      );
+      console.log("Geocode response:", res.data);
+
+      const indiaEntries = res.data.hits.filter(entry => entry.country === "India");
+      console.log("Filtered India entries:", indiaEntries);
+
+      // Select the first entry
+      const firstIndiaEntry = indiaEntries.length > 0 ? indiaEntries[0] : null;
+      console.log("First India entry:", firstIndiaEntry);
+
+      if(firstIndiaEntry === null) {
+        alert("No valid location found for the concert. Please check the concert details.");
+        setLoading(false);
+        return;
+      }
+      const { lat, lng } = firstIndiaEntry.point;
+      
+      // const { lat, lng } = res.data.hits[0].point;
+      setEndLat(lat);
+      setEndLon(lng);
+
+    } catch (error) {
+      console.error("Error fetching concert:", error);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    searchConcert();
+  }
+  , []);
   // Fetch user's live location and update every 10 seconds
   useEffect(() => {
     function updateLocation() {
@@ -33,7 +103,7 @@ export default function MapComponent() {
     }
 
     updateLocation();
-    const interval = setInterval(updateLocation, 10000000000); // Update every 10 seconds
+    const interval = setInterval(updateLocation, 20000); // Update every 10 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -44,16 +114,18 @@ export default function MapComponent() {
       alert("Please enter valid coordinates.");
       return;
     }
-
+    console.log(`Fetching route from ${startLat}, ${startLon} to ${endLat}, ${endLon}`);
     try {
       const url = `https://graphhopper.com/api/1/route?point=${startLat},${startLon}&point=${endLat},${endLon}&vehicle=car&key=${API_KEY}`;
       const response = await fetch(url);
       const data = await response.json();
 
+      console.log("Route data:", data);
+
       if (data.paths && data.paths.length > 0) {
         const decodedRoute = polyline.decode(data.paths[0].points);
         setRoute(decodedRoute.map(([lat, lon]) => [lat, lon]));
-
+        console.log("Decoded route:", decodedRoute);
         const timeInSeconds = data.paths[0].time / 1000;
         const hours = Math.floor(timeInSeconds / 3600);
         const minutes = Math.floor((timeInSeconds % 3600) / 60);
@@ -83,6 +155,12 @@ export default function MapComponent() {
     }, [mapCenter, map]);
     return null;
   }
+
+  
+
+
+  // concertData mai concert ki details hain 
+
 
   return (
     <div className="p-4 md:p-10">

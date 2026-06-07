@@ -46,7 +46,7 @@ export function updateprofile (
         // localStorage.removeItem('user')
         localStorage.setItem('user', JSON.stringify(response?.data))
         // navigate("/ab")
-        navigate('/')
+        navigate('/dashboard/profile')
       }
     } catch (error) {
       console.log("profile API ERROR............", error)

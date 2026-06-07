@@ -15,13 +15,15 @@ const Navbar = () => {
 
   const authLinks = [
     { name: "Login", path: "/login" },
-    { name: "Register", path: "/register" },
+    { name: "Register", path: "/signup" },
   ];
 
 
 
   const userLinks = [
-    { name: "Dashboard", path: "/dashboard" },];
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Chat" , path: "/chat"},
+  ];
 
   const { user } = useSelector((state) => state.auth);
 
@@ -62,6 +64,15 @@ const Navbar = () => {
                   Dashboard
                 </Link>) : (<div />)
               }
+              {
+                user ? (<Link
+
+                  to={"/chat"}
+                  className="text-muted-foreground hover:text-primary font-medium"
+                >
+                  Chat
+                </Link>) : (<div />)
+              }
             </div>
           </div>
 
@@ -85,7 +96,7 @@ const Navbar = () => {
                   Login
                 </Link>
                 <Link
-                  to="/register"
+                  to="/signup"
                   className="bg-black text-white font-bold hover:bg-black/90 px-4 py-2 h-9 text-sm rounded-md shadow transition-colors"
                 >
                   Register

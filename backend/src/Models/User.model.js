@@ -29,9 +29,9 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      // required: true,
+      // required: true, //google auth use hua to password may not be required.
     },
-    attented_concerts: [
+    attended_concerts: [
       {
         type: Schema.Types.ObjectId,
         ref: "Concert",
@@ -83,21 +83,23 @@ const userSchema = new Schema(
 
 // changed here
 
-userSchema.virtual("displayImage").get(function () {
+userSchema.virtual("displayImage").get(function () { 
+  // definging a display Imabe function
+  // virtual property : exe on air when doc is loaded
   if (this.image && this.image.url) {
     return this.image.url;
   }
   return `${this.firstName[0] || ''}${this.lastName[0] || ''}`.toUpperCase();
 });
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) { // pre -> middleware/ hook in mongoose,
   if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+  this.password = await bcrypt.hash(this.password, 10); // hashing the password with 10 salt rounds
+  next();// move to the next task
 });
 
 
-userSchema.methods.isPasswordCorrect = async function (password) {
+userSchema.methods.isPasswordCorrect = async function (password) {// mongoose method to check password
   return await bcrypt.compare(password, this.password);
 };
 
