@@ -24,7 +24,7 @@ const CreateConcert = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [debounceTimeout, setDebounceTimeout] = useState(null);
 
-  const OPENCAGE_API_KEY = "d2e0ab0fa6ad4c1ea25ffa5077e27d0b"; // Replace with your OpenCage API key
+  const OPENCAGE_API_KEY = "d2e0ab0fa6ad4c1ea25ffa5077e27d0b"; 
 
   // Handle input changes
   const handleOnChange = async (e) => {
@@ -55,7 +55,7 @@ const CreateConcert = () => {
         } catch (error) {
           console.error("Error fetching location suggestions:", error);
         }
-      }, 100); // Added debounce time of 500ms
+      }, 100); // Added debounce time of 100ms
   
       setDebounceTimeout(timeout);
     } else {

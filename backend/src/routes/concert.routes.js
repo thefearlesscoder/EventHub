@@ -42,7 +42,7 @@ router.route("/my-added-concerts").get(verifyJwt,verifyAdmin, getMyAddedConcerts
 router.route("/get-registered-all-concerts").get(verifyJwt, getMyAllRegisteredConcerts);
 router.post("/create-checkout-session", async (req, res) => {
   const product = req.body;
-  console.log(product);
+  console.log(product); 
 
   const line_items = [
     {

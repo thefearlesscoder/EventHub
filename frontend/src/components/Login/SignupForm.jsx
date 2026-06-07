@@ -22,8 +22,8 @@ function SignupForm() {
     username:"",
   })
 
-  const [ role , setrole ] = useState("user") ;
-  const [ boolrole , setboolrole ] = useState(true) ;
+  const [ role , setrole ] = useState("user");
+  const [ boolrole , setboolrole ] = useState(true);
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 

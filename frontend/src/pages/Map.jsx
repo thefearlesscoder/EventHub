@@ -6,7 +6,7 @@ import { BASE_URL } from "../services/apis";
 import { use } from "react";
 import axios from "axios";
 
-const API_KEY = "f239fa59-db7a-49c1-8773-afd0a3ceba7c"; // Replace with your API key
+const API_KEY = "f239fa59-db7a-49c1-8773-afd0a3ceba7c"; // 
 
 export default function MapComponent() {
   const [startLat, setStartLat] = useState(null);
@@ -120,10 +120,12 @@ export default function MapComponent() {
       const response = await fetch(url);
       const data = await response.json();
 
+      console.log("Route data:", data);
+
       if (data.paths && data.paths.length > 0) {
         const decodedRoute = polyline.decode(data.paths[0].points);
         setRoute(decodedRoute.map(([lat, lon]) => [lat, lon]));
-
+        console.log("Decoded route:", decodedRoute);
         const timeInSeconds = data.paths[0].time / 1000;
         const hours = Math.floor(timeInSeconds / 3600);
         const minutes = Math.floor((timeInSeconds % 3600) / 60);

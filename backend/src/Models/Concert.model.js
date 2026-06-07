@@ -27,7 +27,7 @@ const concertSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: function(v) {
-          return /\d{6}/.test(v); 
+          return /\d{6}/.test(v); // /..../ regex literal in JS, \d -> digit, {6} repeat 6 times, .test(v) -> check if string v match the pattern
         },
         message: props => `${props.value} is not a valid pincode!`
       },

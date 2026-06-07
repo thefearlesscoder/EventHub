@@ -11,9 +11,6 @@ const friends1 = [];
 const friendRequests1 = [];
 
 
-
-
-
 const FriendRequestCard = ({ name, avatar, onAccept, onDecline }) => (
   <div className="bg-white shadow-md rounded-lg p-10 pt-6 pb-6 w-64 md:w-80 md:mx-5 mx-auto">
     <div className="flex justify-center items-center gap-4 mb-8">

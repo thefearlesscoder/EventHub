@@ -225,7 +225,7 @@ const usersRequestingMe = asyncHandler(async (req, res) => {
     receiver: userId,
     status: "pending",
   }).populate({
-    path: "sender",
+    path: "sender", // freind schema mein path wali field populatge krni hai, select wale items se
     select: "firstName lastName image",
   });
 

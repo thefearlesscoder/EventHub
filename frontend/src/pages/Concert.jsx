@@ -70,8 +70,6 @@ const Concert = () => {
     try {
         console.log(`Requesting with id: ${id} and token: ${token}}`);
 
-      
-
         const response = await axios.post(
         `${BASE_URL}/concert/register-for-concert/${id}`,
           {},

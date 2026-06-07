@@ -26,6 +26,7 @@ const UpcomingConcerts = () => {
     setSelectedGenre(genre);
   };
 
+  // optimisation can be done here.
   const fetchAllConcerts = async () => {
     try {
       setLoading(true);

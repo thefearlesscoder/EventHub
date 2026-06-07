@@ -413,9 +413,9 @@ const registerUserviaGoogle = asyncHandler(async (req, res) => {
     return res
       .status(200)
       .cookie("AccessToken", AccessToken, {
-        httpOnly: true,
+        httpOnly: true, // cookie not accessible via JS
         secure: true,
-        sameSite: "Strict",
+        sameSite: "Strict", // cookies sent for same site, "Lax" -> additionally also sent over top-level navigation(defalut)
       })
       .cookie("RefreshToken", RefreshToken, {
         httpOnly: true,

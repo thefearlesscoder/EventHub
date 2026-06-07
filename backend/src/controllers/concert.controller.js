@@ -73,7 +73,7 @@ const addConcert = asyncHandler(async (req, res) => {
   });
 });
 
-// corrrently we are not using this
+// currently we are not using this
 const updateConcert = asyncHandler(async (req, res) => {
   const { Id } = req.params;
   const {
