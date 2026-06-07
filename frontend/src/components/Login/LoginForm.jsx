@@ -16,26 +16,17 @@ function LoginForm() {
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
   const [user, setUser] = useState(null);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
-
   const handleLoginWithGoogle = async (credentialResponse) => {
     if (credentialResponse?.credential) {
       console.log("Google Login Success:", credentialResponse);
-
       // Extract token
       let token = credentialResponse.credential;
-      console.log(token);
-     
 
-      token = jwtDecode(token)
-      console.log(token);
-
+      token = jwtDecode(token);
       const email = token.email;
       const name = token.name;
       const image = token.picture;
@@ -43,7 +34,6 @@ function LoginForm() {
       const given_name = token.given_name;
       const googleId = token.sub; // Google ID
       
-      // Send token to backend for verification
       dispatch( googleLogin(email, family_name, given_name, image, navigate) );
     }
   }
@@ -52,8 +42,6 @@ function LoginForm() {
     e.preventDefault();
     dispatch(login(email, password, navigate));
   };
-
-
   return (
     <section className="flex items-center justify-center h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">

@@ -11,8 +11,6 @@ import { GoogleLogin } from "@react-oauth/google"
 function SignupForm() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
-
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -21,22 +19,17 @@ function SignupForm() {
     confirmPassword: "",
     username:"",
   })
-
   const [ role , setrole ] = useState("user");
   const [ boolrole , setboolrole ] = useState(true);
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
   const { firstName, lastName, email, password, confirmPassword , username } = formData
-
   const handleOnChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }))
-    console.log(formData) 
   }
-
   const handleOnSubmit = (e) => {
     e.preventDefault();
     dispatch(signUp(firstName , lastName , email , password , confirmPassword , role , username ,navigate ));
@@ -50,18 +43,12 @@ function SignupForm() {
       }else {
         setrole("user")
       }
-      console.log(role) ;
   }
-
   const handleLoginWithGoogle = async (credentialResponse) => {
     if (credentialResponse?.credential) {
       console.log("Google Login Success:", credentialResponse);
-
       // Extract token
       const token = credentialResponse.credential;
-
-      console.log(token);
-      
       // Send token to backend for verification
       try {
         const res = await axios.post("http://localhost:5000/api/auth/google", {
@@ -73,7 +60,6 @@ function SignupForm() {
         });
 
         const data = await res.json();
-        console.log("Backend Response:", data);
         // Handle user authentication (e.g., save user data to state/context)
 
       } catch (error) {
