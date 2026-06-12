@@ -15,12 +15,26 @@ services:
           type: redis
           name: musicmate-redis
           property: connectionString
+      - key: MONGODB_URI
+        sync: false
+      - key: ACCESS_TOKEN_SECRET
+        sync: false
+      - key: REFRESH_TOKEN_SECRET
+        sync: false
+      - key: API_KEY
+        sync: false
+      - key: CLOUDINARY_NAME
+        sync: false
+      - key: CLOUDINARY_SECRET
+        sync: false
+      - key: SENTRY_DSN
+        sync: false
 
   - type: web
     name: musicmate-frontend
     env: static
     rootDir: frontend
-    buildCommand: npm ci --legacy-peer-deps && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     staticPublishPath: ./dist
     envVars:
       - key: NODE_VERSION
