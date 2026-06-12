@@ -15,7 +15,5 @@ router.route("/my-friends").post(verifyJwt, getAllMyFriends);
 router
   .route("/response-request/:requestId")
   .post(verifyJwt, responseForrequest);
-  
-
 router.route("/users-requesting-me").post(verifyJwt, usersRequestingMe);
 export default router;

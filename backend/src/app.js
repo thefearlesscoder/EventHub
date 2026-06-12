@@ -3,6 +3,19 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
+import * as Sentry from "@sentry/node";
+import { nodeProfilingIntegration } from "@sentry/profiling-node";
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  integrations: [
+    nodeProfilingIntegration(),
+  ],
+  // Tracing
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+  // Set sampling rate for profiling - this is relative to tracesSampleRate
+  profilesSampleRate: 1.0,
+});
 
 const app = express();
 
@@ -39,5 +52,6 @@ app.use("/api/v1/friends", friendRouter);
 app.use("/api/v1/message" , messageRouter ) ;
 app.use("/api/v1/chat" , chatRouter ) ;
 
+Sentry.setupExpressErrorHandler(app);
 
 export { app };

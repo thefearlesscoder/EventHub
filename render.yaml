@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: musicmate-backend
+    env: docker
+    dockerContext: .
+    dockerfilePath: ./backend/Dockerfile
+    plan: starter
+    envVars:
+      - key: PORT
+        value: "7000"
+      - key: CLIENT_URL
+        value: "https://musicmate-frontend.onrender.com"
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: musicmate-redis
+          property: connectionString
+
+  - type: web
+    name: musicmate-frontend
+    env: static
+    buildCommand: cd frontend && npm ci --legacy-peer-deps && npm run build
+    staticPublishPath: ./frontend/dist
+    plan: free
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: "https://musicmate-backend.onrender.com"
+
+  - type: redis
+    name: musicmate-redis
+    plan: free
+    ipAllowList: [] # Only allow internal connections within Render

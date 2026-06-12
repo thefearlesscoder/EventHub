@@ -3,6 +3,8 @@ import  connectDB  from "./Database/connectDB.js";
 import { app } from "./app.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { createClient } from "redis";
+import { createAdapter } from "@socket.io/redis-adapter";
 
 // import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
 
@@ -37,9 +39,21 @@ connectDB()
     const io = new Server(server, {
       pingTimeout: 60000,
       cors: {
-        origin: "http://localhost:5173",
+        origin: process.env.CLIENT_URL || "http://localhost:5173",
       },
     });
+
+    if (process.env.REDIS_URL) {
+      const pubClient = createClient({ url: process.env.REDIS_URL });
+      const subClient = pubClient.duplicate();
+
+      Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
+        io.adapter(createAdapter(pubClient, subClient));
+        console.log("Redis adapter for socket.io connected");
+      }).catch((err) => {
+        console.error("Redis connection error for socket.io:", err);
+      });
+    }
 
     io.on("connection" ,(socket) => {
       console.log("conneected to socket.io") ;
