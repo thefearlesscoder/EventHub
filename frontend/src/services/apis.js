@@ -1,5 +1,5 @@
 
-export const BASE_URL = "http://localhost:4000/api/v1";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const authApi = {
     SIGNUP_API : `${BASE_URL}/users/register`,
