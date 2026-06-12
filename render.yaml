@@ -29,7 +29,20 @@ services:
         sync: false
       - key: SENTRY_DSN
         sync: false
-
+      - key: ADMIN_MAIL
+        sync: false
+      - key: SMTP_SERVICE
+        sync: false
+      - key: SMTP_MAIL
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: APPROVAL_TOKEN_SECRET
+        sync: false
   - type: web
     name: musicmate-frontend
     env: static
