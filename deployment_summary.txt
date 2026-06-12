@@ -20,3 +20,7 @@ MusicMate-Webster Deployment Tasks Summary
 
 5. Automated CI/CD Pipeline (GitHub Actions)
 - Created `.github/workflows/ci.yml`: Added a continuous integration workflow. Whenever you open a Pull Request or push code to the `deploy` or `main` branches, GitHub Actions will spin up a fresh Ubuntu server, checkout your code, and run `npm ci`, `npm run lint`, and `npm run build` for both the frontend and backend. It acts as a safety net, preventing broken code from automatically deploying to your live users on Render.
+
+6. Render SPA Routing Configuration (Rewrites)
+- Single Page Application (SPA) Support: Because the frontend uses React Router, all navigation (e.g. `/dashboard`, `/chat`) is handled via client-side JavaScript. If a user manually refreshes the page on one of these routes, the Render Static Site server will return a `404 Not Found` because the file `/dashboard/index.html` does not actually exist.
+- Required Render Dashboard Configuration: To fix this, you must configure a Rewrite rule in your Render Dashboard under the Frontend Static Site settings -> "Redirects/Rewrites". Set Source to `/*`, Destination to `/index.html`, and Action to `Rewrite`. This ensures that any direct request to a React route is forwarded to the main `index.html` file, allowing React Router to successfully take over and load the correct page.

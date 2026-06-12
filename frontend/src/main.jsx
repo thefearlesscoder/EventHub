@@ -25,7 +25,7 @@ createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId={clientId} >
     <div className='bg-richblack-900 w-full min-h-screen'>
       <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <App />
         </BrowserRouter>
       </Provider>
