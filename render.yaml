@@ -3,7 +3,7 @@ services:
     name: musicmate-backend
     env: docker
     dockerContext: ./backend
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./backend/Dockerfile
     plan: free
     envVars:
       - key: PORT
@@ -19,8 +19,9 @@ services:
   - type: web
     name: musicmate-frontend
     env: static
-    buildCommand: cd frontend && npm ci --legacy-peer-deps && npm run build
-    staticPublishPath: ./frontend/dist
+    rootDir: frontend
+    buildCommand: npm ci --legacy-peer-deps && npm run build
+    staticPublishPath: ./dist
     envVars:
       - key: NODE_VERSION
         value: "18"
