@@ -5,9 +5,7 @@ import { Concert } from "../Models/Concert.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Friend } from "../Models/Friend.model.js";
 const addConcert = asyncHandler(async (req, res) => {
-  // log("well here sdmbdkj")
   const userId = req.user._id;
-
   const {
     artist,
     place,
@@ -71,7 +69,6 @@ const addConcert = asyncHandler(async (req, res) => {
   });
 });
 
-// currently we are not using this
 const updateConcert = asyncHandler(async (req, res) => {
   const { Id } = req.params;
   const {

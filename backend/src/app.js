@@ -17,7 +17,10 @@ Sentry.init({
 
 const app = express();
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+    origin: function (origin, callback) {
+        // Allow all origins by echoing the incoming origin
+        callback(null, origin || "http://localhost:5173");
+    },
     credentials: true,
 }));
 

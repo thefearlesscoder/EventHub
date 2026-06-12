@@ -11,10 +11,10 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 
 const options = {
-  httpOnly: false, // JS can access (not recommended for auth cookies)
-  secure: false, // true if you're on HTTPS
-  sameSite: "Lax", // use "None" only if needed and with secure: true
-  maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+  httpOnly: true, // SECURE: Prevents JavaScript (and XSS attacks) from reading the token
+  secure: true, // SECURE: Ensures the cookie is only sent over HTTPS (or localhost)
+  sameSite: "None", // Required for cross-origin requests (e.g., from frontend domain to backend domain)
+  maxAge: 24 * 60 * 60 * 1000, 
 };
 
 const generateAccessAndRefreshToken = async (userId) => {
@@ -108,9 +108,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
 
 const loginUser = asyncHandler(async (req, res) => {
-  const { password, email } = req.body;
-
-  if (!email && !password) {
+  const { email, password } = req.body;
+  console.log(`[DEBUG] Login attempt -> email: "${email}" (len: ${email?.length}), password: "${password}" (len: ${password?.length})`);
+  
+  if (!email || !password) {
     return res.status(500).json({
       success: false,
       message: "all fields are required",

@@ -7,45 +7,14 @@ import axios from "axios";
 
 const { ADDCONCERT_API } = concertApi  ;
 
-export function createConcert (
-    artist ,
-    description  ,
-    date ,
-    pincode ,
-    ticketPrice ,
-    seatingCapacity  ,
-    genre , 
-    place , 
-    navigate 
-  ) {
-
+export function createConcert (formData, navigate) {
     return async (dispatch) => {
       try {
-
-        console.log({
-          artist,
-          description,
-          date,
-          pincode,
-          ticketPrice,
-          seatingCapacity,
-          genre,
-          place
-        });
-
+        console.log("Submitting formData:", formData);
         
-        
-        let response = await axios.post( ADDCONCERT_API , {
-            artist ,
-            description  ,
-            pincode ,
-            date ,
-            ticketPrice ,
-            seatingCapacity  ,
-            genre , 
-            place ,
-            
-        }, { withCredentials : true  } ) ;
+        let response = await axios.post( ADDCONCERT_API, formData, { 
+          withCredentials : true
+        } ) ;
   
         console.log("UPLOAD CONCERT API RESPONSE............", response)
         response = response?.data 
@@ -59,7 +28,9 @@ export function createConcert (
       } catch (error) {
         console.log("UPLOAD CONCERT API ERROR............", error)
         // navigate
-        toast.error(error?.data?.message)
+        const errorMessage = error.response?.data?.message || error.message;
+        toast.error(errorMessage);
+        console.log("UPLOAD CONCERT API ERROR MESSAGE:", errorMessage);
       }
     }
   }

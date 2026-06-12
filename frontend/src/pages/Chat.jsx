@@ -11,7 +11,7 @@ import Spinner from "../components/Spinner";
 import { io } from "socket.io-client";
 import { ChevronsLeftIcon } from "lucide-react";
 
-const ENPOINT = "http://localhost:4000";
+const ENPOINT = BASE_URL.replace("/api/v1", "");
 var socket , newchat ;
 
 const ChatPage = () => {
