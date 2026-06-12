@@ -55,7 +55,7 @@ const registerUser = asyncHandler(async (req, res) => {
       message: "Password is required",
     });
   }
-  if (!firstName || !lastName || !email || !password || !role || !username) {
+  if (!firstName || !lastName || !email || !password || !confirmPassword || !role || !username) {
     return res.status(400).json({
       success: false,
       message: "All fields are required",
@@ -103,156 +103,8 @@ const registerUser = asyncHandler(async (req, res) => {
     .status(201)
     .json(new ApiResponse(200, createdUser, "User registered successfully"));
 });
-// const sendPasswordtoEmail = (password) => `
-//   <!DOCTYPE html>
-//   <html lang="en">
-//     <head>
-//       <meta charset="UTF-8" />
-//       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-//       <title>Password Reset</title>
-//       <style>
-//         body {
-//           font-family: Arial, sans-serif;
-//           background-color: #f4f4f4;
-//           margin: 0;
-//           padding: 20px;
-//         }
-//         .container {
-//           max-width: 600px;
-//           margin: 0 auto;
-//           background-color: #ffffff;
-//           border-radius: 8px;
-//           overflow: hidden;
-//           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-//         }
-//         .header {
-//           background-color: #4caf50;
-//           color: #ffffff;
-//           text-align: center;
-//           padding: 20px;
-//         }
-//         .content {
-//           padding: 20px;
-//           color: #333;
-//         }
-//         .button {
-//           display: inline-block;
-//           margin-top: 20px;
-//           padding: 10px 20px;
-//           background-color: #4caf50;
-//           color: #ffffff;
-//           text-decoration: none;
-//           border-radius: 5px;
-//         }
-//         .footer {
-//           text-align: center;
-//           padding: 10px;
-//           font-size: 12px;
-//           color: #999;
-//         }
-//       </style>
-//     </head>
-//     <body>
-//       <div class="container">
-//         <div class="header">
-//           <h1>Password Created</h1>
-//         </div>
-//         <div class="content">
-//           <p>You are receiving this because you (or someone else) have requested to create a new account.</p>
-//           <h2>Your new Password is ${password}</h2>
-//           <p>Please use this password to log in to your account and change it as soon as possible.</p>
-//         </div>
-//         <div class="footer">
-//           <p>Thank you for using our service!</p>
-//         </div>
-//       </div>
-//     </body>
-//   </html>
-// `;
 
-// const registerUserviaGoogle = asyncHandler(async (req, res) => {
-//   const { email,  given_name, family_name } = req.body;
-//   console.log("Request body:", req.body);
-//   if (!email) {
-//     return res.status(400).json({
-//       success: false,
-//       message: "Email is required",
-//     });
-//   }
 
-//   const existingUser = await User.findOne({ $or: [{ email }] });
-//   if (existingUser) {
-//     // console.log("before login");
-
-//     const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(
-//       existingUser._id
-//     );
-//     const loggedinUser = await User.findById(existingUser._id).select(
-//       "-password -refreshToken"
-//     );
-
-//     return res
-//       .status(200)
-//       .cookie("AccessToken", AccessToken, options)
-//       .cookie("RefreshToken", RefreshToken, options)
-//       .json(
-//         new ApiResponse(
-//           200,
-//           {
-//             user: loggedinUser,
-//             AccessToken,
-//             RefreshToken,
-//           },
-//           "User LoggedIn successfully "
-//         )
-//       );
-//   }
-
-//   const user = await User.create({
-//     uid: uuidv4(),
-//     role: "user",
-//     firstName: given_name,
-//     lastName: family_name,
-//     email: email,
-//     username: email.split("@")[0],
-//     password: email.split("@")[0],
-//   });
-//   const password = email.split("@")[0];
-//   await sendEmail({
-//     email: user.email,
-//     subject: "password created",
-//     htmlContent: sendPasswordtoEmail(password),
-//   });
-
-//   const createdUser = await User.findById(user._id).select(
-//     "-password -refreshToken"
-//   );
-
-//   // console.log("before login");
-
-//   const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(
-//     user._id
-//   );
-//   const loggedinUser = await User.findById(user._id).select(
-//     "-password -refreshToken"
-//   );
-
-//   return res
-//     .status(200)
-//     .cookie("AccessToken", AccessToken, options)
-//     .cookie("RefreshToken", RefreshToken, options)
-//     .json(
-//       new ApiResponse(
-//         200,
-//         {
-//           user: loggedinUser,
-//           AccessToken,
-//           RefreshToken,
-//         },
-//         "User LoggedIn successfully "
-//       )
-//     );
-// });
 
 const loginUser = asyncHandler(async (req, res) => {
   const { password, email } = req.body;
@@ -481,58 +333,6 @@ const registerUserviaGoogle = asyncHandler(async (req, res) => {
     );
 });
 
-// const googleLogin = asyncHandler(async (req, res) => {
-//   const { email, firstName, lastName, role, username } = req.body;
-
-//   if (!email) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "EMAIL not found Login Failed",
-//     });
-//   }
-
-//   const user = await User.findOne({ $or: [{ email }] });
-//   if (!user) {
-//      // create the user
-//      const user = await User.create({
-//       uid: uuidv4(),
-//       role,
-//       firstName,
-//       lastName,
-//       email,
-//       username,
-//     });
-
-//     const createdUser = await User.findById(user._id).select(
-//       "-refreshToken"
-//     );
-//   }
-
-//   console.log("before login");
-
-//   const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(
-//     user._id
-//   );
-//   const loggedinUser = await User.findById(user._id).select(
-//     "-refreshToken"
-//   );
-
-//   return res
-//     .status(200)
-//     .cookie("AccessToken", AccessToken, options)
-//     .cookie("RefreshToken", RefreshToken, options)
-//     .json(
-//       new ApiResponse(
-//         200,
-//         {
-//           user: loggedinUser,
-//           AccessToken,
-//           RefreshToken,
-//         },
-//         "User LoggedIn successfully "
-//       )
-//     );
-// });
 
 const logOutUser = asyncHandler(async (req, res) => {
   const userId = req.user._id;
@@ -756,7 +556,6 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 const updatedAccountDetails = asyncHandler(async (req, res) => {
   const { firstName, lastName, username, phone, address } = req.body;
-  console.log("jhvjhsacsaacdscds");
 
   if (!firstName && !lastName && !username && !phone && !address) {
     return res.status(400).json({
