@@ -11,17 +11,13 @@ Sentry.init({
   integrations: [
     nodeProfilingIntegration(),
   ],
-  // Tracing
-  tracesSampleRate: 1.0, //  Capture 100% of the transactions
-  // Set sampling rate for profiling - this is relative to tracesSampleRate
+  tracesSampleRate: 1.0, 
   profilesSampleRate: 1.0,
 });
 
 const app = express();
-
-// change by kunal "*"
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
     credentials: true,
 }));
 

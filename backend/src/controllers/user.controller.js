@@ -30,6 +30,7 @@ const generateAccessAndRefreshToken = async (userId) => {
 
     return { AccessToken, RefreshToken };
   } catch (error) {
+    console.error("Token generation error:", error);
     throw new ApiError(
       500,
       "Something went wrong while generating access and refresh token"
@@ -131,7 +132,6 @@ const loginUser = asyncHandler(async (req, res) => {
       message: "Invalid user credentials",
     });
   }
-  console.log("before login");
 
   const { AccessToken, RefreshToken } = await generateAccessAndRefreshToken(
     user._id
@@ -151,7 +151,6 @@ const loginUser = asyncHandler(async (req, res) => {
         select: "artist place date ticketPrice genre",
       });
 
-console.log("loggedinUser:", loggedinUser);
 
   return res
     .status(200)

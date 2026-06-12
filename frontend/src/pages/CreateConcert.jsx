@@ -24,7 +24,7 @@ const CreateConcert = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [debounceTimeout, setDebounceTimeout] = useState(null);
 
-  const OPENCAGE_API_KEY = "d2e0ab0fa6ad4c1ea25ffa5077e27d0b"; 
+  const OPENCAGE_API_KEY = import.meta.env.VITE_OPENCAGE_API_KEY;
 
   // Handle input changes
   const handleOnChange = async (e) => {

@@ -18,9 +18,7 @@ const addConcert = asyncHandler(async (req, res) => {
     seatingCapacity,
     genre,
     media,
-  } = req.body?.artist;
-
-  console.log("Request body:", req.body);
+  } = req.body;
 
   if (
     !artist ||
@@ -205,8 +203,6 @@ const allUpcomingConcerts = asyncHandler(async (req, res) => {
   try {
     const currentDate = new Date();
     const upcomingConcerts = await Concert.find({ date: { $gt: currentDate } });
-    console.log("all upcoming here");
-
     const concertArray = upcomingConcerts
       .map(
         ({
@@ -277,7 +273,6 @@ const registerForConcert = asyncHandler(async (req, res) => {
     });
   }
 
-  // console.log(user);
 
   if (!concert.peoples.includes(userId)) {
     concert.peoples.push(userId);
