@@ -43,17 +43,6 @@ services:
         sync: false
       - key: APPROVAL_TOKEN_SECRET
         sync: false
-  - type: web
-    name: musicmate-frontend
-    env: static
-    rootDir: frontend
-    buildCommand: npm install --legacy-peer-deps && npm run build
-    staticPublishPath: ./dist
-    envVars:
-      - key: NODE_VERSION
-        value: "18"
-      - key: VITE_API_BASE_URL
-        value: "https://musicmate-backend.onrender.com"
 
   - type: redis
     name: musicmate-redis
