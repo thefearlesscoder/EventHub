@@ -267,12 +267,12 @@ const registerUserviaGoogle = asyncHandler(async (req, res) => {
       .cookie("AccessToken", AccessToken, {
         httpOnly: true, // cookie not accessible via JS
         secure: true,
-        sameSite: "Strict", // cookies sent for same site, "Lax" -> additionally also sent over top-level navigation(defalut)
+        sameSite: "None",
       })
       .cookie("RefreshToken", RefreshToken, {
         httpOnly: true,
         secure: true,
-        sameSite: "Strict",
+        sameSite: "None",
       })
       .json(
         new ApiResponse(
@@ -317,12 +317,12 @@ const registerUserviaGoogle = asyncHandler(async (req, res) => {
     .cookie("AccessToken", AccessToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "Strict",
+      sameSite: "None",
     })
     .cookie("RefreshToken", RefreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: "Strict",
+      sameSite: "None",
     })
     .json(
       new ApiResponse(

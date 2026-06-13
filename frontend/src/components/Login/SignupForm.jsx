@@ -3,7 +3,8 @@ import { toast } from "react-hot-toast"
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
-import { signUp } from "../../services/operations/auth"
+import { signUp, googleLogin } from "../../services/operations/auth"
+import { jwtDecode } from "jwt-decode";
 import { FcGoogle } from "react-icons/fc"
 import { FaFacebook } from "react-icons/fa";
 import { GoogleLogin } from "@react-oauth/google"
@@ -48,23 +49,15 @@ function SignupForm() {
     if (credentialResponse?.credential) {
       console.log("Google Login Success:", credentialResponse);
       // Extract token
-      const token = credentialResponse.credential;
-      // Send token to backend for verification
-      try {
-        const res = await axios.post("http://localhost:5000/api/auth/google", {
-          token,
-        }, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const data = await res.json();
-        // Handle user authentication (e.g., save user data to state/context)
-
-      } catch (error) {
-        console.error("Error sending token to backend:", error);
-      }
+      let token = credentialResponse.credential;
+      token = jwtDecode(token);
+      
+      const email = token.email;
+      const family_name = token.family_name;
+      const given_name = token.given_name;
+      const image = token.picture;
+      
+      dispatch(googleLogin(email, family_name, given_name, image, navigate));
     }
   }
   

@@ -9,7 +9,7 @@ import { setToken } from "../../slices/authSlice";
 import axios from "axios";
 import { asyncThunkCreator } from "@reduxjs/toolkit";
 
-const { SIGNUP_API, LOGIN_API, LOGOUT_API } = authApi;
+const { SIGNUP_API, LOGIN_API, LOGOUT_API, LOGIN_WITH_GOOGLE_API } = authApi;
 
 // user registration 
 // export function googleLogin(
@@ -139,23 +139,17 @@ export function login(
   }
 }
 
-export function googleLogin(
-  email,
-  family_name,
-  given_name,
-  image,
-  navigate
-) {
+export function googleLogin(email, family_name, given_name, image, navigate) {
   return async (dispatch) => {
-    dispatch(setLoading(true))
+    dispatch(setLoading(true));
     try {
-      const res = await axios.post("http://localhost:4000/api/v1/users/signinviagoogle", {
+      const res = await axios.post(LOGIN_WITH_GOOGLE_API, {
         email,
         family_name,
         given_name,
-        image
+        image,
       }, {
-        withCredentials : true
+        withCredentials: true
       });
 
       const data = res.data;
