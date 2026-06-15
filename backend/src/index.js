@@ -39,7 +39,10 @@ connectDB()
     const io = new Server(server, {
       pingTimeout: 60000,
       cors: {
-        origin: process.env.CLIENT_URL || "http://localhost:5173",
+        origin: process.env.CLIENT_URL 
+          ? [process.env.CLIENT_URL, "http://localhost:5173", "https://eventhub-frontend-eo32.onrender.com"] 
+          : ["http://localhost:5173", "https://eventhub-frontend-eo32.onrender.com"],
+        credentials: true
       },
     });
 
