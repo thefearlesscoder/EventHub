@@ -6,8 +6,6 @@ import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { sendEmail } from "../utils/sendEmail.js";
 import { v2 as cloudinary } from "cloudinary";
-import { Friend } from "../Models/Friend.model.js";
-import mongoose from "mongoose";
 import crypto from "crypto";
 
 const options = {
@@ -70,7 +68,7 @@ const registerUser = asyncHandler(async (req, res) => {
     });
   }
 
-  const existingUser = await User.findOne({ $or: [{ email }] });
+  const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.status(400).json({
       success: false,
@@ -109,16 +107,15 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  console.log(`[DEBUG] Login attempt -> email: "${email}" (len: ${email?.length}), password: "${password}" (len: ${password?.length})`);
-  
+  // console.log(`[DEBUG] Login attempt -> email: "${email}" (len: ${email?.length}), password: "${password}" (len: ${password?.length})`);
   if (!email || !password) {
     return res.status(500).json({
       success: false,
-      message: "all fields are required",
+      message: "all fields are required", 
     });
   }
 
-  const user = await User.findOne({ $or: [{ email }] });
+  const user = await User.findOne({ email });
   if (!user) {
     return res.status(404).json({
       success: false,
@@ -342,7 +339,7 @@ const logOutUser = asyncHandler(async (req, res) => {
       $set: { refreshToken: undefined },
     },
     {
-      new: true,
+      new: true, // by default mongoose return the old document -> new : makes it to return the updated document
     }
   );
 
@@ -395,7 +392,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       httpOnly: true,
       secure: true,
     };
-    console.log("refresh tokennlkwfklweff");
 
     return res
       .status(200)
@@ -494,12 +490,12 @@ const forgotPassword = asyncHandler(async (req, res) => {
       message: "This email is not registered",
     });
   }
-  console.log("User found");
+  // console.log("User found");
 
   const resetToken = crypto.randomBytes(20).toString("hex");
   user.resetPasswordToken = resetToken;
   user.resetPasswordExpires = Date.now() + 60 * 1000 * 5;
-  console.log("User reset token created");
+  // console.log("User reset token created");
 
   await user.save();
 
@@ -614,7 +610,7 @@ const changePassword = asyncHandler(async (req, res) => {
     throw new ApiError(400, "New password cannot be same as old password");
   }
   user.password = newPassword;
-  await user.save({ validateBeforeSave: true });
+  await user.save({ validateBeforeSave: true }); // by default validateBeforeSave is true.
   return res
     .status(200)
     .json(new ApiResponse(200, user, "Password changed successfully"));
@@ -692,17 +688,14 @@ const fbSignIn = asyncHandler(async (req, res) => {
 
 const changeImage = asyncHandler(async (req, res) => {
   try {
-    console.log("Updating image...");
-    // console.log("Checking if files are uploaded");
-    // console.log(req.files);
-
+    // console.log("Updating image...");
     let newUserData = {};
 
     if (req.files && req.files.image) {
       const image = req.files.image;
 
       const currentImageId = req.user.image ? req.user.image.public_id : null;
-      console.log("Current Image ID:", currentImageId);
+      // console.log("Current Image ID:", currentImageId);
 
       if (currentImageId) {
         try {
@@ -716,14 +709,12 @@ const changeImage = asyncHandler(async (req, res) => {
       }
 
       try {
-        console.log("cnbvn");
-        console.log("safc: ", image.tempFilePath);
-
+        // console.log("cnbvn");
+        // console.log("safc: ", image.tempFilePath);
         const newImage = await cloudinary.uploader.upload(image.tempFilePath, {
           folder: "MusicMate",
         });
-        console.log("new image :", newImage);
-
+        // console.log("new image :", newImage);
         newUserData.image = {
           public_id: newImage.public_id,
           url: newImage.secure_url,
@@ -735,16 +726,14 @@ const changeImage = asyncHandler(async (req, res) => {
         });
       }
     }
-
     // console.log("Finding and updating user");
-
     const user = await User.findByIdAndUpdate(req.user._id, newUserData, {
       new: true,
       runValidators: true,
       useFindAndModify: false,
     }).select("-password");
 
-    console.log("User updated:", user.image.url);
+    // console.log("User updated:", user.image.url);
 
     return res.status(200).json({
       success: true,
@@ -759,7 +748,7 @@ const changeImage = asyncHandler(async (req, res) => {
   }
 });
 
-const contactUs = asyncHandler(async (req, res) => {
+const  contactUs = asyncHandler(async (req, res) => {
   const { name, email, subject, message } = req.body;
   console.log("inside contact us");
 
