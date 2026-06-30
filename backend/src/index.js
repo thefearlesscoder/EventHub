@@ -5,13 +5,9 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { createClient } from "redis";
 import { createAdapter } from "@socket.io/redis-adapter";
-
-// import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
-
-dotenv.config({ path: "./.env" });
-
 import  cloudinary from "cloudinary"
-import { log } from "console";
+
+dotenv.config({ path: "./.env" });    
 
 cloudinary.v2.config({
   cloud_name : process.env.CLOUDINARY_NAME,
@@ -20,11 +16,8 @@ cloudinary.v2.config({
 
 })
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-// });
 
-
+// connect the DB, then setup socket connection then server starts listening
 connectDB()
   .then(() => {
     const port = process.env.PORT || 7000;
