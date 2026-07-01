@@ -1,5 +1,4 @@
 import { v2 as cloudinary} from "cloudinary";
-
 import fs from "fs"
 
 cloudinary.config({ 
@@ -11,10 +10,9 @@ cloudinary.config({
 
 const uploadOnCloudinary = async (localFilePath)=>{
     try {
-        console.log("here at cloudinary");
-        
+        // console.log("here at cloudinary");
         if(!localFilePath){
-            console.log("could not find local file path");
+            // console.log("could not find local file path");
             return null;
         }
         console.log("uploading local file")
@@ -22,18 +20,12 @@ const uploadOnCloudinary = async (localFilePath)=>{
             resource_type:'auto',
             folder: "MusicMate",
         })
-
-        console.log(response);
-        
-       
+        // console.log(response);
         fs.unlinkSync(localFilePath)
-
         return response;
-        
     } catch (error) {
         fs.unlinkSync(localFilePath)
         return null;
     }
 }
-
 export {uploadOnCloudinary}
