@@ -1,15 +1,9 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiError } from "../utils/ApiError.js";
 import { User } from "../Models/User.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import jwt from "jsonwebtoken";
-import { v4 as uuidv4 } from "uuid";
 import { sendEmail } from "../utils/sendEmail.js";
-import { v2 as cloudinary } from "cloudinary";
 import { Friend } from "../Models/Friend.model.js";
 import mongoose from "mongoose";
-import crypto from "crypto";
-
 
 const getAllMyFriends = asyncHandler(async (req, res) => {
   const userId = req.user?._id;
@@ -18,13 +12,11 @@ const getAllMyFriends = asyncHandler(async (req, res) => {
   const friends = await Friend.find({
     $or: [{ sender: userId }, { receiver: userId }],
     status: "accepted",
-  }).populate("sender receiver", "firstName lastName image"); 
-
+  }).populate("sender receiver", "firstName lastName image"); // these are required from the friend schema
   // console.log("friends:", friends);
-
   const friendsData = friends.map((friend) => {
     const isSender = friend.sender._id.equals(userId);  
-    const friendUser = isSender ? friend.receiver : friend.sender;  
+    const friendUser = isSender ? friend.receiver : friend.sender;   
 
     return {
       friendId: friendUser._id,
@@ -33,9 +25,7 @@ const getAllMyFriends = asyncHandler(async (req, res) => {
       status: friend.status,
     };
   });
-
   // console.log("friends data:", friendsData);
-  
   return res
     .status(200)
     .json(
@@ -47,10 +37,8 @@ const getAllMyFriends = asyncHandler(async (req, res) => {
 const requestForFriend = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const { friendId } = req.params;
-
-  console.log("Friend ID:", friendId);
-  console.log("User ID:", userId);
-
+  // console.log("Friend ID:", friendId);
+  // console.log("User ID:", userId);
   if (!mongoose.Types.ObjectId.isValid(friendId)) {
     return res
       .status(400)
@@ -63,9 +51,7 @@ const requestForFriend = asyncHandler(async (req, res) => {
   if (!user || !friend) {
     return res.status(404).json(new ApiResponse(404, null, "User not found"));
   }
-
-  console.log("User Name:", user.name);
-
+  // console.log("User Name:", user.name);
   if (userId.toString() === friendId.toString()) {
     return res
       .status(200)
@@ -111,9 +97,7 @@ const requestForFriend = asyncHandler(async (req, res) => {
     receiver: friendId,
     status: "pending",
   });
-
-  console.log("Friend request created:", newFriendRequest);
-
+  // console.log("Friend request created:", newFriendRequest);
   const emailContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #f0f0f0; background-color: #f9f9f9; border-radius: 5px;">
         <h2 style="color: #333;">Hello,</h2>
@@ -144,8 +128,7 @@ const responseForrequest = asyncHandler(async (req, res) => {
   const { requestId } = req.params;
   const user = req.user._id;
 
-  console.log("requestId: helloji " + requestId);
-
+  // console.log("requestId: helloji " + requestId);
   if (!mongoose.Types.ObjectId.isValid(requestId)) {
     return res
       .status(400)
@@ -205,7 +188,6 @@ const responseForrequest = asyncHandler(async (req, res) => {
       );
   } else if (status === "rejected") {
     const friend = await Friend.findOneAndDelete({ _id: requestId });
-
     return res
       .status(200)
       .json(

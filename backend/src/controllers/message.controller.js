@@ -1,7 +1,4 @@
-// const asyncHandler = require("express-async-handler");
-
 import { asyncHandler } from "../utils/asyncHandler.js";
-
 import { User } from "../Models/User.model.js";
 import { Message } from "../Models/Message.model.js";
 import { Chat } from "../Models/Chat.model.js";
