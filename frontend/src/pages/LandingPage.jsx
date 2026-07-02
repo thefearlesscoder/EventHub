@@ -29,7 +29,7 @@ const featuredEvents = [
   }
 ];
 
-const LandingPage = () => {
+const  LandingPage = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const [allConcerts, setAllConcerts] = useState([]);
