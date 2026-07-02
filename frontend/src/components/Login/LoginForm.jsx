@@ -11,7 +11,6 @@ import { jwtDecode } from "jwt-decode";
 import { BASE_URL } from "../../services/apis";
 import { setToken , setUser } from "../../slices/authSlice";
 
-
 function LoginForm() {
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state.auth);
@@ -22,10 +21,8 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const handleLoginWithGoogle = async (credentialResponse) => {
     if (credentialResponse?.credential) {
-      console.log("Google Login Success:", credentialResponse);
-      // Extract token
+      // console.log("Google Login Success:", credentialResponse);
       let token = credentialResponse.credential;
-
       token = jwtDecode(token);
       const email = token.email;
       const name = token.name;
@@ -33,7 +30,6 @@ function LoginForm() {
       const family_name = token.family_name;
       const given_name = token.given_name;
       const googleId = token.sub; // Google ID
-      
       dispatch( googleLogin(email, family_name, given_name, image, navigate) );
     }
   }

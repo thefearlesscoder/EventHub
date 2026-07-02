@@ -1,13 +1,8 @@
-
-import { apiconnector } from "../apiconnector";
 import { authApi } from "../apis";
 import { setLoading, setUser } from "../../slices/authSlice";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-// import { Toast } from "react-hot-toast";
 import { setToken } from "../../slices/authSlice";
 import axios from "axios";
-import { asyncThunkCreator } from "@reduxjs/toolkit";
 
 const { SIGNUP_API, LOGIN_API, LOGOUT_API, LOGIN_WITH_GOOGLE_API } = authApi;
 
@@ -76,9 +71,9 @@ export function signUp(
         username
       }, { withCredentials: true });
 
-      console.log("SIGNUP API RESPONSE............", response)
+      // console.log("SIGNUP API RESPONSE............", response)
       response = response?.data
-      console.log("SIGNUP API RESPONSE............", response)
+      // console.log("SIGNUP API RESPONSE............", response)
       if (!response?.success) {
         toast.error(response?.message)
         throw new Error(response?.message)
@@ -114,9 +109,9 @@ export function login(
         withCredentials: true
       })
 
-      console.log("LOGIN API RESPONSE...¸č.........", response)
+      // console.log("LOGIN API RESPONSE...¸č.........", response)
       response = response?.data
-      console.log("LOGIN API RESPONSE...¸č.........", response)
+      // console.log("LOGIN API RESPONSE...¸č.........", response)
 
       if (!response?.success) {
         toast(response?.message)
@@ -130,7 +125,7 @@ export function login(
         navigate("/dashboard")
       }
     } catch (error) {
-      console.log("LOGIN API ERROR............", error)
+      // console.log("LOGIN API ERROR............", error)
       // toast.error()
       navigate("/login")
     }
@@ -153,10 +148,10 @@ export function googleLogin(email, family_name, given_name, image, navigate) {
       });
 
       const data = res.data;
-      console.log("Backend Response:", data);
+      // console.log("Backend Response:", data);
       const response = data;
 
-      console.log("response", response);
+      // console.log("response", response);
 
       if (!response?.success) {
         toast(response?.message)
@@ -187,9 +182,7 @@ export function logout(navigate) {
     localStorage.removeItem('user')
     dispatch(setToken(null))
     dispatch(setUser(null))
-
     const response = await axios.post(LOGOUT_API, {}, { withCredentials: true });
-
     toast.success("Logged Out")
     navigate("/")
   }
