@@ -1,7 +1,5 @@
-// import Footer from "../components/Footer/Footer.jsx"
 import Slider2 from "../components/homepage/Slider2.jsx";
 import Slider from "../components/homepage/Slider.jsx";
-import Navbar from "../components/Navbar/Navbar.jsx";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -10,12 +8,31 @@ import { BASE_URL } from "../services/apis.js";
 import cardlogo from "../assets/cardlogo.jpg";
 import Footer from '../components/Footer/Footer.jsx';
 
+const featuredEvents = [
+  {
+    id: 1,
+    title: "Summer Music Festival 2024",
+    description: "Join us for a three-day outdoor music extravaganza featuring top artists from around the world.",
+    image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=2070&auto=format&fit=crop"
+  },
+  {
+    id: 2,
+    title: "Jazz Night at the Blue Room",
+    description: "Experience an intimate evening of smooth jazz with the legendary Blue Room Quartet.",
+    image: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=2070&auto=format&fit=crop"
+  },
+  {
+    id: 3,
+    title: "Electronic Dance Carnival",
+    description: "Get ready to dance all night to the biggest beats with world-renowned EDM DJs.",
+    image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  }
+];
+
 const LandingPage = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-
   const [allConcerts, setAllConcerts] = useState([]);
-
   const fetchAllConcerts = async () => {
     try {
       const response = await axios.post(
@@ -23,7 +40,7 @@ const LandingPage = () => {
           withCredentials :true ,
         }
       );
-      console.log("All concerts:", response.data.data);
+      // console.log("All concerts:", response.data.data);
       setAllConcerts(response.data.data);
     } catch (error) {
       console.error("Error fetching concerts:", error);
@@ -31,31 +48,30 @@ const LandingPage = () => {
   };
   useEffect(() => {
     fetchAllConcerts();
-    console.log('hello') ;
+    // console.log('hello') ;
   }, []);
-
-  console.log(allConcerts)
-
+  // console.log(allConcerts)
 
   return (
 
     <div className="bg-gray-900 text-black min-h-screen">
 
-
-
       <section
         className="flex items-center justify-center md:pt-30 md:pb-40 p-20 bg-cover bg-center relative w-full"
-        style={{ backgroundImage: 'url("https://example.com/hero-image.jpg")' }}
+        style={{ 
+          backgroundImage: 'url("https://images.unsplash.com/photo-1619229666372-3c26c399a4cb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")' }}
       >
+        {/* Dark overlay for contrast */}
+        <div className="absolute inset-0 bg-black/60"></div>
 
-        <div className="z-10 text-center px-4 text-black">
+        <div className="z-10 relative text-center px-4 text-white drop-shadow-xl">
           <h1 className="text-5xl md:text-8xl font-bold mb-6 tracking-wide bg-clip-text 
-          text-transparent bg-gradient-to-r from-blue-300 to-blue-700  animate-text-glow">
+          text-transparent bg-gradient-to-r from-cyan-300 to-blue-400 animate-text-glow filter drop-shadow-lg">
             Event<span className=" font-extrabold">Hub</span>
           </h1>
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">Experience the Event Like Never Before</h1>
-          <p className="text-xl md:text-2xl mb-6 font-bold ">Discover the best Event happening near you.</p>
-          <button onClick={() => { navigate('/events') }} className="px-6 md:px-8 py-2 md:py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full transition duration-300">
+          <h1 className="text-3xl md:text-5xl font-bold mb-4 text-white drop-shadow-lg">Experience the Event Like Never Before</h1>
+          <p className="text-xl md:text-2xl mb-8 font-semibold text-gray-200 drop-shadow-md">Discover the best Event happening near you.</p>
+          <button onClick={() => { navigate('/events') }} className="px-8 md:px-10 py-3 md:py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold text-lg md:text-xl rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(37,99,235,0.6)] hover:shadow-[0_0_30px_rgba(59,130,246,0.9)] hover:-translate-y-1">
             Explore Event
           </button>
         </div>
@@ -125,23 +141,23 @@ const LandingPage = () => {
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-6xl font-semibold text-center text-bla mb-8 md:mb-10">Featured Events</h2>
           <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3 md:text text-center md:p-10 p-10 pb-0">
-            {[1 , 2 , 3 ].map((concert) => (
-             <div className="max-w-sm bg-white  rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+            {featuredEvents.map((event) => (
+             <div key={event.id} className="max-w-sm bg-white  rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
              <a href="#">
                <img
                  className="rounded-t-lg w-full h-48 object-cover"
-                 src={cardlogo}// Replace with your actual path or import
-                 alt="Blog cover"
+                 src={event.image || cardlogo}
+                 alt={event.title}
                />
              </a>
              <div className="p-5">
                <a href="#">
                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                   Noteworthy technology acquisitions 2021
+                   {event.title}
                  </h5>
                </a>
                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                 Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+                 {event.description}
                </p>
                <a
                  href="#"
