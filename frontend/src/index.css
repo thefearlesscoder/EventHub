@@ -3,10 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Example for Google Fonts */
 
 * {
-  font-family: 'Roboto', sans-serif; /* Replace 'Roboto' with your font */
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;

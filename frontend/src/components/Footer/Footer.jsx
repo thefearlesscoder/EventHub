@@ -21,19 +21,19 @@ const Footer = () => {
           </p>
           <div className="flex space-x-4">
             <a
-              href="#"
+              href="https://www.instagram.com/kunal_2005_/"
               className="p-2 bg-white rounded-md hover:bg-blue-700 transition-transform transform hover:scale-110"
             >
               <FaFacebook/>
             </a>
             <a
-              href="#"
+              href="https://www.instagram.com/the_brand_vkd/"
               className="p-2 bg-white rounded-md hover:bg-blue-700 transition-transform transform hover:scale-110"
             >
               <FaInstagram/>
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/in/varun-kumar-sahu-b34047317/"
               className="p-2 bg-white rounded-md hover:bg-blue-700 transition-transform transform hover:scale-110"
             >
               <FaTwitter/>
