@@ -195,15 +195,14 @@ const getRegisteredPeople = asyncHandler(async (req, res) => {
   );
 });
 
-
 const allUpcomingConcerts = asyncHandler(async (req, res) => {
   try {
     const currentDate = new Date();
-    const upcomingConcerts = await Concert.find({ date: { $gt: currentDate } });
+    const upcomingConcerts = await Concert.find({ date: { $gt: currentDate } }); //aggregation
     const concertArray = upcomingConcerts
       .map(
         ({
-          _id,
+          _id, 
           artist,
           place,
           description,
@@ -252,8 +251,8 @@ const registerForConcert = asyncHandler(async (req, res) => {
   const { Id } = req.params;
   const userId = req.user._id;
 
-  console.log("Concert ID: ", Id);
-  console.log("User ID: ", userId);
+  // console.log("Concert ID: ", Id);
+  // console.log("User ID: ", userId);
 
   const concert = await Concert.findById(Id);
   if (!concert) {
@@ -269,8 +268,7 @@ const registerForConcert = asyncHandler(async (req, res) => {
       message: "User not found",
     });
   }
-
-
+ // payemnt logic is handled in the frontend code.
   if (!concert.peoples.includes(userId)) {
     concert.peoples.push(userId);
     await concert.save();
@@ -340,15 +338,12 @@ const myUpcomingConcerts = asyncHandler(async (req, res) => {
 
 const myAttendedConcerts = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-
   // console.log("User ID: ", userId);
-
   const user = await User.findById(userId).populate({
     path: "upcoming_attendconcert",
     match: { date: { $lt: Date.now() } },
     select: "artist place date ticketPrice genre",
   });
-  // console.log("xbvkjcj: ", user);
 
   if (!user) {
     return res.status(404).json({

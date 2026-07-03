@@ -3,11 +3,9 @@ import  connectDB  from "./Database/connectDB.js";
 import { app } from "./app.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { createClient } from "redis";
-import { createAdapter } from "@socket.io/redis-adapter";
 import  cloudinary from "cloudinary"
 
-dotenv.config({ path: "./.env" });    
+dotenv.config({ path: "./.env" });
 
 cloudinary.v2.config({
   cloud_name : process.env.CLOUDINARY_NAME,
@@ -16,8 +14,11 @@ cloudinary.v2.config({
 
 })
 
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
 
-// connect the DB, then setup socket connection then server starts listening
+
 connectDB()
   .then(() => {
     const port = process.env.PORT || 7000;
@@ -39,18 +40,6 @@ connectDB()
       },
     });
 
-    if (process.env.REDIS_URL) {
-      const pubClient = createClient({ url: process.env.REDIS_URL });
-      const subClient = pubClient.duplicate();
-
-      Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
-        io.adapter(createAdapter(pubClient, subClient));
-        console.log("Redis adapter for socket.io connected");
-      }).catch((err) => {
-        console.error("Redis connection error for socket.io:", err);
-      });
-    }
-
     io.on("connection" ,(socket) => {
       console.log("conneected to socket.io") ;
       
@@ -62,7 +51,6 @@ connectDB()
           socket.emit("connected")
         }
       })
-
 
       socket.on('joinchat' , (room) => {
         socket.join(room) ;

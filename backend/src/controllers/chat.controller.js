@@ -1,9 +1,6 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
-
 import { Chat } from "../Models/Chat.model.js";
 import { User } from "../Models/User.model.js";
-import { Message } from "../Models/Message.model.js";
-
 
 const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;

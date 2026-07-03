@@ -71,7 +71,7 @@ const FriendsPage = () => {
           { withCredentials: true }
         );
 
-      console.log("Friend request accepted:", response);
+      // console.log("Friend request accepted:", response);
 
       if ( response.data.success ) {
         toast.success("Friend request accepted successfully!");
@@ -91,7 +91,7 @@ const FriendsPage = () => {
 
   const handleDecline = async(friend) => {
     setLoading(true);
-    console.log("User ID:", friend);
+    // console.log("User ID:", friend);
     try {
         const response = await axios.post(
           `${BASE_URL}/friends/response-request/${friend.friendId}`,
@@ -99,7 +99,7 @@ const FriendsPage = () => {
           { withCredentials: true }
         );
 
-      console.log("Friend request rejected:", response);
+      // console.log("Friend request rejected:", response);
 
       if ( response.data.success ) {
         toast.success("Friend request rejected successfully!");
@@ -125,7 +125,7 @@ const FriendsPage = () => {
         { withCredentials: true }
       );
       // setFriendRequests(response.data.data.friends);
-      console.log("Incoming Requests:", response.data);
+      // console.log("Incoming Requests:", response.data);
       setFriendRequests(response.data.data.friends);
     } catch (err) {
       console.error(err);

@@ -1,23 +1,22 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import LandingPage from './pages/LandingPage'
-// import { ToastContainer } from "react-toastify"
 import Footer from './components/Footer/Footer';
 import AboutUs from './pages/AboutUs';
 import Feedback from './pages/Feedback';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar/Navbar';
 import Updatedetail from './pages/Updatedetail';
-// import Profile from './pages/Profile';
+
 import ForgetPassword from './pages/ForgetPassword';
 import LoginForm from './components/Login/LoginForm';
 import SignupForm from './components/Login/SignupForm';
 import { ResetPasswordPage } from './pages/ResetPassword';
-// import CreateConcert from './pages/CreateConcert';
+
 import Concert from './pages/Concert';
 import Dashboard from "./components/Dashboard/DashBoard";
 import EventsPage from "./components/Dashboard/Eventsection";
-// import Profile from "./components/Dashboard/Profilebar";
+
 import ExpenditurePage from "./components/Dashboard/Expenditure";
 import CreateConcert from "./pages/CreateConcert";
 import RequestPeople from './pages/RequestPeople.jsx/RequestPeople';
@@ -33,10 +32,6 @@ import SelectPlace from './pages/SelectPlace';
 import Profile from './pages/Profile';
 import PaidUsersPage from './pages/Eventpeople';
 
-// import Navigate from './pages/Navigate';
-// import Map from './pages/Map';
-
-
 
 function App() {
   const Navigate = useNavigate();
@@ -46,7 +41,6 @@ function App() {
       {/* <Router> */}
 
       <Routes>
-
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
@@ -54,7 +48,7 @@ function App() {
         <Route path="/concert/people/:id" element={<PaidUsersPage />} />
         
         <Route path="/dashboard" element={<Dashboard />}>
-              <Route index element={<EventsPage />} /> {/* Default when /dashboard */}
+        <Route index element={<EventsPage />} /> {/* Default when /dashboard */}
               <Route path="profile" element={<Profile />} />
               <Route path="expenditure" element={<ExpenditurePage />} />
               <Route path="create-event" element={<CreateConcert />} />

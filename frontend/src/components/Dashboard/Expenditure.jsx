@@ -24,7 +24,9 @@ const ExpenditurePage = () => {
       const response = await axios.post(
         `${BASE_URL}/concert/my-attended-concerts`,
         {},
-        { withCredentials: true }
+        { 
+          withCredentials: true
+        }
       );
       setAttendedConcerts(response.data.data || []);
     } catch (err) {
@@ -37,7 +39,9 @@ const ExpenditurePage = () => {
       const response = await axios.post(
         `${BASE_URL}/concert/my-upcoming-concerts`,
         {},
-        { withCredentials: true }
+        { 
+          withCredentials: true
+        }
       );
       setUpcomingConcerts(response.data.data || []);
     } catch (err) {

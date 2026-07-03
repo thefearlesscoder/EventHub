@@ -9,7 +9,6 @@ import toast from "react-hot-toast";
 import { setLoading } from "../slices/authSlice";
 import Spinner from "../components/Spinner";
 import { io } from "socket.io-client";
-import { ChevronsLeftIcon } from "lucide-react";
 
 const ENPOINT = BASE_URL.replace("/api/v1", "");
 var socket , newchat ;
@@ -46,7 +45,7 @@ const ChatPage = () => {
         toast.error("Failed to load friends");
       } else {
         setFriends(data?.data);
-        console.log( "friend -> " , data?.data ) ;
+        // console.log( "friend -> " , data?.data ) ;
       }
     } catch (error) {
       console.log(error);
@@ -64,7 +63,7 @@ useEffect(() => {
 }, [messages]);
 
   // Initialize socket connection
-  console.log("user ->> " ,user)
+  // console.log("user ->> " ,user)
   
   useEffect(() => {
     handleUserClick(selectedUser);
@@ -77,7 +76,7 @@ useEffect(() => {
 
   useEffect(() => {
     const messageListener = (gotmessage) => {
-      console.log("Message received:", gotmessage);
+      // console.log("Message received:", gotmessage);
   
       if (newchat?._id !== gotmessage.chat._id) return;
   
@@ -103,11 +102,6 @@ useEffect(() => {
     };
   }, [newchat]); // Depend on newchat so it updates when chat changes
   
-
-
-
-  
-
   // Fetch friends on initial load
   useEffect(() => {
     fetchFriends();
@@ -125,7 +119,7 @@ useEffect(() => {
           chatId: chat._id,
         },
         {
-          withCredentials: true,
+          withCredentials: true
         }
       );
       const newMessageData = response?.data;
