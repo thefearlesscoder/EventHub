@@ -1,11 +1,7 @@
-
 import nodeMailer from "nodemailer";
-
 export const sendEmail = async ({ email, subject, htmlContent, }) => {
   try {
-
-    console.log("hgjckdsbjfvh");
-    
+    // console.log("hgjckdsbjfvh");
     const transporter = nodeMailer.createTransport({
       host: process.env.SMTP_HOST,
       service: process.env.SMTP_SERVICE,
@@ -15,22 +11,17 @@ export const sendEmail = async ({ email, subject, htmlContent, }) => {
         pass: process.env.SMTP_PASSWORD,
       },
     });
-    console.log("hgjckdsbjfvhfzghjgk");
-
+    // console.log("hgjckdsbjfvhfzghjgk");
     const options = {
       from: process.env.SMTP_MAIL,
       to: email,
       subject: subject,
-      html: htmlContent,
-   
-      
+      html: htmlContent,   
     };
-    console.log("xasghfg:",options);
-    
+    // console.log("xasghfg:",options);
     await transporter.sendMail(options);
-    console.log("Mail sent successfully");
+    // console.log("Mail sent successfully");
   } catch (error) {
     console.error("Couldn't send mail:", error);
- 
   }
 };

@@ -3,15 +3,9 @@ import  connectDB  from "./Database/connectDB.js";
 import { app } from "./app.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { createClient } from "redis";
-import { createAdapter } from "@socket.io/redis-adapter";
-
-// import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
+import  cloudinary from "cloudinary"
 
 dotenv.config({ path: "./.env" });
-
-import  cloudinary from "cloudinary"
-import { log } from "console";
 
 cloudinary.v2.config({
   cloud_name : process.env.CLOUDINARY_NAME,
@@ -19,11 +13,6 @@ cloudinary.v2.config({
   api_secret : process.env.CLOUDINARY_SECRET,
 
 })
-
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-// });
-
 
 connectDB()
   .then(() => {
@@ -39,21 +28,12 @@ connectDB()
     const io = new Server(server, {
       pingTimeout: 60000,
       cors: {
-        origin: process.env.CLIENT_URL || "http://localhost:5173",
+        origin: process.env.CLIENT_URL 
+          ? [process.env.CLIENT_URL, "http://localhost:5173", "https://eventhub-frontend-eo32.onrender.com"] 
+          : ["http://localhost:5173", "https://eventhub-frontend-eo32.onrender.com"],
+        credentials: true
       },
     });
-
-    if (process.env.REDIS_URL) {
-      const pubClient = createClient({ url: process.env.REDIS_URL });
-      const subClient = pubClient.duplicate();
-
-      Promise.all([pubClient.connect(), subClient.connect()]).then(() => {
-        io.adapter(createAdapter(pubClient, subClient));
-        console.log("Redis adapter for socket.io connected");
-      }).catch((err) => {
-        console.error("Redis connection error for socket.io:", err);
-      });
-    }
 
     io.on("connection" ,(socket) => {
       console.log("conneected to socket.io") ;
@@ -66,7 +46,6 @@ connectDB()
           socket.emit("connected")
         }
       })
-
 
       socket.on('joinchat' , (room) => {
         socket.join(room) ;

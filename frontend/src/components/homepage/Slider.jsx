@@ -7,20 +7,20 @@ const Slider = () => {
       imageUrl: "https://artistbookingcompany.com/wp-content/uploads/2024/03/arjit-singh.png",
     },
     {
-      name: "Lata Mangeshkar",
-      imageUrl: "https://img.wynk.in/unsafe/200x200/filters:no_upscale():strip_exif():format(jpg)/http://s3.ap-south-1.amazonaws.com/discovery-prod-zion/zion/1696453031994-Lata.png",
+      name: "Jasmine",
+      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmcWE7HxxQc3b7KtaVF69myeMp5ML1j7qnZHFPGaJtlWlBYiDqsQtO_-x8&s=10",
     },
     {
       name: "Shreya Ghoshal",
       imageUrl: "https://blackhattalent.com/wp-content/uploads/2023/08/Shreya-Ghoshal5-scaled.jpg",
     },
     {
-      name: "Kishore Kumar",
-      imageUrl: "https://a10.gaanacdn.com/gn_img/artists/DwPKOxB3qV/DwPKOv0bqV/size_m_1716893175.jpg",
+      name: "Shaan",
+      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9URk7umiAz73uIHkJjJm4VYCWf46mTWoPukkkRXEaav4HY9MAHtqgsokF&s=10",
     },
     {
       name: "Sonu Nigam",
-      imageUrl: "https://upload.wikimedia.org/wikipedia/commons/3/34/Tri_Nation_Mega_Concert_Sonu_Nigam_%288388639915%29.jpg",
+      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCKDoQL5_rlfSkDOWKrBCoKbVIQbSLSGkh6RMr6fNwK9WbJLAXgiNRnLQ&s=10",
     },
   ];
 

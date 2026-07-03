@@ -1,12 +1,9 @@
 import { useState } from "react"
 import { toast } from "react-hot-toast"
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { signUp, googleLogin } from "../../services/operations/auth"
 import { jwtDecode } from "jwt-decode";
-import { FcGoogle } from "react-icons/fc"
-import { FaFacebook } from "react-icons/fa";
 import { GoogleLogin } from "@react-oauth/google"
 
 function SignupForm() {
@@ -17,7 +14,7 @@ function SignupForm() {
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    confirmPassword: "",  
     username:"",
   })
   const [ role , setrole ] = useState("user");
@@ -47,7 +44,7 @@ function SignupForm() {
   }
   const handleLoginWithGoogle = async (credentialResponse) => {
     if (credentialResponse?.credential) {
-      console.log("Google Login Success:", credentialResponse);
+      // console.log("Google Login Success:", credentialResponse);
       // Extract token
       let token = credentialResponse.credential;
       token = jwtDecode(token);
@@ -60,9 +57,7 @@ function SignupForm() {
       dispatch(googleLogin(email, family_name, given_name, image, navigate));
     }
   }
-  
   const { loading } = useSelector( (state) => (state.auth))
-
   return (
     <section className="flex items-center justify-center  bg-gray-100 mx-auto m-10">
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -188,7 +183,6 @@ function SignupForm() {
             <GoogleLogin
             onSuccess={handleLoginWithGoogle}
             onError={() => { return toast.error("Google SignIn Failed")}}/>
-                    <FaFacebook className="text-blue-400"/>
               </div>
           </form>
         </div>

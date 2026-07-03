@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import bg2 from "../assets/Images/bg2.jpg";
-import centreicon from "../assets/Images/centreicon.jpg";
 import { useNavigate, useParams } from "react-router-dom";
-import { FaArrowRight } from "react-icons/fa";
-import { FaRupeeSign } from "react-icons/fa";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -35,18 +31,18 @@ const Concert = () => {
         }
       );
       
-      console.log("concert responce -> " ,response)
+      // console.log("concert responce -> " ,response)
       response = response?.data ;
       
       if (!response.success ) {
         throw new Error(`Error: ${response.statusText}`);
       }
       
-      console.log("concert responce -> " ,response)
+      // console.log("concert responce -> " ,response)
 
       setconcdetails(response.data);
-      console.log("Concert data:", response.data);
-      console.log(concertdetails);
+      // console.log("Concert data:", response.data);
+      // console.log(concertdetails);
     } catch (error) {
       console.error("Error fetching concert:", error);
     }
@@ -62,14 +58,13 @@ const Concert = () => {
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDate = date.toLocaleDateString("en-US", options);
 
-  console.log(formattedDate);
+  // console.log(formattedDate);
 
   const navigate = useNavigate();
 
     const addingDetails = async () => {
     try {
-        console.log(`Requesting with id: ${id} and token: ${token}}`);
-
+        // console.log(`Requesting with id: ${id} and token: ${token}}`)
         const response = await axios.post(
         `${BASE_URL}/concert/register-for-concert/${id}`,
           {},
@@ -77,12 +72,9 @@ const Concert = () => {
             withCredentials:true ,
         }
         );
-
-        
-        console.log("heeloooooo") ;
+        // console.log("heeloooooo") ;
         // toast.success("Data updated successfully");
-        console.log("Response data buy  concert: - >> ", response.data);
-        
+        // console.log("Response data buy  concert: - >> ", response.data);
         if ( response?.data?.success )
             await makePayment() ;
         // navigate(`/register-succes/${id}`);
@@ -163,8 +155,8 @@ const Concert = () => {
     }
   };
 
-  console.log("Concert details:", concertdetails);
-  console.log(user) ;
+  // console.log("Concert details:", concertdetails);
+  // console.log(user) ;
 
   return (
     // <div></div>

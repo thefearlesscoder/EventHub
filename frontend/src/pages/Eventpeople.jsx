@@ -5,12 +5,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { BASE_URL } from "../services/apis";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "../slices/authSlice";
-import { set } from "react-hook-form";
-
 import Spinner from "../components/Spinner";
 
-// Expanded dummyUsers array with more users
 const dummyUsers1 = [
   {
     id: 1,
@@ -108,14 +104,14 @@ const PaidUsersPage = () => {
         });
         
         const data = response.data?.data ;
-        console.log( " responce from eventpeople page -> " , data);
+        // console.log( " responce from eventpeople page -> " , data);
 
         const updatedUsers = data.myFriendList.map((user) => ({
           ...user,
           isActive: true,
         }));
 
-        console.log("Updated users:", updatedUsers);
+        // console.log("Updated users:", updatedUsers);
 
         setFriends(updatedUsers);
 
@@ -127,7 +123,7 @@ const PaidUsersPage = () => {
 
         setRestpeople(updaterestPeople);
 
-        console.log("Updated rest people:", updaterestPeople);
+        // console.log("Updated rest people:", updaterestPeople);
 
         const updatedSentRequests = data.requestFriendList.map((user) => ({
           ...user,
@@ -136,7 +132,7 @@ const PaidUsersPage = () => {
         }));
 
         setSentRequests(updatedSentRequests); 
-        console.log("Updated sent requests:", updatedSentRequests);
+        // console.log("Updated sent requests:", updatedSentRequests);
 
         setMostpeople( [...updatedUsers , ...updaterestPeople , ...updatedSentRequests] );
 
@@ -152,7 +148,7 @@ const PaidUsersPage = () => {
   const handlefriendrequest = async(user) => {
     // console.log("Sending friend request to:", user);
     setLoading(true);
-    console.log("Sending friend request to:", user._id);
+    // console.log("Sending friend request to:", user._id);
     try {
       const response = await axios.post(
         `${BASE_URL}/friends/request-friend/${user._id}`,{},{
@@ -160,10 +156,10 @@ const PaidUsersPage = () => {
         }
       );
       
-      console.log("Response:", response.data);
+      // console.log("Response:", response.data);
 
       if (response.data.success) {
-        console.log("Friend request sent successfully");
+        // console.log("Friend request sent successfully");
         setMostpeople((prevUsers) =>
           prevUsers.map((u) =>
             u._id === user._id ? { ...u, isRequest: true, isActive: false } : u
@@ -174,7 +170,7 @@ const PaidUsersPage = () => {
         toast.error("Failed to send friend request");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error("Something went wrong");
     }
     setLoading(false);
@@ -188,7 +184,7 @@ const PaidUsersPage = () => {
     getpeoples();
   }, []);
 
-  console.log("friends", dummyUsers);
+  // console.log("friends", dummyUsers);
 
   return (
     loading ? ( <div>
