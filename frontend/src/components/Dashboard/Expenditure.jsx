@@ -18,7 +18,6 @@ const ExpenditurePage = () => {
   const [upcomingConcerts, setUpcomingConcerts] = useState([]);
   const [dynamicExpenditures, setDynamicExpenditures] = useState([]);
   let { user } = useSelector((state) => state.auth);
-  const token = localStorage.getItem("token")?.replace(/^"|"$/g, '');
 
   const fetchAttendedConcerts = async () => {
     try {
@@ -26,8 +25,7 @@ const ExpenditurePage = () => {
         `${BASE_URL}/concert/my-attended-concerts`,
         {},
         { 
-          withCredentials: true,
-          headers: { Authorization: `Bearer ${token}` }
+          withCredentials: true
         }
       );
       setAttendedConcerts(response.data.data || []);
@@ -42,8 +40,7 @@ const ExpenditurePage = () => {
         `${BASE_URL}/concert/my-upcoming-concerts`,
         {},
         { 
-          withCredentials: true,
-          headers: { Authorization: `Bearer ${token}` }
+          withCredentials: true
         }
       );
       setUpcomingConcerts(response.data.data || []);

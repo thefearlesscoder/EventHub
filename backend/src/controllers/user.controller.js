@@ -10,8 +10,8 @@ import crypto from "crypto";
 
 const options = {
   httpOnly: true, // SECURE: Prevents JavaScript (and XSS attacks) from reading the token
-  secure: true, // SECURE: Ensures the cookie is only sent over HTTPS (or localhost)
-  sameSite: "None", // Required for cross-origin requests (e.g., from frontend domain to backend domain)
+  secure: process.env.NODE_ENV === "production", // Set to false for local HTTP development
+  sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Allow cross-port localhost requests
   maxAge: 24 * 60 * 60 * 1000, 
 };
 
@@ -263,13 +263,13 @@ const registerUserviaGoogle = asyncHandler(async (req, res) => {
       .status(200)
       .cookie("AccessToken", AccessToken, {
         httpOnly: true, // cookie not accessible via JS
-        secure: true,
-        sameSite: "None",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       })
       .cookie("RefreshToken", RefreshToken, {
         httpOnly: true,
-        secure: true,
-        sameSite: "None",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       })
       .json(
         new ApiResponse(
@@ -345,7 +345,8 @@ const logOutUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
   };
   return res
     .status(200)
@@ -390,7 +391,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     const options = {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
     };
 
     return res
