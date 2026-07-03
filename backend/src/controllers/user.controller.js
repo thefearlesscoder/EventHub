@@ -503,15 +503,25 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
 
-  await sendEmail({
-    email: user.email,
-    subject: "password reset",
-    htmlContent: generateResetEmail(resetUrl),
-  });
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "password reset",
+      htmlContent: generateResetEmail(resetUrl),
+    });
 
-  res
-    .status(200)
-    .json({ success: true, message: "Password reset link sent to email" });
+    res
+      .status(200)
+      .json({ success: true, message: "Password reset link sent to email" });
+  } catch (error) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+    return res.status(500).json({ 
+      success: false, 
+      message: "Email sending failed. Please check your SMTP configuration or app passwords." 
+    });
+  }
 });
 
 const resetPassword = asyncHandler(async (req, res) => {
