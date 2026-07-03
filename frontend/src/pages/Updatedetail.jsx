@@ -38,12 +38,12 @@ const Updatedetail = () => {
 
   const handleDrop = (e) => {
     e.preventDefault();
-    console.log("sahjcjdsjkdbk");
+    // console.log("sahjcjdsjkdbk");
 
     const droppedFile = e.dataTransfer.files[0];
     setFormData({ ...formData, image: droppedFile });
 
-    console.log(formData.image);
+    // console.log(formData.image);
   };
 
 
@@ -55,20 +55,20 @@ const handleFileChange = (e) => {
   reader.onload = () => {
     setImage(file); // Set image file to state
   };
-  console.log("sdsagchvjhmnx vjkx");
+  // console.log("sdsagchvjhmnx vjkx");
 };
 
 const { token } = useSelector((state) => state.auth);
 
 const HandleOnSumbit = (e) => {
   e.preventDefault();
-  console.log("Submitting form");
+  // console.log("Submitting form");
 
   if (image) {
     let formSubmitData = new FormData();
     formSubmitData.append("image", image); // Append image file from state
     // formSubmitData.append("token", JSON.parse(token));
-    console.log("image ->>>>> ", image);
+    // console.log("image ->>>>> ", image);
 
     // Dispatch the update image action with form data
     dispatch(updateImage(formSubmitData,formData , navigate));
