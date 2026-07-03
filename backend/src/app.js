@@ -12,8 +12,8 @@ import chatRouter from "./routes/chat.routes.js"
 const app = express();
 app.use(cors({
     origin: process.env.CLIENT_URL
-        ? [process.env.CLIENT_URL, "http://localhost:5173", "https://eventhub-frontend-eo32.onrender.com"] 
-        : ["http://localhost:5173", "https://eventhub-frontend-eo32.onrender.com"],
+        ? [process.env.CLIENT_URL, "http://localhost:5173", "https://eventhub-frontend-eo32.onrender.com", "https://eventhub.thefearlesscoder.site"] 
+        : ["http://localhost:5173", "https://eventhub-frontend-eo32.onrender.com", "https://eventhub.thefearlesscoder.site"],
     credentials: true
 }));
 
