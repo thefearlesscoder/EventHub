@@ -1,26 +1,23 @@
-import nodeMailer from "nodemailer";
-export const sendEmail = async ({ email, subject, htmlContent, }) => {
+import { Resend } from 'resend';
+
+export const sendEmail = async ({ email, subject, htmlContent }) => {
   try {
-    // console.log("hgjckdsbjfvh");
-    const transporter = nodeMailer.createTransport({
-      host: process.env.SMTP_HOST,
-      service: process.env.SMTP_SERVICE,
-      port: process.env.SMTP_PORT, 
-      auth: {
-        user: process.env.SMTP_MAIL,
-        pass: process.env.SMTP_PASSWORD,
-      },
-    });
-    // console.log("hgjckdsbjfvhfzghjgk");
-    const options = {
-      from: process.env.SMTP_MAIL,
+    // Initialize Resend inside the function so it runs AFTER dotenv is loaded in index.js
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    
+    const { data, error } = await resend.emails.send({
+      from: 'EventHub <vivek@thefearlesscoder.site>', // Using your new verified custom domain
       to: email,
       subject: subject,
-      html: htmlContent,   
-    };
-    // console.log("xasghfg:",options);
-    await transporter.sendMail(options);
-    // console.log("Mail sent successfully");
+      html: htmlContent,
+    });
+
+    if (error) {
+      console.error("Resend API Error:", error);
+      throw new Error(error.message);
+    }
+
+    console.log("Email sent successfully via Resend:", data);
   } catch (error) {
     console.error("Couldn't send mail:", error);
     throw new Error("Email sending failed");
