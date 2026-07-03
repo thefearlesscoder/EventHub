@@ -18,13 +18,17 @@ const ExpenditurePage = () => {
   const [upcomingConcerts, setUpcomingConcerts] = useState([]);
   const [dynamicExpenditures, setDynamicExpenditures] = useState([]);
   let { user } = useSelector((state) => state.auth);
+  const token = localStorage.getItem("token")?.replace(/^"|"$/g, '');
 
   const fetchAttendedConcerts = async () => {
     try {
       const response = await axios.post(
         `${BASE_URL}/concert/my-attended-concerts`,
         {},
-        { withCredentials: true }
+        { 
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` }
+        }
       );
       setAttendedConcerts(response.data.data || []);
     } catch (err) {
@@ -37,7 +41,10 @@ const ExpenditurePage = () => {
       const response = await axios.post(
         `${BASE_URL}/concert/my-upcoming-concerts`,
         {},
-        { withCredentials: true }
+        { 
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` }
+        }
       );
       setUpcomingConcerts(response.data.data || []);
     } catch (err) {

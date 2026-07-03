@@ -10,6 +10,7 @@ import { FaSpinner } from "react-icons/fa";
 
 const EventsPage = () => {
   const { user } = useSelector((state) => state.auth);
+  const token = localStorage.getItem("token")?.replace(/^"|"$/g, '');
   const [AttendedEvents, setAttendedConcerts] = useState([]);
   const [AdddedEvents, setAddedEvents] = useState([]);
   const [upcomingConcerts, setUpcomingConcerts] = useState([]);
@@ -26,6 +27,7 @@ const EventsPage = () => {
         {},
         {
           withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` }
         }
       );
       setAttendedConcerts(response.data.data);
@@ -36,12 +38,17 @@ const EventsPage = () => {
   };
 
   const fetchAddedConcerts = async () => {
+    if (user?.role !== 'admin') {
+      setAddedEvents([]);
+      return;
+    }
     setLoading(true); // Start loading
     try {
       const response = await axios.get(
         `${BASE_URL}/concert/my-added-concerts`,
         {
           withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` }
         }
       );
       setAddedEvents(response.data.data);
@@ -59,7 +66,10 @@ const EventsPage = () => {
       const response = await axios.post(
         `${BASE_URL}/concert/my-upcoming-concerts`,
         {},
-        { withCredentials: true }
+        { 
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` }
+        }
       );
       setUpcomingConcerts(response.data.data);
     } catch (err) {

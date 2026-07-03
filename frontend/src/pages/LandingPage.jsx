@@ -101,10 +101,10 @@ const  LandingPage = () => {
           <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-wide">
             Experience the Rhythm Up Close!
           </h1>
-          <p class="text-lg md:text-2xl mb-6 max-w-lg">
+          <p className="text-lg md:text-2xl mb-6 max-w-lg">
             Same one is waiting for your Arrival come Asap!
           </p>
-          <button onClick={() => { user ? navigate('/dashboard') : navigate('login') }} class="px-6 py-3 bg-yellow-500  font-semibold rounded-full
+          <button onClick={() => { user ? navigate('/dashboard') : navigate('login') }} className="px-6 py-3 bg-yellow-500  font-semibold rounded-full
                      hover:bg-yellow-400 text-white  transition duration-300">
             View your dashboard
           </button>
