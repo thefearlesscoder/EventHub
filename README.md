@@ -131,4 +131,47 @@ The backend exposes several API endpoints:
 1. Navigate to the `backend` directory:
    ```bash
    cd backend
+   ```
+
+2. Install backend dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up your `.env` file in the `backend` directory. You will need variables like:
+   - `PORT` (e.g., 4000)
+   - `MONGODB_URI`
+   - `RESEND_API_KEY`
+   - `CLIENT_URL`
+   - *And other variables for JWT, Cloudinary, and Stripe.*
+
+4. Start the backend development server:
+   ```bash
+   npm run dev
+   ```
+
+### Frontend Setup
+
+1. Open a new terminal and navigate to the `frontend` directory:
+   ```bash
+   cd frontend
+   ```
+
+2. Install frontend dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up your `.env` file in the `frontend` directory. Make sure to define your backend API URL and any public keys (e.g., Stripe, Mapbox):
+   - `VITE_API_BASE_URL=http://localhost:4000/api/v1`
+   - `VITE_GOOGLE_CLIENT_ID`
+   - `VITE_STRIPE_PUBLIC_KEY`
+   - `VITE_MAPBOX_TOKEN`
+
+4. Start the frontend development server:
+   ```bash
+   npm run dev
+   ```
+
+Your app should now be running locally at `http://localhost:5173`!
 
