@@ -10,9 +10,9 @@ import crypto from "crypto";
 
 const options = {
   httpOnly: true, // SECURE: Prevents JavaScript (and XSS attacks) from reading the token
-  secure: process.env.NODE_ENV === "production", // Set to false for local HTTP development
-  sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Allow cross-port localhost requests
-  maxAge: 24 * 60 * 60 * 1000, 
+  secure: true,
+  sameSite: "None",
+  maxAge: 24 * 60 * 60 * 1000,
 };
 
 const generateAccessAndRefreshToken = async (userId) => {
@@ -111,7 +111,7 @@ const loginUser = asyncHandler(async (req, res) => {
   if (!email || !password) {
     return res.status(500).json({
       success: false,
-      message: "all fields are required", 
+      message: "all fields are required",
     });
   }
 
@@ -144,10 +144,10 @@ const loginUser = asyncHandler(async (req, res) => {
         select: "artist place date ticketPrice genre",
       },
     })
-      .populate({
-        path: "myAddedConcerts",
-        select: "artist place date ticketPrice genre",
-      });
+    .populate({
+      path: "myAddedConcerts",
+      select: "artist place date ticketPrice genre",
+    });
 
 
   return res
@@ -263,13 +263,13 @@ const registerUserviaGoogle = asyncHandler(async (req, res) => {
       .status(200)
       .cookie("AccessToken", AccessToken, {
         httpOnly: true, // cookie not accessible via JS
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        secure: true,
+        sameSite: "None",
       })
       .cookie("RefreshToken", RefreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        secure: true,
+        sameSite: "None",
       })
       .json(
         new ApiResponse(
@@ -345,8 +345,8 @@ const logOutUser = asyncHandler(async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    secure: true,
+    sameSite: "None",
   };
   return res
     .status(200)
@@ -391,8 +391,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     const options = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+      secure: true,
+      sameSite: "None",
     };
 
     return res
@@ -671,12 +671,12 @@ const fbSignIn = asyncHandler(async (req, res) => {
     .status(200)
     .cookie("AccessToken", AccessToken, {
       httpOnly: false,
-      secure: false,
+      secure: true,
       sameSite: "None",
     })
     .cookie("RefreshToken", RefreshToken, {
       httpOnly: false,
-      secure: false,
+      secure: true,
       sameSite: "None",
     })
     .json({
@@ -750,7 +750,7 @@ const changeImage = asyncHandler(async (req, res) => {
   }
 });
 
-const  contactUs = asyncHandler(async (req, res) => {
+const contactUs = asyncHandler(async (req, res) => {
   const { name, email, subject, message } = req.body;
   console.log("inside contact us");
 
