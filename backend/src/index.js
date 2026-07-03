@@ -14,11 +14,6 @@ cloudinary.v2.config({
 
 })
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-// });
-
-
 connectDB()
   .then(() => {
     const port = process.env.PORT || 7000;
