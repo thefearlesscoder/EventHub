@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 
 function ContactUsForm() {
   const { token } = useSelector((state) => state.auth);
-  console.log(token);
+  // console.log(token);
 
   const [formData, setFormData] = useState({
     name: "",

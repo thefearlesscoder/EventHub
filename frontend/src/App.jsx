@@ -48,7 +48,7 @@ function App() {
         <Route path="/concert/people/:id" element={<PaidUsersPage />} />
         
         <Route path="/dashboard" element={<Dashboard />}>
-              <Route index element={<EventsPage />} /> {/* Default when /dashboard */}
+        <Route index element={<EventsPage />} /> {/* Default when /dashboard */}
               <Route path="profile" element={<Profile />} />
               <Route path="expenditure" element={<ExpenditurePage />} />
               <Route path="create-event" element={<CreateConcert />} />

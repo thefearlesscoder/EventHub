@@ -30,7 +30,7 @@ const EventsPage = () => {
       );
       setAttendedConcerts(response.data.data);
     } catch (error) {
-      console.log("Error fetching attended concerts:", error);
+      // console.log("Error fetching attended concerts:", error);
     }
     setLoading(false); // End loading
   };
@@ -46,7 +46,7 @@ const EventsPage = () => {
       );
       setAddedEvents(response.data.data);
     } catch (error) {
-      console.log("Error fetching attended concerts:", error);
+      // console.log("Error fetching attended concerts:", error);
     }
     setLoading(false); // End loading
   };
@@ -179,9 +179,9 @@ const EventsPage = () => {
     
   );
 
-  console.log( "Upcoming Concerts:", upcomingConcerts);
-  console.log("Attended Concerts:", AttendedEvents);
-  console.log("Added Events:", AdddedEvents);
+  // console.log( "Upcoming Concerts:", upcomingConcerts);
+  // console.log("Attended Concerts:", AttendedEvents);
+  // console.log("Added Events:", AdddedEvents);
 
   return (
     <div className="min-h-screen bg-gray-100 px-4 py-6 sm:px-6 lg:px-8">
